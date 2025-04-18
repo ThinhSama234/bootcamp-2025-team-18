@@ -6,6 +6,7 @@ import compression from 'compression';
 import 'express-async-errors';
 import dotenv from 'dotenv';
 dotenv.config();
+import connectDB from './config/db';
 
 
 // import middlewares and routes
@@ -32,8 +33,10 @@ app.use(errorHandler);
 
 // start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await connectDB();
+
   logger.info(`Server is running on port ${PORT}`);
-  logger.info(`Environment: ${process.env.NODE_ENV}`);
+  logger.info(`Environment: ${process.env.NODE_ENV ?? 'development'}`);
   logger.info(`Open: http://localhost:${PORT}`);
 });
