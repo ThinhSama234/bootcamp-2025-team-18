@@ -5,7 +5,7 @@ dotenv.config();
 
 const CHATDB_URL = process.env.CHATDB_URL;
 if (!CHATDB_URL) {
-  throw new Error("CHAT_DB_URL is not defined in .env file");
+  throw new Error("CHATDB_URL is not defined in .env file");
 }
 
 const connectDB = async () => {
