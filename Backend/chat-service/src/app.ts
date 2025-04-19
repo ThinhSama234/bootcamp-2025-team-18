@@ -6,13 +6,14 @@ import compression from 'compression';
 import 'express-async-errors';
 import dotenv from 'dotenv';
 dotenv.config();
-import connectDB from './config/db';
+
+import connectDB from './database/db';
+import logger from './core/logger';
 
 
 // import middlewares and routes
 import notFoundHandler from './core/errors/not-found-handler';
 import errorHandler from './core/errors/error-handler';
-import logger from './core/logger';
 
 import router from './routes';
 
