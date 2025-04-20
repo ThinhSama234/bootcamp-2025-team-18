@@ -8,6 +8,6 @@ router.get('/', (_req, res) => {
   new OKResponse({ message: '😊 Chat Service is running successfully!' }).send(res);
 });
 
-router.use('/messages', messageRouter);
+router.use('/api/v1/messages', messageRouter);
 
 export default router;
