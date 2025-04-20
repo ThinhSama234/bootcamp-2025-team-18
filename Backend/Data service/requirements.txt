@@ -1,1 +1,21 @@
 pymongo
+
+# faiss-cpu
+# sentence-transformers
+# llama-cpp-python
+# langchain
+# langchain-community
+# gpt4all
+# beautifulsoup4
+# unstructured
+# torch
+# pypdf
+# openai
+# ctransformers
+# transformers
+# docx
+# python-docx
+# bs4
+# html2text
+# pymupdf
+# requests
