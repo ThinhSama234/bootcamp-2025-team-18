@@ -14,11 +14,10 @@ export class MessageService implements IMessageService {
   }
 
   async getMessagesByGroupName(query: MessageQuery): Promise<IMessage[]> {
-    const { groupName, senderUsername, beforeId, limit = DEFAULT_LIMIT_MESSAGES, messageType } = query;
+    const { groupName, beforeId, limit = DEFAULT_LIMIT_MESSAGES, messageType } = query;
 
     const filter: any = { groupName };
 
-    if (senderUsername) filter.senderUsername = senderUsername;
     if (beforeId) filter._id = { $lt: beforeId };
     if (messageType) filter.messageType = messageType;
 

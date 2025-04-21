@@ -8,7 +8,7 @@ import messageController from '../controllers/message.controller';
 const router = express.Router();
 
 router.get(
-  '/',
+  '/:groupName',
   validate(validateGetMessages),
   messageController.getMessages.bind(messageController)
 );

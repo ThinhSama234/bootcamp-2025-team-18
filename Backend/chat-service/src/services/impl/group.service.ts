@@ -61,13 +61,13 @@ class GroupService implements IGroupService {
     return this.toGroup(group);
   }
   
-  async deleteGroup(groupName: string): Promise<GroupType> {
-    const group = await Group.findOneAndDelete({ groupName });
-    if (!group) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Group not found");
-    }
-    return this.toGroup(group);
-  }
+  // async deleteGroup(groupName: string): Promise<GroupType> {
+  //   const group = await Group.findOneAndDelete({ groupName });
+  //   if (!group) {
+  //     throw new NotFoundError(DomainCode.NOT_FOUND, "Group not found");
+  //   }
+  //   return this.toGroup(group);
+  // }
 
   private toGroup(doc: any): GroupType {
     return {

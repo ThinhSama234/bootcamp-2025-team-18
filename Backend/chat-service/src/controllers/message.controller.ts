@@ -14,12 +14,6 @@ export class MessageController {
     new OKResponse({ data: messages }).send(res);
   }
 
-  // async getUserGroups(req: Request, res: Response) {
-  //   const { username } = matchedData(req);
-  //   const groups = await this.messageService.getAllGroupsByUsernameOrderByLastMessageCreationTime(username);
-  //   new OKResponse({ data: groups }).send(res);
-  // }
-
 }
 
 export default new MessageController(messageService);

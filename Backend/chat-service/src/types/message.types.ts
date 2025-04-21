@@ -94,7 +94,6 @@ export class MessageFactory {
 
 export interface MessageQuery {
   groupName: string;
-  senderUsername?: string;
   beforeId?: string;
   limit?: number;
   messageType?: string;

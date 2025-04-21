@@ -21,14 +21,10 @@ export const validateCreateMessage = [
 ];
 
 export const validateGetMessages = [
-  query('groupName')
+  param('groupName')
     .trim()
     .notEmpty().withMessage('Group name is required')
     .isString().withMessage('Group name must be a string'),
-  query('senderUsername')
-    .optional()
-    .trim()
-    .isString().withMessage('Sender username must be a string'),
   query('beforeId')
     .optional()
     .trim()
