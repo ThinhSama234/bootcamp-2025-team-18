@@ -2,28 +2,18 @@ import { DomainCode } from "../../core/responses/DomainCode";
 import { NotFoundError } from "../../core/responses/ErrorResponse";
 import { IMessageService } from "../message.service";
 import Message from "../../models/message.model";
-import { Message as MessageType, MessageQuery } from "../../types/message.types";
+import { IMessage, MessageFactory, MessageQuery, MessageType } from "../../types/message.types";
 
 const DEFAULT_LIMIT_MESSAGES = 20;
 
 export class MessageService implements IMessageService {
-  async createMessage(messageData: Omit<MessageType, "id" | "createdAt" | "updatedAt">): Promise<MessageType> {
-    const message = await new Message(messageData).save();
-    return this.toMessage(message);
+  async createMessage(messageData: Omit<IMessage, "id" | "createdAt" | "updatedAt">): Promise<IMessage> {
+    const messageDoc = await new Message(messageData).save();
+
+    return this.toMessage(messageDoc);
   }
 
-  async getAllGroupsByUsernameOrderByLastMessageCreationTime(username: string): Promise<string[]> {
-    const groups = await Message.aggregate([
-      { $match: { senderUsername: username } },
-      { $sort: { createdAt: -1 } },
-      { $group: { _id: "$groupName", latestMessage: { $first: "$createdAt" } } },
-      { $sort: { latestMessage: -1 } },
-      { $project: { groupName: "$_id", _id: 0 } }
-    ]);
-    return groups.map(g => g.groupName);
-  }
-
-  async getMessagesByGroupName(query: MessageQuery): Promise<MessageType[]> {
+  async getMessagesByGroupName(query: MessageQuery): Promise<IMessage[]> {
     const { groupName, senderUsername, beforeId, limit = DEFAULT_LIMIT_MESSAGES, messageType } = query;
 
     const filter: any = { groupName };
@@ -39,16 +29,20 @@ export class MessageService implements IMessageService {
     return messages.map(message => this.toMessage(message));
   }
 
-  async updateMessageContent(messageId: string, content: string): Promise<MessageType> {
-    const message = await Message.findByIdAndUpdate(
+  async updateTextMessageContent(messageId: string, content: string): Promise<IMessage> {
+    let message = await Message.findById(messageId);
+    if (!message) {
+      throw new NotFoundError(DomainCode.NOT_FOUND, "Message not found");
+    }
+    if (message.messageType != MessageType.TEXT) {
+      throw new NotFoundError(DomainCode.NOT_FOUND, "Message is not a text message");
+    }
+
+    message = await Message.findByIdAndUpdate(
       messageId,
       { content },
       { new: true }
     );
-    
-    if (!message) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Message not found");
-    }
 
     return this.toMessage(message);
   }
@@ -60,17 +54,10 @@ export class MessageService implements IMessageService {
     }
   }
 
-  private toMessage(doc: any): MessageType {
-    return {
-      id: doc._id.toString(),
-      senderUsername: doc.senderUsername,
-      groupName: doc.groupName,
-      messageType: doc.messageType,
-      content: doc.content,
-      createdAt: doc.createdAt,
-      updatedAt: doc.updatedAt
-    };
+  private toMessage(doc: any): IMessage {
+    return MessageFactory.createMessage(doc);
   }
+
 }
 
 export default new MessageService();

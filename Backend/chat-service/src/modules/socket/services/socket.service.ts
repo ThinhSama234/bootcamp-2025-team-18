@@ -3,12 +3,14 @@ import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import logger from '../../../core/logger';
 import { JoinGroupPayload, SendMessagePayload, SocketEvent } from '../types/socket.types';
 import messageService from '../../../services/impl/message.service';
+import groupService from '../../../services/impl/group.service';
+import { TextMessage } from '../../../types/message.types';
 
 export class SocketService {
   private io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
+  private socketToUsername: Map<string, string> = new Map(); // socket.id -> username
   private userSockets: Map<string, Set<string>> = new Map(); // username -> Set of socket IDs
   private groupUsers: Map<string, Set<string>> = new Map(); // groupName -> Set of usernames
-  private socketToUsername: Map<string, string> = new Map(); // socket.id -> username
 
   constructor(io: Server) {
     this.io = io;
@@ -25,7 +27,7 @@ export class SocketService {
 
         this.socketToUsername.set(socket.id, username);
 
-        const userGroups = await messageService.getAllGroupsByUsernameOrderByLastMessageCreationTime(username);
+        const userGroups = await groupService.getGroupsByUsername(username);
         
         if (!this.userSockets.has(username)) {
           this.userSockets.set(username, new Set());
@@ -52,7 +54,7 @@ export class SocketService {
 
       socket.on(SocketEvent.JOIN_GROUP, (payload: JoinGroupPayload) => this.handleJoinGroup(socket, payload));
       socket.on(SocketEvent.LEAVE_GROUP, (payload: JoinGroupPayload) => this.handleLeaveGroup(socket, payload));
-      socket.on(SocketEvent.SEND_MESSAGE, (payload: SendMessagePayload) => this.handleSendMessage(socket, payload));
+      socket.on(SocketEvent.SEND_MESSAGE, (payload: SendMessagePayload) => this.handleSendTextMessage(socket, payload));
       socket.on('disconnect', () => this.handleDisconnect(socket));
     });
   }
@@ -76,9 +78,31 @@ export class SocketService {
     logger.info(`User ${username} joined group ${groupName}`);
   }
 
+  private async leaveGroup(socket: Socket, payload: JoinGroupPayload): Promise<void> {
+    const { username, groupName } = payload;
+
+    await socket.leave(groupName);
+
+    this.groupUsers.get(groupName)?.delete(username);
+    if (this.groupUsers.get(groupName)?.size === 0) {
+      this.groupUsers.delete(groupName);
+    }
+
+    this.io.to(groupName).emit(SocketEvent.USER_LEFT, {
+      username,
+      groupName,
+      timestamp: new Date()
+    });
+
+    logger.info(`User ${username} left group ${groupName}`);
+  }
+
   private async handleJoinGroup(socket: Socket, payload: JoinGroupPayload): Promise<void> {
     try {
+      const { username, groupName } = payload;
+      await groupService.addUserToGroup(groupName, username);
       await this.joinGroup(socket, payload);
+
     } catch (error) {
       logger.error(`Error in handleJoinGroup: ${error}`);
       socket.emit(SocketEvent.ERROR, { message: 'Failed to join group' });
@@ -88,38 +112,21 @@ export class SocketService {
   private async handleLeaveGroup(socket: Socket, payload: JoinGroupPayload): Promise<void> {
     try {
       const { username, groupName } = payload;
+      await groupService.removeUserFromGroup(groupName, username);
+      await this.leaveGroup(socket, payload);
 
-      await socket.leave(groupName);
-      
-      this.groupUsers.get(groupName)?.delete(username);
-      if (this.groupUsers.get(groupName)?.size === 0) {
-        this.groupUsers.delete(groupName);
-      }
-
-      this.io.to(groupName).emit(SocketEvent.USER_LEFT, {
-        username,
-        groupName,
-        timestamp: new Date()
-      });
-
-      logger.info(`User ${username} left group ${groupName}`);
     } catch (error) {
       logger.error(`Error in handleLeaveGroup: ${error}`);
       socket.emit(SocketEvent.ERROR, { message: 'Failed to leave group' });
     }
   }
 
-  private async handleSendMessage(socket: Socket, payload: SendMessagePayload): Promise<void> {
+  private async handleSendTextMessage(socket: Socket, payload: SendMessagePayload): Promise<void> {
     try {
-      const { senderUsername, groupName, content, messageType } = payload;
+      const { senderUsername, groupName, content } = payload;
 
-      const message = await messageService.createMessage({
-        senderUsername,
-        groupName,
-        content,
-        messageType
-      });
-
+      const message = await messageService.createMessage(new TextMessage("", senderUsername, groupName, new Date(), new Date(), content));
+      await groupService.updateLastMessage(groupName, message.content, message.createdAt);
       this.io.to(groupName).emit(SocketEvent.RECEIVE_MESSAGE, message);
 
       logger.info(`Message sent in group ${groupName} by ${senderUsername}`);
@@ -139,6 +146,14 @@ export class SocketService {
         userSockets.delete(socket.id);
         if (userSockets.size === 0) {
           this.userSockets.delete(username);
+          this.groupUsers.forEach((userSet, groupName) => {
+            if (userSet.has(username)) {
+              userSet.delete(username);
+              if (userSet.size === 0) {
+                this.groupUsers.delete(groupName);
+              }
+            }
+          });
         }
       }
 

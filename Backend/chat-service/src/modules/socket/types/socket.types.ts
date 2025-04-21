@@ -1,11 +1,14 @@
 export enum SocketEvent {
-  INITIALIZE_USER = 'initialize_user',
   JOIN_GROUP = 'join_group',
   LEAVE_GROUP = 'leave_group',
   SEND_MESSAGE = 'send_message',
+
+  REQUEST_SUGGESTIONS = 'request_suggestions',
+
   RECEIVE_MESSAGE = 'receive_message',
   USER_JOINED = 'user_joined',
   USER_LEFT = 'user_left',
+  
   ERROR = 'error'
 }
 

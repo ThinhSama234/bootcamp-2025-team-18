@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import { MessageType } from "../types/message.types";
 
-export const MessageTypes = ["text", "image", "file"];
+
+export const MessageTypes = Object.values(MessageType);
 
 const messageSchema = new mongoose.Schema({
   senderUsername: {
@@ -15,12 +17,11 @@ const messageSchema = new mongoose.Schema({
     type: String,
     enum: MessageTypes,
     required: true,
-    default: "text",
+    default: MessageType.TEXT,
   },
   content: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     required: true,
-    trim: true
   },
 }, {
   timestamps: true,
