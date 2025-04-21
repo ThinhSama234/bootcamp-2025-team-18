@@ -1,3 +1,5 @@
+import { IMessage } from "../../../types/message.types";
+
 export enum SocketServerEvent {
   ERROR = 'error',
     
@@ -5,6 +7,7 @@ export enum SocketServerEvent {
   USER_LEFT = 'user_left',
   
   RECEIVE_MESSAGE = 'receive_message',
+  RECEIVE_SUGGESTION = 'receive_suggestion',
 }
 
 
@@ -17,6 +20,14 @@ export interface UserJoinedPayload {
 export interface UserLeftPayload {
   username: string;
   groupName: string;
+  timestamp: Date;
+}
+
+export type ReceiveMessagePayload = IMessage;
+
+export interface ReceiveSuggestionPayload {
+  suggestionId: string;
+  suggestion: string;
   timestamp: Date;
 }
 

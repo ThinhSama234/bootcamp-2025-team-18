@@ -11,16 +11,16 @@ export abstract class IMessage {
   messageType: MessageType;
   senderUsername: string;
   groupName: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   constructor(
     id: string,
     messageType: MessageType,
     senderUsername: string,
     groupName: string,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt?: Date,
+    updatedAt?: Date
   ) {
     this.id = id;
     this.messageType = messageType;
@@ -36,7 +36,7 @@ export abstract class IMessage {
 export class TextMessage extends IMessage {
   messageContent: string;
 
-  constructor(id: string, senderUsername: string, groupName: string, createdAt: Date, updatedAt: Date, messageContent: string) {
+  constructor(id: string, senderUsername: string, groupName: string, messageContent: string, createdAt?: Date, updatedAt?: Date) {
     super(id, MessageType.TEXT, senderUsername, groupName, createdAt, updatedAt);
     this.messageContent = messageContent;
   }
@@ -47,10 +47,10 @@ export class TextMessage extends IMessage {
 }
 
 export class SuggestionMessage extends IMessage {
-  suggestionId: string;
-  suggestions: string[];
+  suggestionId?: string;
+  suggestions?: string[];
 
-  constructor(id: string, senderUsername: string, groupName: string, createdAt: Date, updatedAt: Date, suggestionId: string, suggestions: string[]) {
+  constructor(id: string, senderUsername: string, groupName: string, suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
     super(id, MessageType.SUGGESTIONS, senderUsername, groupName, createdAt, updatedAt);
      this.suggestionId = suggestionId;
     this.suggestions = suggestions;

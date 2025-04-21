@@ -26,6 +26,7 @@ export interface SendMessagePayload {
 }
 
 export interface RequestSuggestionsPayload {
+  groupName: string;
   k: number;
   messages: string[];
 } 

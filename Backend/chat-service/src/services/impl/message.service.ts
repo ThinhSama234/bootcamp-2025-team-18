@@ -6,9 +6,14 @@ import { IMessage, MessageFactory, MessageQuery, MessageType } from "../../types
 
 const DEFAULT_LIMIT_MESSAGES = 20;
 
-export class MessageService implements IMessageService {
+class MessageService implements IMessageService {
   async createMessage(messageData: Omit<IMessage, "id" | "createdAt" | "updatedAt">): Promise<IMessage> {
-    const messageDoc = await new Message(messageData).save();
+    const messageDoc = await new Message({
+      messageType: messageData.messageType,
+      senderUsername: messageData.senderUsername,
+      groupName: messageData.groupName,
+      content: messageData.content,
+    }).save();
 
     return this.toMessage(messageDoc);
   }
@@ -42,6 +47,20 @@ export class MessageService implements IMessageService {
       { content },
       { new: true }
     );
+
+    return this.toMessage(message);
+  }
+  
+  async addSuggestionToMessage(suggestionId: string, suggestion: string): Promise<IMessage> {
+    const message = await Message.findOneAndUpdate(
+      { "content.suggestionId": suggestionId },
+      { $push: { "content.suggestions": suggestion } },
+      { new: true }
+    );
+
+    if (!message) {
+      throw new NotFoundError(DomainCode.NOT_FOUND, "Message not found");
+    }
 
     return this.toMessage(message);
   }

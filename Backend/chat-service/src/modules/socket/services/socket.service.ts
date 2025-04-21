@@ -17,6 +17,10 @@ export class SocketService {
   }
 
   private setupSocketHandlers(): void {
+    this.io.engine.on("connection_error", (err) => {
+      logger.error(`Connection error: ${err.message}`);
+    });
+
     this.io.use(async (socket, next) => {
       try {
         const username = socket.handshake.auth.username;
@@ -33,26 +37,41 @@ export class SocketService {
         
         next();
       } catch (error) {
+        logger.error(`Authentication error: ${error}`);
         next(new Error('Authentication failed'));
       }
     });
 
     this.io.on('connection', async (socket: Socket) => {
-      const username = this.socketToUsername.get(socket.id)!;
-      
-      logger.info(`Client connected: ${socket.id} (${username})`);
-      
-      const userGroups = (await groupService.getGroupsByUsername(username)).map((group) => group.groupName);
+      socket.on('error', (error) => {
+        logger.error(`Socket error for ${socket.id}: ${error.message}`);
+        socket.emit(SocketServerEvent.ERROR, { message: 'Internal server error' });
+      });
 
-      for (const groupName of userGroups) {
-        await socket.join(groupName);
+      socket.on('connect_error', (error) => {
+        logger.error(`Connection error for ${socket.id}: ${error.message}`);
+      });
+      try {
+        const username = this.socketToUsername.get(socket.id)!;
+        
+        logger.info(`Client connected: ${socket.id} (${username})`);
+        
+        const userGroups = (await groupService.getGroupsByUsername(username)).map((group) => group.groupName);
+
+        for (const groupName of userGroups) {
+          await socket.join(groupName);
+        }
+
+        socket.on(SocketClientEvent.JOIN_GROUP, (payload: JoinGroupPayload) => this.handleJoinGroup(socket, payload));
+        socket.on(SocketClientEvent.LEAVE_GROUP, (payload: LeaveGroupPayload) => this.handleLeaveGroup(socket, payload));
+        socket.on('disconnect', () => this.handleDisconnect(socket));
+    
+        registerHandlers(this.io, socket);
+      } 
+      catch (error) {
+        logger.error(`Error in connection handler: ${error}`);
+        socket.emit(SocketServerEvent.ERROR, { message: 'Failed to initialize connection' });
       }
-
-      socket.on(SocketClientEvent.JOIN_GROUP, (payload: JoinGroupPayload) => this.handleJoinGroup(socket, payload));
-      socket.on(SocketClientEvent.LEAVE_GROUP, (payload: LeaveGroupPayload) => this.handleLeaveGroup(socket, payload));
-      socket.on('disconnect', () => this.handleDisconnect(socket));
-  
-      registerHandlers(this.io, socket);
     });
   }
 
