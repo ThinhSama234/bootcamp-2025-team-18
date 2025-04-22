@@ -1,20 +1,32 @@
 import express from 'express';
 const app = express();
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import 'express-async-errors';
 import dotenv from 'dotenv';
 dotenv.config();
-import connectDB from './config/db';
 
+import connectDB from './database/db';
+import logger from './core/logger';
+import { SocketService } from './modules/socket/services/socket.service';
 
 // import middlewares and routes
 import notFoundHandler from './core/errors/not-found-handler';
 import errorHandler from './core/errors/error-handler';
-import logger from './core/logger';
-
 import router from './routes';
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
+
+new SocketService(io);
 
 // middlewares
 app.use(cors());
@@ -33,7 +45,7 @@ app.use(errorHandler);
 
 // start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, async () => {
+httpServer.listen(PORT, async () => {
   await connectDB();
 
   logger.info(`Server is running on port ${PORT}`);

@@ -19,72 +19,72 @@ type SuccessObject = {
   statusCode: number;
   domainCode?: DomainCode;
   message: string;
-  metadata?: any;
+  data?: any;
 };
 
 class SuccessResponse {
   statusCode: number;
   domainCode: DomainCode;
   message: string;
-  metadata?: any;
+  data?: any;
 
   constructor({
     statusCode = SuccessStatusCode.OK,
     domainCode = DomainCode.SUCCESS,
     message = SuccessMessage.OK,
-    metadata,
+    data,
   }: SuccessObject) {
     this.statusCode = statusCode;
     this.domainCode = domainCode;
     this.message = message;
-    this.metadata = metadata;
+    this.data = data;
   }
 
   send(res: Response) {
     res.status(this.statusCode).json({
       domainCode: this.domainCode,
       message: this.message,
-      metadata: this.metadata,
+      data: this.data,
     });
   }
 }
 
 class OKResponse extends SuccessResponse {
-  constructor({ message, metadata }: { message?: string; metadata?: any }) {
+  constructor({ message, data }: { message?: string; data?: any }) {
     super({
       statusCode: SuccessStatusCode.OK,
       message: message || SuccessMessage.OK,
-      metadata,
+      data,
     });
   }
 }
 
 class CreatedResponse extends SuccessResponse {
-  constructor({ message, metadata }: { message?: string; metadata?: any }) {
+  constructor({ message, data }: { message?: string; data?: any }) {
     super({
       statusCode: SuccessStatusCode.CREATED,
       message: message || SuccessMessage.CREATED,
-      metadata,
+      data,
     });
   }
 }
 
 class AcceptedResponse extends SuccessResponse {
-  constructor({ message, metadata }: { message?: string; metadata?: any }) {
+  constructor({ message, data }: { message?: string; data?: any }) {
     super({
       statusCode: SuccessStatusCode.ACCEPTED,
       message: message || SuccessMessage.ACCEPTED,
-      metadata,
+      data,
     });
   }
 }
 
 class NoContentResponse extends SuccessResponse {
-  constructor({ message, metadata }: { message?: string; metadata?: any }) {
+  constructor({ message, data }: { message?: string; data?: any }) {
     super({
       statusCode: SuccessStatusCode.NO_CONTENT,
       message: message || SuccessMessage.NO_CONTENT,
-      metadata,
+      data,
     });
   }
 }
