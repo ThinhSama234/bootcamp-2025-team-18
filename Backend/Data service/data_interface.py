@@ -5,6 +5,11 @@ from pymongo.errors import PyMongoError
 from typing import List, Dict, Any, Tuple
 from bson.objectid import ObjectId
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 class IDatabase(ABC):
     @abstractmethod
     def save_record(self, record: Dict[str, Any]) -> Tuple[str, Exception]:
@@ -118,7 +123,8 @@ def main():
 
     # Initialize the MongoDB connection
     try:
-        db = MongoDB("mongodb://127.0.0.1:27017", "travel_db", "locations")
+        DB_URL = os.environ.get('TRAVELDB_URL')
+        db = MongoDB(DB_URL, "travel_db", "locations")
     except Exception as e:
         print(f"Error initializing MongoDB: {e}")
         return
