@@ -1,5 +1,5 @@
 import { DomainCode } from "../../core/responses/DomainCode";
-import { NotFoundError } from "../../core/responses/ErrorResponse";
+import { BadRequestError, NotFoundError } from "../../core/responses/ErrorResponse";
 import Group from "../../models/group.model";
 import { GroupType } from "../../types/group.types";
 import { IGroupService } from "../group.service";
@@ -26,6 +26,13 @@ class GroupService implements IGroupService {
   }
 
   async addUserToGroup(groupName: string, username: string): Promise<GroupType> {
+    const existingGroup = await Group.find({ groupName });
+    if (existingGroup.length === 0)
+      throw new NotFoundError(DomainCode.NOT_FOUND, 'Group does not exist!');
+
+    if (existingGroup[0].members.includes(username))
+      throw new BadRequestError(DomainCode.FORBIDDEN, 'User already in group!');
+
     const group = await Group.findOneAndUpdate(
       { groupName: groupName },
       { $addToSet: { members: username } },
@@ -49,10 +56,10 @@ class GroupService implements IGroupService {
     return this.toGroup(group);
   }
 
-  async updateLastMessage(groupName: string, lastMessage: string, lastMessageTime: Date): Promise<GroupType> {
+  async updateLastMessage(groupName: string, lastMessageContent: any, lastMessageTime: Date): Promise<GroupType> {
     const group = await Group.findOneAndUpdate(
       { groupName: groupName },
-      { lastMessage, lastMessageTime },
+      { lastMessageContent, lastMessageTime },
       { new: true }
     );
     if (!group) {
@@ -73,7 +80,7 @@ class GroupService implements IGroupService {
     return {
       id: doc._id.toString(),
       groupName: doc.groupName,
-      lastMessage: doc.lastMessage,
+      lastMessageContent: doc.lastMessageContent,
       lastMessageTime: doc.lastMessageTime,
       members: doc.members,
     };

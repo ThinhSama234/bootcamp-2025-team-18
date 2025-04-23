@@ -9,7 +9,7 @@ export interface IGroupService {
   
   removeUserFromGroup(groupName: string, username: string): Promise<GroupType>;
 
-  updateLastMessage(groupName: string, lastMessage: string, lastMessageTime: Date): Promise<GroupType>;
+  updateLastMessage(groupName: string, lastMessageContent: any, lastMessageTime: Date): Promise<GroupType>;
 
   // deleteGroup(groupName: string): Promise<GroupType>;
 }

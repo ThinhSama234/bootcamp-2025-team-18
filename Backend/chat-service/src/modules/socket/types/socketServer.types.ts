@@ -7,6 +7,7 @@ export enum SocketServerEvent {
   USER_LEFT = 'user_left',
   
   RECEIVE_MESSAGE = 'receive_message',
+  RECEIVE_SUGGESTION_ID = 'receive_suggestion_id',
   RECEIVE_SUGGESTION = 'receive_suggestion',
 }
 
@@ -24,6 +25,10 @@ export interface UserLeftPayload {
 }
 
 export type ReceiveMessagePayload = IMessage;
+
+export type ReceiveSuggestionIDPayload = {
+  suggestionId: string;
+}
 
 export interface ReceiveSuggestionPayload {
   suggestionId: string;
