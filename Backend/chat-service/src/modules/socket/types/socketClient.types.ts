@@ -9,17 +9,14 @@ export enum SocketClientEvent {
 
 
 export interface JoinGroupPayload {
-  username: string;
   groupName: string;
 }
 
 export interface LeaveGroupPayload {
-  username: string;
   groupName: string;
 }
 
 export interface SendMessagePayload {
-  senderUsername: string;
   groupName: string;
   content: string;
   messageType: string;

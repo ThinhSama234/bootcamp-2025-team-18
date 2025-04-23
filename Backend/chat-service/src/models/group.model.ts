@@ -5,12 +5,13 @@ const GroupSchema = new mongoose.Schema({
   groupName: {
     type: String,
     required: true,
+    unique: true,
   },
   members: {
     type: [String],
     required: true,
   },
-  lastMessage: {
+  lastMessageContent: {
     type: mongoose.Schema.Types.Mixed,
     required: false,
   },
@@ -19,7 +20,6 @@ const GroupSchema = new mongoose.Schema({
     required: false,
   },
 })
-.index({ groupName: 1 })
 .index({ lastMessageTime: -1 });
 
 const Group = mongoose.model("Group", GroupSchema);

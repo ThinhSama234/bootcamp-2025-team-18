@@ -72,19 +72,19 @@ export class MessageFactory {
           doc._id.toString(),
           doc.senderUsername,
           doc.groupName,
+          doc.content,
           doc.createdAt,
-          doc.updatedAt,
-          doc.content
+          doc.updatedAt
         );
       case MessageType.SUGGESTIONS:
         return new SuggestionMessage(
           doc._id.toString(),
           doc.senderUsername,
           doc.groupName,
-          doc.createdAt,
-          doc.updatedAt,
           doc.content.suggestionId,
-          doc.content.suggestions
+          doc.content.suggestions,
+          doc.createdAt,
+          doc.updatedAt
         );
       default:
         throw new Error("Unknown message type");

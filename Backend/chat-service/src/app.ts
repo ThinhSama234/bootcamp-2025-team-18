@@ -11,7 +11,7 @@ dotenv.config();
 
 import connectDB from './database/db';
 import logger from './core/logger';
-import { SocketService } from './modules/socket/services/socket.service';
+import { SocketService } from './modules/socket/socket.service';
 
 // import middlewares and routes
 import notFoundHandler from './core/errors/not-found-handler';
