@@ -4,7 +4,7 @@ import { RequestSuggestionsPayload } from "../types/socketClient.types";
 import suggestionService from "../../../services/impl/suggestion.service";
 import messageService from "../../../services/impl/message.service";
 import { SuggestionMessage } from "../../../types/message.types";
-import groupService from "../../../services/impl/group.service";
+import logger from "../../../core/logger";
 
 
 export async function handleRequestSuggestions(io: Server, socket: Socket, payload: RequestSuggestionsPayload): Promise<void> {
@@ -14,26 +14,29 @@ export async function handleRequestSuggestions(io: Server, socket: Socket, paylo
     return;
   }
 
-  const suggestionId = await suggestionService.initSuggestionRequest(groupName, k, messages);
-
-  const suggestionIdPayload: ReceiveSuggestionIDPayload = {
-    suggestionId: suggestionId,
-  }
-
-  await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, suggestionId, []));
-
-  socket.emit(SocketServerEvent.RECEIVE_SUGGESTION_ID, suggestionIdPayload);
+  suggestionService.getSuggestions(
+    k, messages, 
+    async (suggestionId: string) => {
+      const suggestionIdPayload: ReceiveSuggestionIDPayload = {
+        suggestionId: suggestionId,
+      }
+      await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, messages, suggestionId, []));
+      
+      socket.emit(SocketServerEvent.RECEIVE_SUGGESTION_ID, suggestionIdPayload);
+    }, 
+    async (suggestionId: string, suggestion: string) => {
+      await messageService.addSuggestionToMessage(suggestionId, suggestion);
   
-  for (let i = 0; i < k; i++) {
-    const suggestion = await suggestionService.getSingleSuggestion(suggestionId);
-    const updatedMessage = await messageService.addSuggestionToMessage(suggestionId, suggestion);
-    await groupService.updateLastMessage(groupName, updatedMessage.content, updatedMessage.updatedAt!);
-
-    const singleSuggestion: ReceiveSuggestionPayload = {
-      suggestionId,
-      suggestion,
-      timestamp: new Date(),
+      const singleSuggestion: ReceiveSuggestionPayload = {
+        suggestionId,
+        suggestion,
+        timestamp: new Date(),
+      }
+      io.to(groupName).emit(SocketServerEvent.RECEIVE_SUGGESTION, singleSuggestion);
+    }, 
+    (error: any) => {
+      socket.emit(SocketServerEvent.ERROR, { message: error.message });
+      logger.error(`Error in suggestion service: ${error.message}`);
     }
-    io.to(groupName).emit(SocketServerEvent.RECEIVE_SUGGESTION, singleSuggestion);
-  }
+  )
 }

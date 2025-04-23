@@ -34,13 +34,8 @@ class SuggestionStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.InitSuggestionRequest = channel.unary_unary(
-                '/Location.Suggestion/InitSuggestionRequest',
-                request_serializer=location__service__pb2.InitRequest.SerializeToString,
-                response_deserializer=location__service__pb2.InitReply.FromString,
-                _registered_method=True)
-        self.GetSingleSuggestion = channel.unary_unary(
-                '/Location.Suggestion/GetSingleSuggestion',
+        self.GetSuggestions = channel.unary_stream(
+                '/Location.Suggestion/GetSuggestions',
                 request_serializer=location__service__pb2.SuggestionRequest.SerializeToString,
                 response_deserializer=location__service__pb2.SuggestionReply.FromString,
                 _registered_method=True)
@@ -49,13 +44,7 @@ class SuggestionStub(object):
 class SuggestionServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def InitSuggestionRequest(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetSingleSuggestion(self, request, context):
+    def GetSuggestions(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -64,13 +53,8 @@ class SuggestionServicer(object):
 
 def add_SuggestionServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'InitSuggestionRequest': grpc.unary_unary_rpc_method_handler(
-                    servicer.InitSuggestionRequest,
-                    request_deserializer=location__service__pb2.InitRequest.FromString,
-                    response_serializer=location__service__pb2.InitReply.SerializeToString,
-            ),
-            'GetSingleSuggestion': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetSingleSuggestion,
+            'GetSuggestions': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetSuggestions,
                     request_deserializer=location__service__pb2.SuggestionRequest.FromString,
                     response_serializer=location__service__pb2.SuggestionReply.SerializeToString,
             ),
@@ -86,7 +70,7 @@ class Suggestion(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def InitSuggestionRequest(request,
+    def GetSuggestions(request,
             target,
             options=(),
             channel_credentials=None,
@@ -96,37 +80,10 @@ class Suggestion(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(
+        return grpc.experimental.unary_stream(
             request,
             target,
-            '/Location.Suggestion/InitSuggestionRequest',
-            location__service__pb2.InitRequest.SerializeToString,
-            location__service__pb2.InitReply.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetSingleSuggestion(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/Location.Suggestion/GetSingleSuggestion',
+            '/Location.Suggestion/GetSuggestions',
             location__service__pb2.SuggestionRequest.SerializeToString,
             location__service__pb2.SuggestionReply.FromString,
             options,

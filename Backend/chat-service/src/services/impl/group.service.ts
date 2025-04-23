@@ -25,6 +25,14 @@ class GroupService implements IGroupService {
     return groups.map(group => this.toGroup(group));
   }
 
+  async getGroupByName(groupName: string): Promise<GroupType> {
+    const group = await Group.findOne({ groupName });
+    if (!group) {
+      throw new NotFoundError(DomainCode.NOT_FOUND, "Group not found");
+    }
+    return this.toGroup(group);
+  }
+
   async addUserToGroup(groupName: string, username: string): Promise<GroupType> {
     const existingGroup = await Group.find({ groupName });
     if (existingGroup.length === 0)

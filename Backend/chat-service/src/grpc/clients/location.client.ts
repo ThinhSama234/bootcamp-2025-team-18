@@ -1,27 +1,21 @@
 import { credentials, ServiceError } from '@grpc/grpc-js';
 import { PROTO_PATH } from '../config/config';
 import { loadProto } from '../loader';
+import logger from '../../core/logger';
 
-interface InitRequest {
-  group_name: string;
+interface SuggestionRequest {
   k: number;
   messages: string[];
 }
 
-interface InitReply {
-  suggestionId: string;
-}
-
-interface SuggestionRequest {
-  suggestionId: string;
-}
-
 interface SuggestionReply {
-  suggestion: string;
+  type: string;
+  content: string;
 }
 
 export class LocationClient {
   private client: any;
+  private calls: any[];
 
   constructor(address: string) {
     const proto = loadProto(PROTO_PATH);
@@ -29,38 +23,32 @@ export class LocationClient {
       address,
       credentials.createInsecure()
     );
+    this.calls = [];
   }
 
-  async initSuggestionRequest(groupName: string, k: number, messages: string[]): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const req: InitRequest = {
-        group_name: groupName,
-        k,
-        messages,
-      };
-      this.client.InitSuggestionRequest( req, (error: ServiceError | null, response: InitReply) => {
-        if (error) {
-          reject(error);
-          return;
+  async getSuggestions(k: number, messages: string[], initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function) {
+    const request: SuggestionRequest = { k, messages };
+    const call = this.client.GetSuggestions(request);
+    this.calls.push(call);
+    
+    let suggestionId: string | null = null;
+    call.on('data', async (response: SuggestionReply) => {
+      if (response.type === 'INIT') {
+        await initCb(response.content);
+        suggestionId = response.content;
+      } 
+      else if (response.type === 'SUGGESTION') {
+        while (suggestionId === null) {
+          await new Promise(resolve => setTimeout(resolve, 10));
         }
-        resolve(response.suggestionId);
-      });
+        await getSingleSuggestionCb(suggestionId, response.content);
+      }
     });
-  }
+    
+    call.on('end', () => {
+      this.calls = this.calls.filter((c: any) => c !== call);
+    });
 
-  async getSingleSuggestion(suggestionId: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const req: SuggestionRequest = {
-        suggestionId
-      };
-      this.client.GetSingleSuggestion(req, (error: ServiceError | null, response: SuggestionReply) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(response.suggestion);
-      });
-    });
+    call.on('error', (error: ServiceError) => errorCb ? errorCb(error) : logger.error(`${error}`));
   }
-  
 }
