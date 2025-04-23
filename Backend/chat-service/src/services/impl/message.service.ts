@@ -1,19 +1,27 @@
+import Message from "../../models/message.model";
 import { DomainCode } from "../../core/responses/DomainCode";
 import { NotFoundError } from "../../core/responses/ErrorResponse";
 import { IMessageService } from "../message.service";
-import Message from "../../models/message.model";
 import { IMessage, MessageFactory, MessageQuery, MessageType } from "../../types/message.types";
+import groupService from "./group.service";
 
 const DEFAULT_LIMIT_MESSAGES = 20;
 
 class MessageService implements IMessageService {
   async createMessage(messageData: Omit<IMessage, "id" | "createdAt" | "updatedAt">): Promise<IMessage> {
+    const group = await groupService.getGroupByName(messageData.groupName);
+    if (!group) {
+      throw new NotFoundError(DomainCode.NOT_FOUND, "Group not found");
+    }
+    
     const messageDoc = await new Message({
       messageType: messageData.messageType,
       senderUsername: messageData.senderUsername,
       groupName: messageData.groupName,
       content: messageData.content,
     }).save();
+
+    await groupService.updateLastMessage(messageDoc.groupName, messageDoc.content, messageDoc.createdAt!);
 
     return this.toMessage(messageDoc);
   }
@@ -59,8 +67,10 @@ class MessageService implements IMessageService {
     );
 
     if (!message) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Message not found");
+      throw new NotFoundError(DomainCode.NOT_FOUND, `Message with suggestion id ${suggestionId} not found`);
     }
+
+    await groupService.updateLastMessage(message.groupName, message.content, message.updatedAt!);
 
     return this.toMessage(message);
   }

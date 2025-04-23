@@ -3,25 +3,16 @@ syntax = "proto3";
 package Location;
 
 service Suggestion {
-  rpc InitSuggestionRequest (InitRequest) returns (InitReply);
-
-  rpc GetSingleSuggestion (SuggestionRequest) returns (SuggestionReply);
-}
-
-message InitRequest {
-  string group_name = 1;
-  int32 k = 2;
-  repeated string messages = 3;
-}
-
-message InitReply {
-  string suggestionId = 1;
+  rpc GetSuggestions (SuggestionRequest) returns (stream SuggestionReply);
 }
 
 message SuggestionRequest {
-  string suggestionId = 1;
+  int32 k = 1;
+  repeated string messages = 2;
 }
 
 message SuggestionReply {
-  string suggestion = 1;
+  string type = 1; // "INIT" or "SUGGESTION"
+  string content = 2;
 }
+

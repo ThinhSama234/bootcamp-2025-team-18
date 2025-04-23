@@ -47,17 +47,20 @@ export class TextMessage extends IMessage {
 }
 
 export class SuggestionMessage extends IMessage {
-  suggestionId?: string;
-  suggestions?: string[];
+  requestedMessages: string[];
+  suggestionId: string;
+  suggestions: string[];
 
-  constructor(id: string, senderUsername: string, groupName: string, suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
+  constructor(id: string, senderUsername: string, groupName: string, requestedMessages: string[], suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
     super(id, MessageType.SUGGESTIONS, senderUsername, groupName, createdAt, updatedAt);
-     this.suggestionId = suggestionId;
+    this.requestedMessages = requestedMessages;
+    this.suggestionId = suggestionId;
     this.suggestions = suggestions;
   }
 
   get content(): any {
     return { 
+      requestedMessages: this.requestedMessages,
       suggestionId: this.suggestionId,
       suggestions: this.suggestions,
     }
@@ -81,6 +84,7 @@ export class MessageFactory {
           doc._id.toString(),
           doc.senderUsername,
           doc.groupName,
+          doc.content.requestedMessages,
           doc.content.suggestionId,
           doc.content.suggestions,
           doc.createdAt,

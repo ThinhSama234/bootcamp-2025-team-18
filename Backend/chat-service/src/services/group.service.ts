@@ -5,6 +5,8 @@ export interface IGroupService {
   
   getGroupsByUsername(username: string): Promise<GroupType[]>;
   
+  getGroupByName(groupName: string): Promise<GroupType>;
+
   addUserToGroup(groupName: string, username: string): Promise<GroupType>;
   
   removeUserFromGroup(groupName: string, username: string): Promise<GroupType>;

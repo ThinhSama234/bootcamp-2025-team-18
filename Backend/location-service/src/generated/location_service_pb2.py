@@ -24,21 +24,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16location_service.proto\x12\x08Location\">\n\x0bInitRequest\x12\x12\n\ngroup_name\x18\x01 \x01(\t\x12\t\n\x01k\x18\x02 \x01(\x05\x12\x10\n\x08messages\x18\x03 \x03(\t\"!\n\tInitReply\x12\x14\n\x0csuggestionId\x18\x01 \x01(\t\")\n\x11SuggestionRequest\x12\x14\n\x0csuggestionId\x18\x01 \x01(\t\"%\n\x0fSuggestionReply\x12\x12\n\nsuggestion\x18\x01 \x01(\t2\xa0\x01\n\nSuggestion\x12\x43\n\x15InitSuggestionRequest\x12\x15.Location.InitRequest\x1a\x13.Location.InitReply\x12M\n\x13GetSingleSuggestion\x12\x1b.Location.SuggestionRequest\x1a\x19.Location.SuggestionReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16location_service.proto\x12\x08Location\"0\n\x11SuggestionRequest\x12\t\n\x01k\x18\x01 \x01(\x05\x12\x10\n\x08messages\x18\x02 \x03(\t\"0\n\x0fSuggestionReply\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t2X\n\nSuggestion\x12J\n\x0eGetSuggestions\x12\x1b.Location.SuggestionRequest\x1a\x19.Location.SuggestionReply0\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'location_service_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_INITREQUEST']._serialized_start=36
-  _globals['_INITREQUEST']._serialized_end=98
-  _globals['_INITREPLY']._serialized_start=100
-  _globals['_INITREPLY']._serialized_end=133
-  _globals['_SUGGESTIONREQUEST']._serialized_start=135
-  _globals['_SUGGESTIONREQUEST']._serialized_end=176
-  _globals['_SUGGESTIONREPLY']._serialized_start=178
-  _globals['_SUGGESTIONREPLY']._serialized_end=215
-  _globals['_SUGGESTION']._serialized_start=218
-  _globals['_SUGGESTION']._serialized_end=378
+  _globals['_SUGGESTIONREQUEST']._serialized_start=36
+  _globals['_SUGGESTIONREQUEST']._serialized_end=84
+  _globals['_SUGGESTIONREPLY']._serialized_start=86
+  _globals['_SUGGESTIONREPLY']._serialized_end=134
+  _globals['_SUGGESTION']._serialized_start=136
+  _globals['_SUGGESTION']._serialized_end=224
 # @@protoc_insertion_point(module_scope)

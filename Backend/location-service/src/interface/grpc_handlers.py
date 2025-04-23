@@ -5,10 +5,11 @@ class LocationServiceHandler(pb2_grpc.SuggestionServicer):
   def __init__(self, suggestion_service):
     self.suggestion_service = suggestion_service
 
-  def InitSuggestionRequest(self, request, context):
-    id = self.suggestion_service.init_suggestion_request(request.group_name, request.k, request.messages)
-    return pb2.InitReply(suggestionId=id)
+  def GetSuggestions(self, request, context):
+    id = self.suggestion_service.get_session_id()
+    yield pb2.SuggestionReply(type="INIT", content=id)
+    
+    for location_id in self.suggestion_service.get_location_ids(request.k, request.messages):
+      description = self.suggestion_service.get_location_description(location_id)
+      yield pb2.SuggestionReply(type="SUGGESTION", content=description)
   
-  def GetSingleSuggestion(self, request, context):
-    suggestion = self.suggestion_service.get_single_suggestion(request.suggestionId)
-    return pb2.SuggestionReply(suggestion=suggestion)
