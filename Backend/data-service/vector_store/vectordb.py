@@ -10,7 +10,7 @@ from datetime import datetime
 from typing import List, Dict, Optional, Union, Tuple
 from dataclasses import dataclass
 from langchain.schema import Document
-from langchain.vectorstores import FAISS as LangchainFAISS
+from langchain_community.vectorstores import FAISS as LangchainFAISS
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import CharacterTextSplitter
 from faiss_utils import FAISS_Utils

@@ -3,7 +3,7 @@ import shutil
 from typing import Dict, Optional, Union
 from datetime import datetime
 import faiss
-from langchain.vectorstores import FAISS as LangchainFAISS
+from langchain_community.vectorstores import FAISS as LangchainFAISS
 from langchain.embeddings.base import Embeddings
 
 from faiss_io import save_faiss_index, load_faiss_index
