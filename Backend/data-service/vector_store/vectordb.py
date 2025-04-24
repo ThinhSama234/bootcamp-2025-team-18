@@ -30,7 +30,7 @@ class VectorSearchResult:
     distances: List[float]
     indices: List[int]
 
-class VectorDBManager:
+class VectorDB:
     def __init__(self, embedding_model: Optional[Embeddings] = None, data_dir = DATA_DIR, vector_db_dir = VECTOR_DB_DIR):
         self.data_dir = data_dir
         self.vector_db_dir = vector_db_dir
@@ -224,7 +224,7 @@ class VectorDBManager:
 
 
 def main():
-    manager = VectorDBManager()
+    manager = VectorDB()
 
     sources = [
         DATA_DIR/"2401.08281v3.pdf",  # File PDF
