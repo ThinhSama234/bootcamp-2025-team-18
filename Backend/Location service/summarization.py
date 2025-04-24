@@ -1,6 +1,7 @@
 from google import genai
 import re
 import json
+from langchain_core.messages import HumanMessage
 
 client = genai.Client(api_key="AIzaSyDU3Hl2kTKLMOPJlK4tIU3s6vpHYq8d-58")
 
@@ -16,7 +17,8 @@ def summarization(messages):
     """
 
     # join messages into a single string
-    input_text = ". ".join([msg.strip() for msg in messages if msg.strip()])
+    input_text = ". ".join([msg.content.strip() if isinstance(msg, HumanMessage) else msg.strip() 
+                            for msg in messages if (msg.content.strip() if isinstance(msg, HumanMessage) else msg.strip())])
     if not input_text:
         return {"summary": "Invalid input!", "entities": {"locations": [], "features": [], "activities": []}}
 
