@@ -220,3 +220,52 @@ class VectorDBManager:
         error_log = self.vector_db_dir / "errors.log"
         with open(error_log, 'a', encoding='utf-8') as f:
             f.write(f"[{datetime.now()}] {message}\n")
+
+
+
+def main():
+    manager = VectorDBManager()
+
+    sources = [
+        DATA_DIR/"2401.08281v3.pdf",  # File PDF
+        DATA_DIR/"sample-html-files-sample2.html",  # File HTML
+        "Ngày hôm nay thật vui, tôi có quen một cô gái xinh đẹp",  # Raw text
+        "Tôi crush một cô gái đẹp"  # Raw text
+    ]
+
+    # Xử lý từng nguồn
+    faiss_name = get_version_timestamp()
+    for source in sources:
+        print(f"\nProcessing: {source}")
+        try:
+            result = manager.ingest(
+                source=source,
+                faiss_name=faiss_name,
+                chunk_size=500,
+                chunk_overlap=50
+            )
+            print(f"✅ {result}")
+        except Exception as e:
+            print(f"❌ Error processing {source}: {str(e)}")
+
+    # Tìm kiếm
+    print("\nSearching...")
+    try:
+        results = manager.search(
+            faiss_name=faiss_name,
+            query="machine learning",
+            top_k=2,
+            threshold=0.6  # Ngưỡng similarity
+        )
+        
+        for result in results:
+            print(f"\n🔍 Score: {result['score']:.4f}")
+            print(result['content'])
+            print(result['source'])
+
+    except Exception as e:
+        print(f"Search error: {str(e)}")
+
+
+if __name__ == "__main__":
+    main()
