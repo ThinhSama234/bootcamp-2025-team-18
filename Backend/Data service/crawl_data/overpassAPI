@@ -1,0 +1,42 @@
+import requests
+import pandas as pd
+
+# Truy vấn Overpass API để lấy danh sách địa điểm du lịch trong tỉnh Bình Phước
+def fetch_osm_tourism_places(province_name="Bình Phước"):
+    query = f"""
+    [out:json][timeout:25];
+    area["name"="{province_name}"]->.a;
+    (
+      node["tourism"](area.a);
+      way["tourism"](area.a);
+      relation["tourism"](area.a);
+    );
+    out center;
+    """
+    url = "http://overpass-api.de/api/interpreter"
+    response = requests.post(url, data={"data": query})
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch from Overpass API: {response.status_code}")
+    return response.json()
+
+# Gọi hàm để lấy dữ liệu
+osm_data = fetch_osm_tourism_places()
+
+# Chuyển thành danh sách dễ đọc
+places = []
+for el in osm_data["elements"]:
+    tags = el.get("tags", {})
+    name = tags.get("name")
+    tourism_type = tags.get("tourism")
+    lat = el.get("lat") or el.get("center", {}).get("lat")
+    lon = el.get("lon") or el.get("center", {}).get("lon")
+
+    if name and lat and lon:
+        places.append({
+            "name": name,
+            "tourism_type": tourism_type,
+            "latitude": lat,
+            "longitude": lon
+        })
+
+import ace_tools as tools; tools.display_dataframe_to_user(name="Địa điểm du lịch OSM Bình Phước", dataframe=pd.DataFrame(places))

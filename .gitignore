@@ -1,0 +1,109 @@
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.dbf
+.gitignore
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.shx
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.shp.xml
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.shp
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.sbx
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.sbn
+Backend/Data service/crawl_data/dbf_data/vnm_pplp_2015_OSM.prj
+Backend/Data service/crawl_data/Data/yen_bai_tourist_locations.json
+Backend/Data service/crawl_data/Data/vungtau_tourist_destinations.json
+Backend/Data service/crawl_data/Data/vinh_phuc_tourist_locations.json
+Backend/Data service/crawl_data/Data/tourist_spots_vung_tau_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_vinh_long_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_tuyen_quang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_tra_vinh_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_tien_giang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_thanh_hoa_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_thai_nguyen_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_tay_ninh_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_soc_trang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_saigon_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_quang_ninh_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_quang_ngai_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_quang_nam_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_phu_yen_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_phu_tho_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_ninh_thuan_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_nghe_an_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_long_an_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_lang_son_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_lam_dong_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_kon_tum_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_kien_giang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_khanh_hoa_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_hue_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_hoa_binh_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_hau_giang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_ha_giang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_gia_lai_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_dong_thap_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_dong_nai_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_dak_nong_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_dak_lak_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_da_nang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_cao_bang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_can_tho_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_ca_mau_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_binh_thuan_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_binh_phuoc_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_binh_duong_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_binh_dinh_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_ben_tre_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_bac_lieu_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_bac_kan_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_bac_giang_vietnam.json
+Backend/Data service/crawl_data/Data/tourist_spots_an_giang_vietnam.json
+Backend/Data service/crawl_data/Data/thanhhoa_tourist_destinations.json
+Backend/Data service/crawl_data/Data/thai_binh_food_locations.json
+Backend/Data service/crawl_data/Data/son_la_tourist_locations.json
+Backend/Data service/crawl_data/Data/soctrang_tourist_destinations.json
+Backend/Data service/crawl_data/Data/saigon_tourist_destinations.json
+Backend/Data service/crawl_data/Data/quangngai_tourist_destinations.json
+Backend/Data service/crawl_data/Data/quangnam_tourist_destinations.json
+Backend/Data service/crawl_data/Data/quangbinh_tourist_destinations.json
+Backend/Data service/crawl_data/Data/phuyen_tourist_destinations.json
+Backend/Data service/crawl_data/Data/phutho_tourist_destinations.json
+Backend/Data service/crawl_data/Data/phuquoc_tourist_destinations.json
+Backend/Data service/crawl_data/Data/ninhthuan_tourist_destinations.json
+Backend/Data service/crawl_data/Data/ninhthuan_tourist_destinations_v2.json
+Backend/Data service/crawl_data/Data/ninh_binh_tourist_locations.json
+Backend/Data service/crawl_data/Data/nghean_tourist_destinations.json
+Backend/Data service/crawl_data/Data/namdinh_tourist_destinations.json
+Backend/Data service/crawl_data/Data/lao_cai_tourist_locations.json
+Backend/Data service/crawl_data/Data/lai_chau_tourist_locations.json
+Backend/Data service/crawl_data/Data/khánh_hoa_advanced_tourist_destinations.json
+Backend/Data service/crawl_data/Data/hung_yen_tourist_locations.json
+Backend/Data service/crawl_data/Data/hoian_tourist_destinations.json
+Backend/Data service/crawl_data/Data/hanoi_tourist_locations.json
+Backend/Data service/crawl_data/Data/hanoi_tourist_destinations.json
+Backend/Data service/crawl_data/Data/haiphong_tourist_destinations.json
+Backend/Data service/crawl_data/Data/hai_phong_tourist_locations.json
+Backend/Data service/crawl_data/Data/hai_duong_tourist_locations.json
+Backend/Data service/crawl_data/Data/ha_nam_tourist_locations.json
+Backend/Data service/crawl_data/Data/gialai_kontum_tourist_destinations.json
+Backend/Data service/crawl_data/Data/expanded_hanoi_tourist_locations.json
+Backend/Data service/crawl_data/Data/dongthap_tourist_destinations (1).json
+Backend/Data service/crawl_data/Data/dien_bien_tourist_locations.json
+Backend/Data service/crawl_data/Data/dia_diem_du_lich_binh_phuoc.json
+Backend/Data service/crawl_data/Data/danang_tourist_destinations.json
+Backend/Data service/crawl_data/Data/dalat_tourist_destinations.json
+Backend/Data service/crawl_data/Data/daklak_tourist_destinations.json
+Backend/Data service/crawl_data/Data/caobang_tourist_destinations.json
+Backend/Data service/crawl_data/Data/cantho_tourist_destinations.json
+Backend/Data service/crawl_data/Data/binhphuoc_tourist_destinations.json
+Backend/Data service/crawl_data/Data/bentre_tourist_destinations.json
+Backend/Data service/crawl_data/Data/bacninh_tourist_destinations.json
+Backend/Data service/crawl_data/Data/baclieu_tourist_destinations.json
+Backend/Data service/crawl_data/Data/bac_ninh_tourist_locations.json
+.gitignore
+travel_2025-04-24_14-12-12.json
+travel_2025-04-24_14-06-29.json
+travel_2025-04-24_01-17-30.json
+travel_2025-04-24_01-14-54.json
+travel_2025-04-24_01-02-57.json
+travel_2025-04-24_00-58-20.json
+travel_2025-04-24_00-52-28.json
+travel_{timestamp}.json
+Backend/Data service/locations_from_shapefile.json
+Backend/Data service/crawl_data/asia-latest.osm.pbf
