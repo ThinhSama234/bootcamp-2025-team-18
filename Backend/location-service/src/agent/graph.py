@@ -7,6 +7,11 @@ from langgraph.graph import StateGraph, END
 from langchain_core.runnables import RunnableLambda
 from summarization import summarization
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/vector_store")))
+from vectordb import vectorDB
+
 class State(TypedDict):
     messages: Annotated[list, add_messages]
     summary:str
