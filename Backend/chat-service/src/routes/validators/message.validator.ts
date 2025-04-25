@@ -1,5 +1,5 @@
 import { body, param, query } from 'express-validator';
-import { MessageTypes } from '../models/message.model';
+import { MessageTypes } from '../../models/message.model';
 
 export const validateCreateMessage = [
   body('senderUsername')
