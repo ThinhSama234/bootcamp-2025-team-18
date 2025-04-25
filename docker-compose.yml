@@ -2,53 +2,35 @@ version: '3.8'
 
 services:
   frontend:
-    build: 
+    build:
       context: ./Frontend
-      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      - VITE_API_URL=http://chat-service:8000
+      - "80:80"
     depends_on:
       - chat-service
+    environment:
+      - VITE_API_URL=http://localhost:3000
 
   chat-service:
     build:
       context: ./Backend/chat-service
-      dockerfile: Dockerfile
     ports:
-      - "8000:8000"
-      - "8001:8001" # WebSocket port
+      - "3000:3000"
     environment:
-      - NODE_ENV=production
-      - PORT=8000
-      - WEBSOCKET_PORT=8001
-      - CHATDB_URL=mongodb://mongodb:27017/chat_db
+      - NODE_ENV=development
+      - PORT=3000
+      - CHATDB_URL=${CHATDB_URL}
       - LOCATION_SERVICE_GRPC_URL=location-service:50051
     depends_on:
-      - mongodb
       - location-service
 
   location-service:
     build:
       context: ./Backend/location-service
-      dockerfile: Dockerfile
     ports:
-      - "5000:5000"   # Flask HTTP port
-      - "50051:50051" # gRPC port
+      - "5000:5000"
+      - "50051:50051"
     environment:
       - FLASK_PORT=5000
       - GRPC_PORT=50051
-      - TRAVELDB_URL=mongodb://mongodb:27017/travel_db
-    depends_on:
-      - mongodb
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-
-volumes:
-  mongodb_data:
+      - TRAVELDB_URL=${TRAVELDB_URL}
