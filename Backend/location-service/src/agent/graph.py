@@ -64,7 +64,7 @@ def search_vector_db(state: State) -> State:
         )
         
         for result in results:
-            print(f"\n🔍 Score: {result["score"]:.4f}")
+            print(f"\n🔍 Score: {result['score']:.4f}")
             print("123")
             print(result["content"])
             print("1234")
