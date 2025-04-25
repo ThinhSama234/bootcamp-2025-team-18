@@ -65,12 +65,14 @@ def search_vector_db(state: State) -> State:
         
         for result in results:
             print(f"\n🔍 Score: {result["score"]:.4f}")
+            print("123")
             print(result["content"])
+            print("1234")
             print(result["source"])
-        print(1)
+        print("1")
     except Exception as e:
         print(f"Search error: {str(e)}")
-    state["result"] = results
+    state["result"] = [result['content'] for result in results]
     return state
 
 def format_output(state: State) -> State:
