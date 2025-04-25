@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { LocationClient } from '../../grpc/clients';
+import { LocationClient } from '../../modules/grpc/clients';
 import { ISuggestionService } from '../suggestion.service'
 
 

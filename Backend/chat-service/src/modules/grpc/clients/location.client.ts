@@ -1,7 +1,7 @@
 import { credentials, ServiceError } from '@grpc/grpc-js';
 import { PROTO_PATH } from '../config/config';
 import { loadProto } from '../loader';
-import logger from '../../core/logger';
+import logger from '../../../core/logger';
 
 interface SuggestionRequest {
   k: number;
