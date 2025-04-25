@@ -1,0 +1,142 @@
+[
+    {
+        "name": "Chùa Phật Tích",
+        "category": "Religious Site",
+        "address": "Chùa Phật Tích, Bắc Ninh, Vietnam",
+        "description": "Phật Tích Pagoda is a famous Buddhist temple known for its ancient architecture and spiritual significance.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/Phat_Tich_Pagoda.jpg"
+    },
+    {
+        "name": "Làng gốm Phù Lãng",
+        "category": "Cultural Site",
+        "address": "Làng gốm Phù Lãng, Bắc Ninh, Vietnam",
+        "description": "Phù Lãng Ceramic Village is famous for its traditional pottery and ceramic art, offering visitors the chance to see the crafting process.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Phu_Lang_Ceramics_Village.jpg"
+    },
+    {
+        "name": "Đền Đô",
+        "category": "Historical Site",
+        "address": "Đền Đô, Bắc Ninh, Vietnam",
+        "description": "Đền Đô is a historic temple dedicated to the kings of the Ly Dynasty, showcasing Vietnam's ancient royal heritage.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Den_Do_Bac_Ninh.jpg"
+    },
+    {
+        "name": "Chùa Dâu",
+        "category": "Religious Site",
+        "address": "Chùa Dâu, Bắc Ninh, Vietnam",
+        "description": "Chùa Dâu is an ancient Buddhist temple known for its historical significance and beautiful architecture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Dau_Pagoda_Bac_Ninh.jpg"
+    },
+    {
+        "name": "Làng tranh Đông Hồ",
+        "category": "Cultural Site",
+        "address": "Làng tranh Đông Hồ, Bắc Ninh, Vietnam",
+        "description": "Dong Ho Village is famous for its traditional folk paintings, which depict the vibrant life of rural Vietnam.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Dong_Ho_Paintings.jpg"
+    },
+    {
+        "name": "Đền Bà Chúa Kho",
+        "category": "Religious Site",
+        "address": "Đền Bà Chúa Kho, Bắc Ninh, Vietnam",
+        "description": "Bà Chúa Kho Temple is dedicated to the goddess of wealth and prosperity, attracting many visitors who come to pray for good fortune.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Ba_Chua_Kho_Temple.jpg"
+    },
+    {
+        "name": "Làng quan họ Diềm",
+        "category": "Cultural Site",
+        "address": "Làng quan họ Diềm, Bắc Ninh, Vietnam",
+        "description": "Diềm Village is known for its unique Quan Họ singing, a traditional form of folk music recognized by UNESCO.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Quan_Ho_Singing.jpg"
+    },
+    {
+        "name": "Chùa Bút Tháp",
+        "category": "Religious Site",
+        "address": "Chùa Bút Tháp, Bắc Ninh, Vietnam",
+        "description": "Bút Tháp Pagoda is a historic Buddhist temple with a beautiful tower, known for its artistic and architectural significance.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/23/But_Thap_Pagoda.jpg"
+    },
+    {
+        "name": "Văn miếu Bắc Ninh",
+        "category": "Cultural Site",
+        "address": "Văn miếu Bắc Ninh, Bắc Ninh, Vietnam",
+        "description": "The Bac Ninh Literature Temple is dedicated to Confucius and showcases the city's rich history and respect for education.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Van_Mieu_Bac_Ninh.jpg"
+    },
+    {
+        "name": "Lăng Kinh Dương Vương",
+        "category": "Historical Site",
+        "address": "Lăng Kinh Dương Vương, Bắc Ninh, Vietnam",
+        "description": "The Tomb of Kinh Duong Vuong is an important historical site, marking the resting place of the legendary founder of the first Vietnamese dynasty.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Kinh_Duong_Vuong_Tomb.jpg"
+    },
+    {
+        "name": "Đền thờ Lý Thường Kiệt",
+        "category": "Historical Site",
+        "address": "Đền thờ Lý Thường Kiệt, Bắc Ninh, Vietnam",
+        "description": "The Lý Thường Kiệt Temple is dedicated to the renowned military general, known for his victory against the Song Dynasty invaders.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Ly_Thuong_Kiet_Temple.jpg"
+    },
+    {
+        "name": "Chùa Tiêu Sơn",
+        "category": "Religious Site",
+        "address": "Chùa Tiêu Sơn, Bắc Ninh, Vietnam",
+        "description": "Tiêu Sơn Pagoda is a peaceful Buddhist temple located on a hill, offering scenic views and a tranquil atmosphere.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Tieu_Son_Pagoda.jpg"
+    },
+    {
+        "name": "Làng đình Bảng",
+        "category": "Cultural Site",
+        "address": "Làng đình Bảng, Bắc Ninh, Vietnam",
+        "description": "Đình Bảng Village is famous for its traditional communal houses and vibrant cultural life.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Dinh_Bang_Village.jpg"
+    },
+    {
+        "name": "Chùa Đại Lâm",
+        "category": "Religious Site",
+        "address": "Chùa Đại Lâm, Bắc Ninh, Vietnam",
+        "description": "Chùa Đại Lâm is a historic temple with a serene environment, ideal for meditation and reflection.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Dai_Lam_Pagoda.jpg"
+    },
+    {
+        "name": "Khu di tích lịch sử Phù Đổng",
+        "category": "Historical Site",
+        "address": "Khu di tích lịch sử Phù Đổng, Bắc Ninh, Vietnam",
+        "description": "Phù Đổng Historical Site is dedicated to the legendary hero Gióng, known for his role in defending Vietnam against invaders.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Phu_Dong_Historical_Site.jpg"
+    },
+    {
+        "name": "Chùa Cổ Lão",
+        "category": "Religious Site",
+        "address": "Chùa Cổ Lão, Bắc Ninh, Vietnam",
+        "description": "Cổ Lão Pagoda is an ancient temple with historical significance and beautiful architecture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Co_Lao_Pagoda.jpg"
+    },
+    {
+        "name": "Làng nghề đúc đồng Đại Bái",
+        "category": "Cultural Site",
+        "address": "Làng nghề đúc đồng Đại Bái, Bắc Ninh, Vietnam",
+        "description": "Đại Bái Bronze Casting Village is known for its traditional metalworking, producing intricate and high-quality bronze items.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Da_Bai_Bronze_Village.jpg"
+    },
+    {
+        "name": "Làng nghề làm giấy dó Xuân Ổ",
+        "category": "Cultural Site",
+        "address": "Làng nghề làm giấy dó Xuân Ổ, Bắc Ninh, Vietnam",
+        "description": "Xuân Ổ Paper Village is famous for its traditional paper-making craft, producing paper used in religious rituals and art.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Xuan_O_Paper_Village.jpg"
+    },
+    {
+        "name": "Chùa Hàm Long",
+        "category": "Religious Site",
+        "address": "Chùa Hàm Long, Bắc Ninh, Vietnam",
+        "description": "Hàm Long Pagoda is a historic Buddhist temple located in a peaceful setting.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Ham_Long_Pagoda.jpg"
+    },
+    {
+        "name": "Đền Cửa Ông",
+        "category": "Religious Site",
+        "address": "Đền Cửa Ông, Bắc Ninh, Vietnam",
+        "description": "Cửa Ông Temple is dedicated to the worship of the Mother Goddess, an important figure in Vietnamese spiritual practices.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Cua_Ong_Temple.jpg"
+    }
+]

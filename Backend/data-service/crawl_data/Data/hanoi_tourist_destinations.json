@@ -1,0 +1,170 @@
+[
+    {
+        "name": "Hồ Gươm - trái tim của Thủ đô",
+        "category": "Lake",
+        "address": "Hoàn Kiếm, Hà Nội, Vietnam",
+        "description": "Hồ Gươm, also known as Sword Lake, is the heart of Hanoi and is famous for its historic significance and scenic beauty.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Ho_Guom_2022.jpg"
+    },
+    {
+        "name": "Lăng Chủ tịch Hồ Chí Minh",
+        "category": "Historical Site",
+        "address": "Ba Đình, Hà Nội, Vietnam",
+        "description": "The Ho Chi Minh Mausoleum is the final resting place of Vietnam's revolutionary leader, Ho Chi Minh.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Ho_Chi_Minh_Mausoleum_2016.jpg"
+    },
+    {
+        "name": "Grand World",
+        "category": "Entertainment",
+        "address": "Vinhomes, Hà Nội, Vietnam",
+        "description": "Grand World is a luxury entertainment and shopping complex in Hanoi, offering a range of attractions and experiences.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Grand_World_Hanoi.jpg"
+    },
+    {
+        "name": "Nhà thờ Lớn Hà Nội",
+        "category": "Historical Site",
+        "address": "Ngô Quyền, Hoàn Kiếm, Hà Nội, Vietnam",
+        "description": "St. Joseph's Cathedral is an iconic Gothic-style church located in the heart of Hanoi, with beautiful stained glass windows.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/16/St_Joseph%27s_Cathedral_Hanoi.jpg"
+    },
+    {
+        "name": "Các bảo tàng tại Hà Nội",
+        "category": "Museum",
+        "address": "Hà Nội, Vietnam",
+        "description": "Hanoi is home to several museums showcasing the city's rich history and culture, including the Vietnam Museum of History and the Museum of Fine Arts.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Vietnam_Museum_of_History.jpg"
+    },
+    {
+        "name": "Nhà tù Hoả Lò",
+        "category": "Historical Site",
+        "address": "1 Hoả Lò, Hoàn Kiếm, Hà Nội, Vietnam",
+        "description": "Hoa Lo Prison is a historic site, once used by French colonial authorities to imprison Vietnamese revolutionaries and later used by the North Vietnamese during the war.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Hoa_Lo_Prison.jpg"
+    },
+    {
+        "name": "Phố cổ Hà Nội - khám phá 36 phố phường",
+        "category": "Cultural Site",
+        "address": "Hoàn Kiếm, Hà Nội, Vietnam",
+        "description": "Hanoi's Old Quarter is known for its charming streets, colonial architecture, and bustling markets, offering a glimpse into the city's past.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/28/Old_Quarter_Hanoi.jpg"
+    },
+    {
+        "name": "Hồ Tây - địa điểm du lịch Hà Nội hấp dẫn",
+        "category": "Lake",
+        "address": "Tây Hồ, Hà Nội, Vietnam",
+        "description": "West Lake is Hanoi's largest lake, known for its beautiful scenery, tranquil atmosphere, and popular spots for dining and leisure.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/Ho_Tay_Lake_Hanoi.jpg"
+    },
+    {
+        "name": "Chùa Trấn Quốc",
+        "category": "Historical Site",
+        "address": "Đường Thanh Niên, Tây Hồ, Hà Nội, Vietnam",
+        "description": "Tran Quoc Pagoda is one of the oldest Buddhist temples in Vietnam, located on the shores of West Lake.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Tran_Quoc_Pagoda_Hanoi.jpg"
+    },
+    {
+        "name": "Văn Miếu Quốc Tử Giám",
+        "category": "Historical Site",
+        "address": "58 Quốc Tử Giám, Đống Đa, Hà Nội, Vietnam",
+        "description": "The Temple of Literature is an iconic Confucian temple and the site of the first university in Vietnam.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Temple_of_Literature_Hanoi.jpg"
+    },
+    {
+        "name": "Hoàng thành Thăng Long",
+        "category": "Historical Site",
+        "address": "Hoàng Diệu, Ba Đình, Hà Nội, Vietnam",
+        "description": "The Thang Long Imperial Citadel is a UNESCO World Heritage site, showcasing the rich history of Hanoi from the Ly Dynasty to the Nguyen Dynasty.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Thang_Long_Imperial_Citadel_Hanoi.jpg"
+    },
+    {
+        "name": "Phố Tây Tạ Hiện",
+        "category": "Cultural Spot",
+        "address": "Tạ Hiện, Hoàn Kiếm, Hà Nội, Vietnam",
+        "description": "Tạ Hiện Street is known for its lively atmosphere, popular bars, and vibrant nightlife, attracting both locals and tourists.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Ta_Hien_Street_Hanoi.jpg"
+    },
+    {
+        "name": "Chùa Một Cột",
+        "category": "Historical Site",
+        "address": "Chùa Một Cột, Ba Đình, Hà Nội, Vietnam",
+        "description": "One Pillar Pagoda is a historic Buddhist temple, known for its unique architecture and connection to Vietnamese culture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5f/One_Pillar_Pagoda_Hanoi.jpg"
+    },
+    {
+        "name": "Con đường gốm sứ",
+        "category": "Cultural Site",
+        "address": "Đường Láng, Hà Nội, Vietnam",
+        "description": "The Ceramic Road is a beautiful street art project showcasing the history and culture of Vietnam through vibrant ceramic murals.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/ceramic_road_Hanoi.jpg"
+    },
+    {
+        "name": "Cầu Long Biên - chứng nhân lịch sử",
+        "category": "Historical Site",
+        "address": "Long Biên, Hà Nội, Vietnam",
+        "description": "Long Bien Bridge is an iconic historical bridge that witnessed the French colonial period and the Vietnam War.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Long_Bien_Bridge_Hanoi.jpg"
+    },
+    {
+        "name": "Chill tại các quán cafe đẹp Hà Nội",
+        "category": "Cultural Spot",
+        "address": "Hà Nội, Vietnam",
+        "description": "Hanoi is known for its charming cafes, offering a relaxing atmosphere to enjoy a cup of Vietnamese coffee.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Hanoi_Coffee.jpg"
+    },
+    {
+        "name": "Khu vui chơi giải trí tại Times City",
+        "category": "Entertainment",
+        "address": "Times City, Hà Nội, Vietnam",
+        "description": "Times City is a modern entertainment complex with shopping malls, cinemas, and amusement parks.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Times_City_Hanoi.jpg"
+    },
+    {
+        "name": "Công viên Thủ Lệ",
+        "category": "Park",
+        "address": "Thủ Lệ, Hà Nội, Vietnam",
+        "description": "Thu Le Park is a large public park in Hanoi, featuring a zoo, lakes, and beautiful landscapes.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Thu_Le_Park_Hanoi.jpg"
+    },
+    {
+        "name": "Công viên nước hồ Tây",
+        "category": "Water Park",
+        "address": "Hồ Tây, Hà Nội, Vietnam",
+        "description": "West Lake Water Park is a fun-filled park with water slides, pools, and attractions for all ages.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/West_Lake_Water_Park.jpg"
+    },
+    {
+        "name": "Làng cổ Đường Lâm",
+        "category": "Cultural Site",
+        "address": "Đường Lâm, Sơn Tây, Hà Nội, Vietnam",
+        "description": "Duong Lam Ancient Village is a traditional Vietnamese village that retains its original architecture and culture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Ancient_Village_Duong_Lam.jpg"
+    },
+    {
+        "name": "Làng nghề gốm Bát Tràng",
+        "category": "Cultural Site",
+        "address": "Bát Tràng, Gia Lâm, Hà Nội, Vietnam",
+        "description": "Bat Trang Ceramic Village is famous for its pottery and traditional ceramics production.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Bat_Trang_Village.jpg"
+    },
+    {
+        "name": "Vườn quốc gia Ba Vì",
+        "category": "Nature Reserve",
+        "address": "Ba Vì, Hà Nội, Vietnam",
+        "description": "Ba Vi National Park is a natural reserve located just outside Hanoi, offering scenic views and outdoor activities.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Ba_Vi_National_Park.jpg"
+    },
+    {
+        "name": "Làng văn hoá các dân tộc",
+        "category": "Cultural Site",
+        "address": "Đồng Mô, Sơn Tây, Hà Nội, Vietnam",
+        "description": "The Ethnic Culture Village showcases the traditions and cultures of various ethnic groups in Vietnam.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Ethnic_Culture_Village_Hanoi.jpg"
+    },
+    {
+        "name": "Việt Phủ Thành Chương",
+        "category": "Cultural Site",
+        "address": "Thành Chương, Hà Nội, Vietnam",
+        "description": "Thành Chương's Viet Phu is a cultural village that reflects the traditional Vietnamese architecture and lifestyle.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Viet_Phu_Thanh_Chuong.jpg"
+    }
+]

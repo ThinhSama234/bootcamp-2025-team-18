@@ -1,0 +1,149 @@
+[
+    {
+        "name": "Đồ Sơn",
+        "category": "Beach",
+        "address": "Đồ Sơn, Hải Phòng, Vietnam",
+        "description": "Do Son Beach is a famous beach resort in Hai Phong, known for its clear waters and relaxing atmosphere.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Do_Son_Beach_Hai_Phong.jpg"
+    },
+    {
+        "name": "Cát Bà",
+        "category": "Island",
+        "address": "Cát Bà, Hải Phòng, Vietnam",
+        "description": "Cat Ba Island is a scenic destination known for its rugged landscapes, sandy beaches, and clear waters.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Cat_Ba_Island.jpg"
+    },
+    {
+        "name": "Vịnh Lan Hạ",
+        "category": "Bay",
+        "address": "Vịnh Lan Hạ, Hải Phòng, Vietnam",
+        "description": "Lan Ha Bay is a beautiful and peaceful bay located near Cat Ba Island, famous for its emerald water and limestone islands.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/77/Lan_Ha_Bay.jpg"
+    },
+    {
+        "name": "Đảo Bạch Long Vĩ",
+        "category": "Island",
+        "address": "Đảo Bạch Long Vĩ, Hải Phòng, Vietnam",
+        "description": "Bach Long Vi Island is a remote island in the Gulf of Tonkin, known for its untouched beauty and diverse marine life.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Bach_Long_Vi_Island.jpg"
+    },
+    {
+        "name": "Núi Voi",
+        "category": "Mountain",
+        "address": "Núi Voi, Hải Phòng, Vietnam",
+        "description": "The Elephant Mountain (Nui Voi) offers panoramic views of the surrounding area, ideal for hiking and sightseeing.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Elephant_Mountain_Hai_Phong.jpg"
+    },
+    {
+        "name": "Hang Quân Y",
+        "category": "Cave",
+        "address": "Hang Quân Y, Hải Phòng, Vietnam",
+        "description": "Quân Y Cave is a historical site, once used as a military hospital during the Vietnam War.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/04/Quan_Y_Cave_Hai_Phong.jpg"
+    },
+    {
+        "name": "Bãi biển Tùng Thu",
+        "category": "Beach",
+        "address": "Bãi biển Tùng Thu, Hải Phòng, Vietnam",
+        "description": "Tung Thu Beach is a quiet and beautiful beach, perfect for swimming and enjoying the scenic views.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Tung_Thu_Beach.jpg"
+    },
+    {
+        "name": "Đình Hàng Kênh",
+        "category": "Cultural Site",
+        "address": "Đình Hàng Kênh, Hải Phòng, Vietnam",
+        "description": "Hang Kenh Communal House is a historical site that showcases the traditional architecture of the region.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Hang_Kenh_Communal_House.jpg"
+    },
+    {
+        "name": "Chùa Dư Hàng",
+        "category": "Religious Site",
+        "address": "Chùa Dư Hàng, Hải Phòng, Vietnam",
+        "description": "Du Hang Pagoda is a beautiful Buddhist temple that is known for its peaceful atmosphere and intricate carvings.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Du_Hang_Pagoda.jpg"
+    },
+    {
+        "name": "Nhà hát Lớn Hải Phòng",
+        "category": "Cultural Site",
+        "address": "Nhà hát Lớn Hải Phòng, Hải Phòng, Vietnam",
+        "description": "The Hai Phong Opera House is a historic landmark known for its beautiful architecture and cultural performances.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Hai_Phong_Opera_House.jpg"
+    },
+    {
+        "name": "Bảo tàng Hải Phòng",
+        "category": "Museum",
+        "address": "Bảo tàng Hải Phòng, Hải Phòng, Vietnam",
+        "description": "The Hai Phong Museum showcases the city's history and culture, with exhibits on local traditions, art, and history.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Hai_Phong_Museum.jpg"
+    },
+    {
+        "name": "Phố Tam Bạc",
+        "category": "Cultural Site",
+        "address": "Phố Tam Bạc, Hải Phòng, Vietnam",
+        "description": "Tam Bac Street is a lively cultural hub in Hai Phong, known for its shops, food, and vibrant street life.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Tam_Bac_Street_Hai_Phong.jpg"
+    },
+    {
+        "name": "Cầu Bính",
+        "category": "Bridge",
+        "address": "Cầu Bính, Hải Phòng, Vietnam",
+        "description": "Binh Bridge is a historic bridge that connects the city with other regions, offering great views of the waterway.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Binh_Bridge_Hai_Phong.jpg"
+    },
+    {
+        "name": "Cầu Rào",
+        "category": "Bridge",
+        "address": "Cầu Rào, Hải Phòng, Vietnam",
+        "description": "The Rao Bridge is another important bridge in Hai Phong, serving as a major transport route.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Rao_Bridge_Hai_Phong.jpg"
+    },
+    {
+        "name": "Chợ Sắt",
+        "category": "Market",
+        "address": "Chợ Sắt, Hải Phòng, Vietnam",
+        "description": "Sắt Market is a bustling market known for its wide variety of goods, from food to local handicrafts.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Cho_Sat_Hai_Phong.jpg"
+    },
+    {
+        "name": "Khu du lịch sinh thái Rừng ngập mặn",
+        "category": "Nature Reserve",
+        "address": "Rừng ngập mặn, Hải Phòng, Vietnam",
+        "description": "Mangrove Forest Eco-tourism Area offers visitors a chance to explore lush mangrove forests and observe local wildlife.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Mangrove_Forest_Hai_Phong.jpg"
+    },
+    {
+        "name": "Suối nước nóng Tiên Lãng",
+        "category": "Nature Reserve",
+        "address": "Tiên Lãng, Hải Phòng, Vietnam",
+        "description": "Tien Lang Hot Springs is a relaxing spot known for its natural hot water, ideal for a rejuvenating bath.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Tien_Lang_Hot_Spring_Hai_Phong.jpg"
+    },
+    {
+        "name": "Làng chài Cửa Vạn",
+        "category": "Cultural Site",
+        "address": "Cửa Vạn, Hải Phòng, Vietnam",
+        "description": "Cua Van Fishing Village offers a glimpse into the traditional lifestyle of fishing communities in the region.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Cua_Van_Village_Hai_Phong.jpg"
+    },
+    {
+        "name": "Đền Bà Đế",
+        "category": "Religious Site",
+        "address": "Bà Đế, Hải Phòng, Vietnam",
+        "description": "Ba De Temple is a historic religious site where visitors can explore the spiritual and cultural heritage of the area.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Ba_De_Temple_Hai_Phong.jpg"
+    },
+    {
+        "name": "Chùa Tháp Tường Long",
+        "category": "Religious Site",
+        "address": "Tháp Tường Long, Hải Phòng, Vietnam",
+        "description": "Tuong Long Pagoda is an ancient Buddhist temple that attracts visitors for its peaceful atmosphere and beautiful architecture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Tuong_Long_Pagoda_Hai_Phong.jpg"
+    },
+    {
+        "name": "Khu di tích Tràng Kênh",
+        "category": "Historical Site",
+        "address": "Tràng Kênh, Hải Phòng, Vietnam",
+        "description": "Trang Kenh Historical Site offers a chance to explore the region's history and see the remains of ancient structures.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Trang_Kenh_Historical_Site_Hai_Phong.jpg"
+    }
+]

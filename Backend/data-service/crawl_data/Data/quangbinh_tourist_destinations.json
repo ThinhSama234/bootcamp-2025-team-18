@@ -1,0 +1,170 @@
+[
+    {
+        "name": "Động Phong Nha",
+        "category": "Cave",
+        "address": "Phong Nha, Quảng Bình, Vietnam",
+        "description": "Phong Nha Cave is a famous UNESCO World Heritage site known for its stunning limestone formations and underground rivers.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Phong_Nha_Cave.jpg"
+    },
+    {
+        "name": "Động Thiên Đường",
+        "category": "Cave",
+        "address": "Bố Trạch, Quảng Bình, Vietnam",
+        "description": "Heavenly Cave (Động Thiên Đường) is a spectacular cave with one of the largest and most beautiful cave chambers in the world.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Paradise_Cave_Quang_Binh.jpg"
+    },
+    {
+        "name": "Suối Nước Moọc",
+        "category": "Waterfall",
+        "address": "Bố Trạch, Quảng Bình, Vietnam",
+        "description": "Suối Nước Moọc is a beautiful stream with crystal-clear water, surrounded by lush forests, making it an ideal spot for relaxation.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/Mooc_Spring_Quang_Binh.jpg"
+    },
+    {
+        "name": "Sông Chày - Hang Tối",
+        "category": "Cave & River",
+        "address": "Bố Trạch, Quảng Bình, Vietnam",
+        "description": "Chày River and Dark Cave is a popular adventure tourism destination, where visitors can explore the cave and enjoy kayaking.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Chay_River_Hang_Toi_Quang_Binh.jpg"
+    },
+    {
+        "name": "Vườn Quốc gia Phong Nha - Kẻ Bàng",
+        "category": "National Park",
+        "address": "Phong Nha-Kẻ Bàng, Quảng Bình, Vietnam",
+        "description": "Phong Nha-Kẻ Bàng National Park is a UNESCO World Heritage site famous for its rich biodiversity and cave systems.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Phong_Nha-Ke_Bang_National_Park.jpg"
+    },
+    {
+        "name": "Động Tiên Sơn",
+        "category": "Cave",
+        "address": "Phong Nha, Quảng Bình, Vietnam",
+        "description": "Tiên Sơn Cave is a stunning cave with impressive stalactites and stalagmites, located in the heart of Phong Nha-Kẻ Bàng National Park.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Tien_Son_Cave_Quang_Binh.jpg"
+    },
+    {
+        "name": "Bãi biển Nhật Lệ",
+        "category": "Beach",
+        "address": "Bãi biển Nhật Lệ, Quảng Bình, Vietnam",
+        "description": "Nhật Lệ Beach is a beautiful and clean beach with golden sand and clear blue water, perfect for a relaxing getaway.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Nhat_Le_Beach_Quang_Binh.jpg"
+    },
+    {
+        "name": "Bãi biển Bảo Ninh",
+        "category": "Beach",
+        "address": "Bảo Ninh, Quảng Bình, Vietnam",
+        "description": "Bảo Ninh Beach is a tranquil beach known for its serene environment, ideal for swimming and beach activities.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Bao_Ninh_Beach_Quang_Binh.jpg"
+    },
+    {
+        "name": "Cồn cát Quang Phú",
+        "category": "Sand Dune",
+        "address": "Quang Phú, Quảng Bình, Vietnam",
+        "description": "Quang Phú Sand Dunes is a unique natural landscape with vast sandy hills, offering a perfect spot for photography and exploration.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Quang_Phú_Sand_Dunes.jpg"
+    },
+    {
+        "name": "Hang Sơn Đoòng",
+        "category": "Cave",
+        "address": "Phong Nha, Quảng Bình, Vietnam",
+        "description": "Sơn Đoòng Cave is the world's largest cave, known for its enormous size and stunning underground landscapes.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Son_Doong_Cave.jpg"
+    },
+    {
+        "name": "Hang Én",
+        "category": "Cave",
+        "address": "Phong Nha, Quảng Bình, Vietnam",
+        "description": "Hang Én is one of the world's largest caves, featuring a large open space with a beautiful river and a rich ecosystem.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Hang_En_Quang_Binh.jpg"
+    },
+    {
+        "name": "Thung lũng Bồng Lai",
+        "category": "Nature Reserve",
+        "address": "Thung lũng Bồng Lai, Quảng Bình, Vietnam",
+        "description": "Bồng Lai Valley is a peaceful and beautiful natural landscape, perfect for hiking and experiencing local wildlife.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/83/Bong_Lai_Valley_Quang_Binh.jpg"
+    },
+    {
+        "name": "Thung lũng Hàm Nghi",
+        "category": "Nature Reserve",
+        "address": "Hàm Nghi, Quảng Bình, Vietnam",
+        "description": "Hàm Nghi Valley is known for its picturesque landscape, tranquil rivers, and dense forests, offering a perfect retreat for nature lovers.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Ham_Nghi_Valley_Quang_Binh.jpg"
+    },
+    {
+        "name": "Làng Bích Họa Cảnh Dương",
+        "category": "Cultural Site",
+        "address": "Cảnh Dương, Quảng Bình, Vietnam",
+        "description": "Cảnh Dương is an ancient village known for its colorful murals, reflecting the cultural heritage of the region.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Canh_Duong_Murals_Quang_Binh.jpg"
+    },
+    {
+        "name": "Đồi chè Bố Hòn",
+        "category": "Agricultural Site",
+        "address": "Bố Hòn, Quảng Bình, Vietnam",
+        "description": "Bố Hòn Tea Hill is a scenic area known for its green tea plantations and peaceful atmosphere, ideal for photography.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Bo_Hon_Tea_Hill_Quang_Binh.jpg"
+    },
+    {
+        "name": "Thác Gió",
+        "category": "Waterfall",
+        "address": "Thác Gió, Quảng Bình, Vietnam",
+        "description": "Thác Gió is a beautiful waterfall surrounded by lush forest, offering a refreshing escape into nature.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Thac_Gio_Quang_Binh.jpg"
+    },
+    {
+        "name": "Hồ Bàu Tró",
+        "category": "Lake",
+        "address": "Hồ Bàu Tró, Quảng Bình, Vietnam",
+        "description": "Bàu Tró Lake is a large lake with peaceful waters, surrounded by natural beauty and local farms.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Bau_Tro_Lake_Quang_Binh.jpg"
+    },
+    {
+        "name": "Đền thờ Liễu Hạnh Công Chúa",
+        "category": "Religious Site",
+        "address": "Liễu Hạnh Công Chúa, Quảng Bình, Vietnam",
+        "description": "The Liễu Hạnh Temple is dedicated to the worship of the Mother Goddess, a significant religious figure in Vietnamese culture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Lieu_Hanh_Temple_Quang_Binh.jpg"
+    },
+    {
+        "name": "Nhà lưu niệm Đại tướng Võ Nguyên Giáp",
+        "category": "Historical Site",
+        "address": "Quảng Bình, Vietnam",
+        "description": "The General Võ Nguyên Giáp Memorial House is dedicated to the life and legacy of the legendary military leader.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/General_Vo_Nguyen_Giap_Memorial.jpg"
+    },
+    {
+        "name": "Vũng Chùa - Đảo Yến",
+        "category": "Island",
+        "address": "Vũng Chùa, Quảng Bình, Vietnam",
+        "description": "Vũng Chùa and Yến Island are peaceful destinations with beautiful beaches and clear water, ideal for relaxation and exploration.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Vung_Chua_Yen_Island_Quang_Binh.jpg"
+    },
+    {
+        "name": "Đá Nhảy",
+        "category": "Beach",
+        "address": "Đá Nhảy, Quảng Bình, Vietnam",
+        "description": "Đá Nhảy is a scenic beach with interesting rock formations, perfect for photography and enjoying nature.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Da_Nhay_Beach_Quang_Binh.jpg"
+    },
+    {
+        "name": "Suối Bang",
+        "category": "Waterfall",
+        "address": "Suối Bang, Quảng Bình, Vietnam",
+        "description": "Suối Bang is a hidden waterfall located in a secluded forest area, offering a peaceful retreat for nature lovers.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Suoi_Bang_Quang_Binh.jpg"
+    },
+    {
+        "name": "Chùa Hoằng Phúc",
+        "category": "Religious Site",
+        "address": "Chùa Hoằng Phúc, Quảng Bình, Vietnam",
+        "description": "Hoằng Phúc Pagoda is an ancient Buddhist temple with a rich history and tranquil atmosphere.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Hoang_Phuc_Pagoda_Quang_Binh.jpg"
+    },
+    {
+        "name": "Hang Rục Mòn",
+        "category": "Cave",
+        "address": "Hang Rục Mòn, Quảng Bình, Vietnam",
+        "description": "Hang Rục Mòn is a beautiful cave with stunning stalactites and stalagmites, located in the heart of Quảng Bình.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Ruc_Mon_Cave_Quang_Binh.jpg"
+    }
+]

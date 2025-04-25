@@ -1,0 +1,163 @@
+[
+    {
+        "name": "Bãi Bụt",
+        "category": "Beach",
+        "address": "Bãi Bụt, Đà Nẵng, Vietnam",
+        "description": "Bãi Bụt is a beautiful beach known for its serene atmosphere and scenic views.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Bai_But_Danang.jpg"
+    },
+    {
+        "name": "Ghềnh Bàng",
+        "category": "Beach",
+        "address": "Ghềnh Bàng, Đà Nẵng, Vietnam",
+        "description": "Ghềnh Bàng is a pristine beach surrounded by rocky formations and lush greenery, perfect for relaxation.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Ghenh_Bang_Danang.jpg"
+    },
+    {
+        "name": "VinWonders Nam Hội An",
+        "category": "Theme Park",
+        "address": "VinWonders, Nam Hội An, Quảng Nam, Vietnam",
+        "description": "VinWonders Nam Hội An is a large amusement park featuring thrilling rides and entertainment for all ages.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/VinWonders_Nam_Hoi_An.jpg"
+    },
+    {
+        "name": "Cầu Rồng",
+        "category": "Bridge",
+        "address": "Cầu Rồng, Đà Nẵng, Vietnam",
+        "description": "The Dragon Bridge is a famous bridge in Da Nang, known for its dragon-shaped design and nightly light displays.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Dragon_Bridge_Danang.jpg"
+    },
+    {
+        "name": "Núi Ngũ Hành Sơn",
+        "category": "Mountain",
+        "address": "Ngũ Hành Sơn, Đà Nẵng, Vietnam",
+        "description": "The Marble Mountains (Ngũ Hành Sơn) is a cluster of five limestone hills with caves, tunnels, and Buddhist sanctuaries.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Marble_Mountains.jpg"
+    },
+    {
+        "name": "Đèo Hải Vân",
+        "category": "Mountain Pass",
+        "address": "Đèo Hải Vân, Đà Nẵng, Vietnam",
+        "description": "The Hai Van Pass is a scenic mountain pass offering breathtaking views of the ocean and surrounding landscapes.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Hai_Van_Pass_Danang.jpg"
+    },
+    {
+        "name": "Suối Mơ",
+        "category": "Waterfall",
+        "address": "Suối Mơ, Đà Nẵng, Vietnam",
+        "description": "Suối Mơ is a tranquil waterfall surrounded by lush forests, perfect for nature lovers and those seeking peace.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Suoi_Mo_Danang.jpg"
+    },
+    {
+        "name": "Thác Ba Đờ Phọt",
+        "category": "Waterfall",
+        "address": "Thác Ba Đờ Phọt, Đà Nẵng, Vietnam",
+        "description": "Ba Đờ Phọt Waterfall is a hidden gem with a beautiful cascading waterfall and scenic surroundings.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Thac_Ba_Do_Phot.jpg"
+    },
+    {
+        "name": "Làng nghề nước mắm Nam Ô",
+        "category": "Cultural Site",
+        "address": "Làng nghề nước mắm Nam Ô, Đà Nẵng, Vietnam",
+        "description": "Nam Ô Fish Sauce Village is famous for its traditional fish sauce production, an important part of Vietnamese cuisine.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Nam_O_Fish_Sauce_Village.jpg"
+    },
+    {
+        "name": "Làng cổ Phong Nam",
+        "category": "Cultural Site",
+        "address": "Làng cổ Phong Nam, Đà Nẵng, Vietnam",
+        "description": "Phong Nam Ancient Village is a well-preserved traditional village with ancient architecture and a peaceful atmosphere.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/53/Phong_Nam_Village.jpg"
+    },
+    {
+        "name": "Làng bánh tráng Túy Loan",
+        "category": "Cultural Site",
+        "address": "Làng bánh tráng Túy Loan, Đà Nẵng, Vietnam",
+        "description": "Túy Loan Rice Paper Village is known for its traditional rice paper production process, where visitors can learn and participate.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Tuy_Loan_Rice_Paper_Village.jpg"
+    },
+    {
+        "name": "Giếng Trời",
+        "category": "Natural Site",
+        "address": "Giếng Trời, Đà Nẵng, Vietnam",
+        "description": "Giếng Trời (Heaven's Well) is a scenic natural pool surrounded by lush forests and towering cliffs, ideal for trekking.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Gieng_Troi_Danang.jpg"
+    },
+    {
+        "name": "Đỉnh Bàn Cờ",
+        "category": "Mountain",
+        "address": "Đỉnh Bàn Cờ, Đà Nẵng, Vietnam",
+        "description": "Bàn Cờ Peak offers stunning panoramic views of Da Nang and the surrounding coastline, making it a popular hiking destination.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/05/Peak_Ban_Co_Danang.jpg"
+    },
+    {
+        "name": "Hải đăng Tiên Sa",
+        "category": "Landmark",
+        "address": "Hải đăng Tiên Sa, Đà Nẵng, Vietnam",
+        "description": "The Tiên Sa Lighthouse is located on a hill overlooking the ocean and offers spectacular views of Da Nang and its coastline.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Tien_Sa_Lighthouse.jpg"
+    },
+    {
+        "name": "Hồ Đồng Xanh – Đồng Nghệ",
+        "category": "Lake",
+        "address": "Hồ Đồng Xanh, Đà Nẵng, Vietnam",
+        "description": "Dong Xanh - Dong Nghe Lake is a peaceful area, ideal for picnics and leisurely walks amidst nature.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Dong_Xanh_Danang.jpg"
+    },
+    {
+        "name": "Rừng dừa Bảy Mẫu",
+        "category": "Nature Reserve",
+        "address": "Rừng dừa Bảy Mẫu, Đà Nẵng, Vietnam",
+        "description": "The Seven Mẫu Coconut Forest is a lush mangrove forest where visitors can enjoy boat rides and explore the local ecosystem.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Bay_Mau_Coconut_Forest.jpg"
+    },
+    {
+        "name": "Thánh địa Mỹ Sơn",
+        "category": "Historical Site",
+        "address": "Mỹ Sơn, Quảng Nam, Vietnam",
+        "description": "My Son Sanctuary is an ancient Hindu temple complex and UNESCO World Heritage site, showcasing Cham architecture and culture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/My_Son_Vietnam.jpg"
+    },
+    {
+        "name": "Bãi biển Mỹ Khê",
+        "category": "Beach",
+        "address": "Bãi biển Mỹ Khê, Đà Nẵng, Vietnam",
+        "description": "My Khe Beach is one of the most popular beaches in Da Nang, known for its golden sand and clear blue waters.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/My_Khe_Beach.jpg"
+    },
+    {
+        "name": "Bãi biển Xuân Thiều",
+        "category": "Beach",
+        "address": "Bãi biển Xuân Thiều, Đà Nẵng, Vietnam",
+        "description": "Xuan Thieu Beach is a less crowded beach offering a peaceful retreat, perfect for swimming and enjoying nature.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Xuan_Thieu_Beach.jpg"
+    },
+    {
+        "name": "Bãi biển Non Nước",
+        "category": "Beach",
+        "address": "Bãi biển Non Nước, Đà Nẵng, Vietnam",
+        "description": "Non Nuoc Beach is famous for its soft sand, crystal-clear waters, and breathtaking scenery.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Non_Nuoc_Beach.jpg"
+    },
+    {
+        "name": "Bãi biển Nam Ô",
+        "category": "Beach",
+        "address": "Bãi biển Nam Ô, Đà Nẵng, Vietnam",
+        "description": "Nam O Beach is a peaceful beach that attracts visitors with its picturesque beauty and historical significance.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Nam_O_Beach.jpg"
+    },
+    {
+        "name": "Bãi biển Tiên Sa",
+        "category": "Beach",
+        "address": "Bãi biển Tiên Sa, Đà Nẵng, Vietnam",
+        "description": "Tien Sa Beach offers a quiet and pristine escape with clear water and surrounding lush nature.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Tien_Sa_Beach.jpg"
+    },
+    {
+        "name": "Bãi biển An Bàng",
+        "category": "Beach",
+        "address": "Bãi biển An Bàng, Đà Nẵng, Vietnam",
+        "description": "An Bang Beach is an attractive beach with calm waters, ideal for relaxing and enjoying the coastal scenery.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/36/An_Bang_Beach.jpg"
+    }
+]

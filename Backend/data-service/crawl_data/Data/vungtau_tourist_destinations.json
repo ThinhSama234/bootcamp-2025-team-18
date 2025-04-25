@@ -1,0 +1,86 @@
+[
+    {
+        "name": "Tượng Chúa Kito Vua",
+        "category": "Landmark",
+        "address": "Tượng Chúa Kito Vua, Vũng Tàu, Vietnam",
+        "description": "The Christ the King statue in Vung Tau is a giant statue of Jesus Christ, offering panoramic views of the city and coastline.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Christ_the_King_Statue_Vung_Tau.jpg"
+    },
+    {
+        "name": "Bãi Sau (Back Beach)",
+        "category": "Beach",
+        "address": "Bãi Sau, Vũng Tàu, Vietnam",
+        "description": "Bãi Sau, or Back Beach, is one of the most popular beaches in Vung Tau, known for its clean sand and clear waters.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Back_Beach_Vung_Tau.jpg"
+    },
+    {
+        "name": "Bãi Trước (Front Beach)",
+        "category": "Beach",
+        "address": "Bãi Trước, Vũng Tàu, Vietnam",
+        "description": "Bãi Trước, or Front Beach, is a beautiful beach with calm waters, perfect for swimming and relaxing.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Front_Beach_Vung_Tau.jpg"
+    },
+    {
+        "name": "Mũi Nghinh Phong",
+        "category": "Nature Reserve",
+        "address": "Mũi Nghinh Phong, Vũng Tàu, Vietnam",
+        "description": "Mũi Nghinh Phong is a scenic point in Vung Tau, offering stunning views of the ocean and a cool breeze.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Mui_Nghinh_Phong_Vung_Tau.jpg"
+    },
+    {
+        "name": "Ngọn Hải Đăng Vũng Tàu",
+        "category": "Landmark",
+        "address": "Ngọn Hải Đăng, Vũng Tàu, Vietnam",
+        "description": "The Vung Tau Lighthouse is an iconic landmark providing spectacular views of the surrounding area and the coastline.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Vung_Tau_Lighthouse.jpg"
+    },
+    {
+        "name": "Tắm biển Vũng Tàu",
+        "category": "Beach",
+        "address": "Vũng Tàu, Vietnam",
+        "description": "Vung Tau is famous for its beautiful beaches, ideal for swimming, relaxing, and enjoying fresh seafood.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Vung_Tau_Beach.jpg"
+    },
+    {
+        "name": "Chùa Thiền Lâm",
+        "category": "Religious Site",
+        "address": "Chùa Thiền Lâm, Vũng Tàu, Vietnam",
+        "description": "Chùa Thiền Lâm is a peaceful Buddhist temple with stunning architecture and serene surroundings.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Thien_Lam_Pagoda_Vung_Tau.jpg"
+    },
+    {
+        "name": "Khu du lịch Hồ Mây",
+        "category": "Amusement Park",
+        "address": "Khu du lịch Hồ Mây, Vũng Tàu, Vietnam",
+        "description": "Hồ Mây Park is an amusement park located on a hill, offering panoramic views, entertainment, and recreational activities.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Ho_May_Park_Vung_Tau.jpg"
+    },
+    {
+        "name": "Suối Tiên",
+        "category": "Waterfall",
+        "address": "Suối Tiên, Vũng Tàu, Vietnam",
+        "description": "Suối Tiên is a beautiful waterfall surrounded by lush greenery, a peaceful spot to relax and enjoy nature.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Suoi_Tien_Vung_Tau.jpg"
+    },
+    {
+        "name": "Bãi Dâu",
+        "category": "Beach",
+        "address": "Bãi Dâu, Vũng Tàu, Vietnam",
+        "description": "Bãi Dâu is a peaceful beach in Vung Tau, offering a quiet and serene atmosphere for visitors to unwind.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Bai_Dau_Vung_Tau.jpg"
+    },
+    {
+        "name": "Bảo tàng Vũ khí cổ",
+        "category": "Museum",
+        "address": "Bảo tàng Vũ khí cổ, Vũng Tàu, Vietnam",
+        "description": "The Vung Tau Museum of Antique Weapons showcases a collection of historical weapons and artifacts from various periods.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Vung_Tau_Weapons_Museum.jpg"
+    },
+    {
+        "name": "Khu du lịch Hồ Đá Xanh",
+        "category": "Eco-tourism",
+        "address": "Hồ Đá Xanh, Vũng Tàu, Vietnam",
+        "description": "Hồ Đá Xanh is an eco-tourism site offering activities like swimming, hiking, and enjoying the scenic beauty of the area.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Da_Xanh_Lake_Vung_Tau.jpg"
+    }
+]

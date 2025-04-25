@@ -1,0 +1,135 @@
+[
+    {
+        "name": "Phố cổ Hội An",
+        "category": "Cultural Site",
+        "address": "Hội An, Quảng Nam, Vietnam",
+        "description": "Hoi An Ancient Town is a UNESCO World Heritage site known for its well-preserved architecture and rich cultural heritage.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Hoi_An_Ancient_Town.jpg"
+    },
+    {
+        "name": "Chùa Cầu",
+        "category": "Cultural Site",
+        "address": "Chùa Cầu, Hội An, Quảng Nam, Vietnam",
+        "description": "Chùa Cầu (Japanese Bridge) is an iconic structure in Hoi An, blending Japanese and Vietnamese architecture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Japanese_Bridge_Hoi_An.jpg"
+    },
+    {
+        "name": "Hội quán Phúc Kiến",
+        "category": "Cultural Site",
+        "address": "Hội quán Phúc Kiến, Hội An, Quảng Nam, Vietnam",
+        "description": "The Phuc Kien Assembly Hall is a Chinese temple with intricate architecture, dedicated to the goddess of the sea.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/94/Pho_Kien_Assembly_Hall_Hoi_An.jpg"
+    },
+    {
+        "name": "Hội quán Quảng Đông",
+        "category": "Cultural Site",
+        "address": "Hội quán Quảng Đông, Hội An, Quảng Nam, Vietnam",
+        "description": "The Quang Dong Assembly Hall is a historic Chinese temple known for its impressive decorations and architecture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Quang_Dong_Assembly_Hall_Hoi_An.jpg"
+    },
+    {
+        "name": "Hội quán Triều Châu",
+        "category": "Cultural Site",
+        "address": "Hội quán Triều Châu, Hội An, Quảng Nam, Vietnam",
+        "description": "The Chaozhou Assembly Hall is a traditional Chinese temple with ornate carvings and vibrant colors.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Chaozhou_Assembly_Hall_Hoi_An.jpg"
+    },
+    {
+        "name": "Nhà cổ Tấn Ký",
+        "category": "Cultural Site",
+        "address": "Nhà cổ Tấn Ký, Hội An, Quảng Nam, Vietnam",
+        "description": "Tan Ky House is a historic merchant house that showcases the architectural influence of Hoi An's past.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Tan_Ky_House_Hoi_An.jpg"
+    },
+    {
+        "name": "Nhà cổ Quân Thắng",
+        "category": "Cultural Site",
+        "address": "Nhà cổ Quân Thắng, Hội An, Quảng Nam, Vietnam",
+        "description": "Quân Thắng House is an ancient house known for its unique blend of Chinese, Japanese, and Vietnamese architectural styles.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Quan_Thang_House_Hoi_An.jpg"
+    },
+    {
+        "name": "Nhà cổ Phùng Hưng",
+        "category": "Cultural Site",
+        "address": "Nhà cổ Phùng Hưng, Hội An, Quảng Nam, Vietnam",
+        "description": "Phung Hung House is a well-preserved example of traditional Hoi An architecture, featuring wooden beams and carved details.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Phung_Hung_House_Hoi_An.jpg"
+    },
+    {
+        "name": "Bảo tàng Văn hóa Dân gian Hội An",
+        "category": "Museum",
+        "address": "Bảo tàng Văn hóa Dân gian, Hội An, Quảng Nam, Vietnam",
+        "description": "The Museum of Folk Culture in Hoi An showcases the diverse cultural traditions of the region through exhibits and displays.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Folk_Culture_Museum_Hoi_An.jpg"
+    },
+    {
+        "name": "Bảo tàng Hội An",
+        "category": "Museum",
+        "address": "Bảo tàng Hội An, Hội An, Quảng Nam, Vietnam",
+        "description": "The Hoi An Museum presents the town's rich history, including exhibits on its trading past and cultural influences.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Hoi_An_Museum.jpg"
+    },
+    {
+        "name": "Sông Hoài",
+        "category": "River",
+        "address": "Sông Hoài, Hội An, Quảng Nam, Vietnam",
+        "description": "The Hoai River is a peaceful river that runs through the heart of Hoi An, offering picturesque views of the town.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Hoai_River_Hoi_An.jpg"
+    },
+    {
+        "name": "Cửa Đại",
+        "category": "Beach",
+        "address": "Cửa Đại, Hội An, Quảng Nam, Vietnam",
+        "description": "Cua Dai Beach is a tranquil beach known for its golden sand and clear waters, perfect for swimming and relaxation.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Cua_Dai_Beach_Hoi_An.jpg"
+    },
+    {
+        "name": "Bãi biển An Bàng",
+        "category": "Beach",
+        "address": "Bãi biển An Bàng, Hội An, Quảng Nam, Vietnam",
+        "description": "An Bang Beach is a quiet beach known for its pristine beauty, ideal for swimming and beachside activities.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/An_Bang_Beach_Hoi_An.jpg"
+    },
+    {
+        "name": "Làng gốm Thanh Hà",
+        "category": "Cultural Site",
+        "address": "Làng gốm Thanh Hà, Hội An, Quảng Nam, Vietnam",
+        "description": "Thanh Ha Pottery Village is famous for its traditional pottery production, where visitors can learn and participate.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Thanh_Ha_Pottery_Village.jpg"
+    },
+    {
+        "name": "Làng mộc Kim Bồng",
+        "category": "Cultural Site",
+        "address": "Làng mộc Kim Bồng, Hội An, Quảng Nam, Vietnam",
+        "description": "Kim Bong Carpentry Village is known for its skilled carpenters and woodcrafts, including intricate sculptures and furniture.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Kim_Bong_Village_Hoi_An.jpg"
+    },
+    {
+        "name": "Rừng dừa Bảy Mẫu",
+        "category": "Nature Reserve",
+        "address": "Rừng dừa Bảy Mẫu, Hội An, Quảng Nam, Vietnam",
+        "description": "The Bay Mau Coconut Forest is a lush mangrove forest where visitors can take boat tours and enjoy the serene environment.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Bay_Mau_Coconut_Forest_Hoi_An.jpg"
+    },
+    {
+        "name": "Làng rau Trà Quế",
+        "category": "Cultural Site",
+        "address": "Làng rau Trà Quế, Hội An, Quảng Nam, Vietnam",
+        "description": "Tra Que Vegetable Village is known for its organic farming and traditional methods of growing herbs and vegetables.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Tra_Que_Village_Hoi_An.jpg"
+    },
+    {
+        "name": "Chợ Hội An",
+        "category": "Market",
+        "address": "Chợ Hội An, Hội An, Quảng Nam, Vietnam",
+        "description": "Hoi An Market is a vibrant market where visitors can shop for local goods, fresh produce, and souvenirs.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Hoi_An_Market.jpg"
+    },
+    {
+        "name": "Chợ đêm Hội An",
+        "category": "Market",
+        "address": "Chợ đêm Hội An, Hội An, Quảng Nam, Vietnam",
+        "description": "Hoi An Night Market is famous for its colorful lanterns, local handicrafts, and street food.",
+        "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Hoi_An_Night_Market.jpg"
+    }
+]
