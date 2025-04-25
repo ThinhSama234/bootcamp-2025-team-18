@@ -44,10 +44,12 @@ class VectorDB:
         """
         # 1. Load documents
         docs = DocumentProcessor.load(source)
-        
+        print("success load documents")
+        print(docs)
         # 2. Split into chunks
         chunks = DocumentProcessor.chunk(docs, chunk_size, chunk_overlap)
-        
+        print("success chunk")
+        print(chunks)
         # 3. Create embeddings and index
         vectors = self.embed_texts([chunk.page_content for chunk in chunks])
         index_dir = self.vector_db_dir/faiss_name
@@ -59,7 +61,7 @@ class VectorDB:
             # Tạo index mới
             index_dir.mkdir(parents=True, exist_ok=True)
             new_index = FAISS_Utils.create_flat_index(vectors)
-        
+        print("Success create index")
         # 4. Save everything
         self._save_artifacts(new_index, faiss_name, chunks)
         return f"Ingested {len(chunks)} chunks from {source}"

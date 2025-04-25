@@ -79,19 +79,22 @@ class DocumentProcessor:
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".txt", mode='w', encoding='utf-8') as f:
                 f.write(text)
+                f.flush()  # Đảm bảo dữ liệu được ghi vào file
+                print(text)
                 temp_path = f.name
-            
-            loader = TextLoader(temp_path)
-            docs = loader.load()
-            
-            # Clean up temporary file
-            try:
-                os.unlink(temp_path)
-            except:
-                pass
-                
-            return docs
+            loader = TextLoader(temp_path, encoding='utf-8')
+            print("loader", loader)
+            docs = loader.load()    
+            print(f"Documents loaded: {docs[:1]}")
+            os.remove(temp_path)
+            print("Temporary test file deleted successfully.")
+            return docs     
         except Exception as e:
+            if 'temp_path' in locals():
+                try:
+                    os.remove(temp_path)
+                except:
+                    pass
             raise RuntimeError(f"Failed to load text: {str(e)}")
 
     @staticmethod
