@@ -105,6 +105,10 @@ class MongoDB(IDatabase):
         except ValueError as e:
             return [], Exception(f"Invalid filter value: {e}")
     
+    def count_documents(self, filter=None):
+        if filter is None:
+            filter = {}
+        return self.collection.count_documents(filter)
 
     def close(self):
         self.client.close()
