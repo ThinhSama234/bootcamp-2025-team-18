@@ -6,6 +6,7 @@ from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langchain_core.runnables import RunnableLambda
 from summarization import summarization
+import spacy
 
 import sys
 import os
@@ -14,6 +15,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 print(sys.path)
 from vectordb import VectorDB
 from version_manager import get_version_timestamp
+#nlp = spacy.load("vi_core_news_lg")
 class State(TypedDict):
     messages: Annotated[list, add_messages]
     summary:str
@@ -27,6 +29,7 @@ def summarize(state: State) -> State:
     result = summarization(messages)
     state["summary"] = result["summary"]
     state["entities"] = result["entities"]
+    print("Entities:", state["entities"])
     return state
 
 def search_vector_db(state: State) -> State:
@@ -39,7 +42,7 @@ def search_vector_db(state: State) -> State:
             faiss_name=faiss_name,
             query=state['summary'],
             top_k=3,
-            threshold=0.9  # Ngưỡng similarity
+            threshold=0.6  # Ngưỡng similarity
         )
         
         locations = []
@@ -48,9 +51,9 @@ def search_vector_db(state: State) -> State:
             print(result["content"])
             print(result["source"])
             content = result["content"]
-            name = content.split(" Thôn ")[0] if " Thôn " in content else content.split(" ")[0]
-            if name not in locations:
-                locations.append(name)
+            #name = content.split(" Thôn ")[0] if " Thôn " in content else content.split(" ")[0]
+            #if name not in locations:
+            locations.append(content)
         state["result"] = locations if locations else ["Phú Quốc", "Đà Lạt", "Vũng Tàu"]
     except Exception as e:
         print(f"Search error: {str(e)}")
@@ -107,11 +110,9 @@ builder.set_entry_point("Summarize")
 graph = builder.compile()
 
 messages = [
-    "Tôi muốn đi du lịch đến một nơi có nhiều cảnh đẹp thiên nhiên, không khí trong lành và yên tĩnh.",
-        "Còn tôi thì muốn đi đến một nơi nào đó ở miền Nam.",
-        "Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
-        "Quảng Nam thì sao nhỉ?",
-        "Thật đúng lúc, tôi đang muốn leo núi."
+    "Tắm biển.",
+    "Nước trong xanh.",
+    "Bầu không khí trong lành."
 ]
 
 final_state = graph.invoke({"messages": messages})
