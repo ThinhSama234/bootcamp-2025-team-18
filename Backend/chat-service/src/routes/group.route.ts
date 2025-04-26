@@ -1,7 +1,7 @@
 import express from 'express';
 import { validate } from '../core/validator/validator';
 import groupController from '../controllers/group.controller';
-import { validateCreateGroup, validateGetGroupsByUsername } from '../validators/group.validator';
+import { validateCreateGroup, validateGetGroupsByUsername } from './validators/group.validator';
 
 const router = express.Router();
 

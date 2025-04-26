@@ -2,7 +2,7 @@ import express from 'express';
 import { validate } from '../core/validator/validator';
 import {
   validateGetMessages,
-} from '../validators/message.validator';
+} from './validators/message.validator';
 import messageController from '../controllers/message.controller';
 
 const router = express.Router();

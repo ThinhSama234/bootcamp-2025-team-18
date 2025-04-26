@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./Frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - chat-service
+    environment:
+      - VITE_API_URL=http://localhost:3000
+
+  chat-service:
+    build:
+      context: ./Backend/chat-service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - CHATDB_URL=${CHATDB_URL}
+      - LOCATION_SERVICE_GRPC_URL=location-service:50051
+    depends_on:
+      - location-service
+
+  location-service:
+    build:
+      context: ./Backend/location-service
+    ports:
+      - "5000:5000"
+      - "50051:50051"
+    environment:
+      - FLASK_PORT=5000
+      - GRPC_PORT=50051
+      - TRAVELDB_URL=${TRAVELDB_URL}
