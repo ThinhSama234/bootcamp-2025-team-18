@@ -14,19 +14,22 @@ def ingest_data_to_vector_db():
     data_dir = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/crawl_data/Data")))
     print(f"Data directory: {data_dir}")
 
-    json_files = [
-        "baclieu_tourist_destinations.json",
-        "bacninh_tourist_destinations.json",
-        "danang_tourist_destinations.json",
-        "haiphong_tourist_destinations.json",
-        "hanoi_tourist_destinations.json",
-        "hoian_tourist_destinations.json",
-        "quangbinh_tourist_destinations.json",
-        "quangnam_tourist_destinations (2).json",
-        "saigon_tourist_destinations.json",
-        "vungtau_tourist_destinations.json"
-    ]
+    # json_files = [
+    #     "baclieu_tourist_destinations.json",
+    #     "bacninh_tourist_destinations.json",
+    #     "danang_tourist_destinations.json",
+    #     "haiphong_tourist_destinations.json",
+    #     "hanoi_tourist_destinations.json",
+    #     "hoian_tourist_destinations.json",
+    #     "quangbinh_tourist_destinations.json",
+    #     "quangnam_tourist_destinations (2).json",
+    #     "saigon_tourist_destinations.json",
+    #     "vungtau_tourist_destinations.json"
+    # ]
 
+    json_files = ["vietnamtourism_db.vietnamtourism_db.json"]
+
+    total_ingested = 0
     for json_file in json_files:
         file_path = data_dir / json_file
         try:
@@ -34,9 +37,10 @@ def ingest_data_to_vector_db():
                 destinations = json.load(f)
 
             for dest in destinations:
-                name = dest.get('name', '')
-                address = dest.get('address', '')
-                description = dest.get('description', '')
+                data = dest.get('data', {})
+                name = data.get('name', '')
+                address = data.get('address', '')
+                description = data.get('description', '')
                 merged_text = f"{name} {address} {description}"
 
                 result = manager.ingest(
@@ -44,8 +48,12 @@ def ingest_data_to_vector_db():
                     faiss_name=faiss_name
                 )
                 print(f"✅ Ingested {name}: {result}")
+                total_ingested += 1
         except Exception as e:
             print(f"❌ Error processing {file_path}: {str(e)}")
+
+
+    print(f"Total destinations ingested: {total_ingested}")
 
     # print("\nSearching...")
     # try:
@@ -63,6 +71,8 @@ def ingest_data_to_vector_db():
 
     # except Exception as e:
     #     print(f"Search error: {str(e)}")
+    with open("faiss_name.txt", "w") as f:
+        f.write(faiss_name)
     return faiss_name
 
 if __name__ == "__main__":
