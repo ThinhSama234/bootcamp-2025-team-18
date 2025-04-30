@@ -73,11 +73,27 @@ class VectorDB:
         print(str(index_dir / "index.faiss"))
         # 2. Lưu metadata (sử dụng pickle)
         import pickle
-        metadata = {
-            "documents": [{"id": i, "content": chunk.page_content} for i, chunk in enumerate(chunks)],
-            "total_vectors": index.ntotal
-        }
-        with open(index_dir / "metadata.pkl", "wb") as f:
+        metadata_path = index_dir / "metadata.pkl"
+        if metadata_path.exists():
+            # Đọc metadata hiện có
+            with open(metadata_path, "rb") as f:
+                metadata = pickle.load(f)
+            existing_docs = metadata["documents"]
+            # Tính offset cho ID của các chunk mới
+            offset = len(existing_docs)
+            # Thêm các chunk mới với ID tiếp nối
+            new_docs = [{"id": i + offset, "content": chunk.page_content} for i, chunk in enumerate(chunks)]
+            metadata["documents"] = existing_docs + new_docs
+        else:
+            # Tạo metadata mới nếu chưa tồn tại
+            metadata = {
+                "documents": [{"id": i, "content": chunk.page_content} for i, chunk in enumerate(chunks)],
+                "total_vectors": index.ntotal
+            }
+        #print("metadata fjhasjgfjsgfgasgfsahfhsahfygsda", metadata)
+        print(f"Length of metadata['documents']: {len(metadata['documents'])}")
+        print(f"Total vectors in index: {index.ntotal}")
+        with open(metadata_path, "wb") as f:
             pickle.dump(metadata, f)
 
     def _init_embedding_model(self):
@@ -190,28 +206,54 @@ class VectorDB:
 
             # 2. Load index
             index = faiss.read_index(str(index_dir / "index.faiss"))
-            # 2. Load metadata
+            # 3. Load metadata
             with open(index_dir / "metadata.pkl", "rb") as f:
                 metadata = pickle.load(f)
             print(f"Index size: {index.ntotal} vectors")
             print(f"Vector dimension: {index.d}")
-            # 3. Chuyển query thành vector
-            query_vector = self.embed_query(query)
+            print(f"Length of metadata['documents']: {len(metadata['documents'])}")
             
-            # 4. Thực hiện tìm kiếm
+            # 4. Chuyển query thành vector
+            query_vector = self.embed_query(query)
+            print("Query vector norm:", np.linalg.norm(query_vector))
+            
+            # 5. Thực hiện tìm kiếm
             scores, indices = index.search(query_vector, top_k)
             
-            # 5. Lọc và xử lý kết quả
+            # 6. Xử lý kết quả
             results = []
             for i in range(len(indices[0])):
-                print(scores[0][i], indices[0][i])
+                print(f"Score: {scores[0][i]}, Index: {indices[0][i]}")
+                # So sánh khoảng cách (nhỏ hơn threshold thì giữ lại)
                 if scores[0][i] <= threshold:
                     doc_id = indices[0][i]
-                    results.append({
-                        "source": faiss_name,
-                        "score": scores[0][i],
-                        "content": metadata["documents"][doc_id]["content"],
-                    }) 
+                    # Kiểm tra doc_id hợp lệ
+                    if doc_id < len(metadata["documents"]):
+                        doc_data = metadata["documents"][doc_id]
+                        print("check metadata fjsbfjbdsfbdsbfjdsbfbdsbfdsjbfv:", metadata["documents"])
+                        # Tạo kết quả
+                        result = {
+                            "source": faiss_name,
+                            "score": scores[0][i],
+                            "content": doc_data["content"],
+                        }
+                        # Thêm metadata nếu yêu cầu
+                        if include_metadata:
+                            result["metadata"] = doc_data.get("metadata", {})
+                        # Lọc theo filter_condition nếu có
+                        # if filter_condition:
+                        #     matches_filter = True
+                        #     for key, value in filter_condition.items():
+                        #         if result["metadata"].get(key) != value:
+                        #             matches_filter = False
+                        #             break
+                        #     if not matches_filter:
+                        #         continue
+                        results.append(result)
+                    else:
+                        print(f"Warning: doc_id {doc_id} out of range for metadata['documents'] (length: {len(metadata['documents'])})")
+            
+            print("Search results:", results)
             return results
         except Exception as e:
             error_msg = f"Search failed: {str(e)}"

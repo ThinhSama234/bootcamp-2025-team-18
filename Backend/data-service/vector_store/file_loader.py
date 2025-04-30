@@ -68,8 +68,44 @@ class DocumentProcessor:
             raise ValueError(f"Unsupported file extension: {ext}. Supported extensions: {list(loader_map.keys())}")
         
         try:
-            loader = loader_map[ext](file_path)
-            return loader.load()
+            if ext == '.json':
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                
+                docs = []
+                if isinstance(data, list):
+                    for item in data:
+                        content = f"{item.get('name', '')} {item.get('address', '')} {item.get('description', '')}"
+                        doc = Document(
+                            page_content=content.strip(),
+                            metadata={
+                                "name": item.get("name", ""),
+                                "category": item.get("category", ""),
+                                "address": item.get("address", ""),
+                                "description": item.get("description", ""),
+                                "image_url": item.get("image_url", ""),
+                                "source": file_path
+                            }
+                        )
+                        docs.append(doc)
+                else:
+                    content = f"{data.get('name', '')} {data.get('address', '')} {data.get('description', '')}"
+                    doc = Document(
+                        page_content=content.strip(),
+                        metadata={
+                            "name": data.get("name", ""),
+                            "category": data.get("category", ""),
+                            "address": data.get("address", ""),
+                            "description": data.get("description", ""),
+                            "image_url": data.get("image_url", ""),
+                            "source": file_path
+                        }
+                    )
+                    docs = [doc]
+                return docs
+            else:
+                loader = loader_map[ext](file_path)
+                return loader.load()
         except Exception as e:
             raise RuntimeError(f"Failed to load file {file_path}: {str(e)}")
 
@@ -114,7 +150,10 @@ class DocumentProcessor:
         try:
             chunks = []
             for doc in documents:
-                chunks.extend(text_splitter.split_documents([doc]))
+                split_docs = text_splitter.split_documents([doc])
+                for split_doc in split_docs:
+                    split_doc.metadata = doc.metadata
+                    chunks.append(split_doc)
             return chunks
         except Exception as e:
             raise RuntimeError(f"Failed to chunk documents: {str(e)}")

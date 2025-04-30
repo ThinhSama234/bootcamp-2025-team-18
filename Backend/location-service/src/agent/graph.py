@@ -20,7 +20,7 @@ class State(TypedDict):
     messages: Annotated[list, add_messages]
     summary:str
     entities: dict
-    result: list
+    location_details: list
     response: str
 
 def summarize(state: State) -> State:
@@ -41,23 +41,35 @@ def search_vector_db(state: State) -> State:
         results = manager.search(
             faiss_name=faiss_name,
             query=state['summary'],
-            top_k=3,
+            top_k=5,
             threshold=0.6  # Ngưỡng similarity
         )
         
-        locations = []
+        location_details = []
+
         for result in results:
             print(f"\n🔍 Score: {result['score']:.4f}")
             print(result["content"])
-            print(result["source"])
-            content = result["content"]
-            #name = content.split(" Thôn ")[0] if " Thôn " in content else content.split(" ")[0]
-            #if name not in locations:
-            locations.append(content)
-        state["result"] = locations if locations else ["Phú Quốc", "Đà Lạt", "Vũng Tàu"]
+            #print(result["metadata"])
+            #print(result["source"])
+            
+            metadata = result["metadata"]
+            #print('name:', name)
+            name = metadata.get("name", "")  # Chỉ lấy name từ metadata
+            category = metadata.get("category", "").lower()
+            address = metadata.get("address", "")
+            
+            location_details.append({
+                "name": name,
+                "category": category,
+                "address": address,
+                "score": result["score"]
+            })
+        #state["result"] = locations if locations else ["Phú Quốc", "Đà Lạt", "Vũng Tàu"]
+        state["location_details"] = location_details
     except Exception as e:
         print(f"Search error: {str(e)}")
-        state["result"] = ["Phú Quốc", "Đà Lạt", "Vũng Tàu"]
+        state["location_details"] = []
 
     return state
 
@@ -67,24 +79,28 @@ def format_output(state: State) -> State:
     entities = state["entities"]
     locations = entities.get("locations", [])
     features = entities.get("features", [])
-    activities = entities.get("actitvies", [])
-
+    activities = entities.get("activities", [])
+    
     reasons = []
     if locations:
         reasons.append(f"Vị trí: {', '.join(locations)}")
     if features:
         reasons.append(f"Đặc điểm: {', '.join(features)}")
     if activities:
-        reasons.append(f"Hoạt động thú vị: {', '.join(activities)})")
-    
-    reason_text = "Dựa trên yêu cầu: " + ";".join(reasons) + "."
+        reasons.append(f"Hoạt động: {', '.join(activities)}")
+    reason_text = "Dựa trên yêu cầu: " + "; ".join(reasons) + "."
 
-    if not state["result"]:
+    location_details = state.get("location_details", [])
+    if not location_details:
         suggestion_text = "Không tìm thấy địa điểm phù hợp với yêu cầu của bạn."
     else:
         suggestion_text = "Danh sách địa điểm gợi ý:\n"
-        for i, location in enumerate(state["result"], 1):
-            suggestion_text += f"{i}. {location}\n"
+        for i, detail in enumerate(location_details, 1):
+            suggestion_text += (
+                f"{i}. {detail['name']} ({detail['category'].capitalize()})\n"
+                f"   - Địa chỉ: {detail['address']}\n"
+                f"   - Độ phù hợp: {detail['score']:.4f}\n"
+            )
 
     state["response"] = (
         f"{reason_text}\n\n"
@@ -93,8 +109,13 @@ def format_output(state: State) -> State:
     )
     return state
 
-
-faiss_name = ingest_data_to_vector_db()
+try:
+    with open("faiss_name.txt", "r") as f:
+        faiss_name = f.read().strip()
+    print(f"Using existing vector database with faiss_name: {faiss_name}")
+except FileNotFoundError:
+    print("No existing vector database found. Creating a new one...")
+    faiss_name = ingest_data_to_vector_db()
 
 builder = StateGraph(State)
 builder.add_node("Summarize", RunnableLambda(summarize))
@@ -110,9 +131,11 @@ builder.set_entry_point("Summarize")
 graph = builder.compile()
 
 messages = [
-    "Tắm biển.",
-    "Nước trong xanh.",
-    "Bầu không khí trong lành."
+    "Tuốn đi đến một nơi nào đó ở Hưng Yên.",
+    #"Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
+    #"Vườn cò Tân Long ở Sóc Trăng thì sao nhỉ?",
+    "Tuyệt vời, nghe nói ẩm thực ở đấy rất ngon!",
+    "Ở đó có nhà hàng nào nổi tiếng và đồ ăn rẻ không nhỉ?"
 ]
 
 final_state = graph.invoke({"messages": messages})
