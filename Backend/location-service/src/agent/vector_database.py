@@ -2,6 +2,7 @@ import os
 import json
 from pathlib import Path
 import sys
+from json_loader import load_json_data
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/vector_store")))
 from vectordb import VectorDB
 
@@ -29,28 +30,19 @@ def ingest_data_to_vector_db():
 
     json_files = ["vietnamtourism_db.vietnamtourism_db.json"]
 
+    merged_texts = load_json_data(data_dir, json_files)
+
     total_ingested = 0
-    for json_file in json_files:
-        file_path = data_dir / json_file
+    for merged_text in merged_texts:
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                destinations = json.load(f)
-
-            for dest in destinations:
-                data = dest.get('data', {})
-                name = data.get('name', '')
-                address = data.get('address', '')
-                description = data.get('description', '')
-                merged_text = f"{name} {address} {description}"
-
-                result = manager.ingest(
-                    source=merged_text,
-                    faiss_name=faiss_name
-                )
-                print(f"✅ Ingested {name}: {result}")
-                total_ingested += 1
+            result = manager.ingest(
+                source=merged_text,
+                faiss_name=faiss_name
+            )
+            print(f"✅ Ingested: {result}")
+            total_ingested += 1
         except Exception as e:
-            print(f"❌ Error processing {file_path}: {str(e)}")
+            print(f"❌ Error ingesting text: {str(e)}")
 
 
     print(f"Total destinations ingested: {total_ingested}")

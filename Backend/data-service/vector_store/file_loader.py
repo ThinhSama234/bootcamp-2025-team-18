@@ -1,4 +1,5 @@
 import os
+import json
 from pathlib import Path
 from typing import List, Union
 import tempfile
@@ -75,32 +76,54 @@ class DocumentProcessor:
                 docs = []
                 if isinstance(data, list):
                     for item in data:
-                        content = f"{item.get('name', '')} {item.get('address', '')} {item.get('description', '')}"
+                        # Kiểm tra nếu không có trường 'data'
+                        if 'data' not in item:
+                            print(f"Warning: Skipping item without 'data' field in {file_path}")
+                            continue
+                        
+                        data_field = item['data']
+                        content = f"{data_field.get('name', '')} {data_field.get('address', '')} {data_field.get('description', '')}"
                         doc = Document(
                             page_content=content.strip(),
                             metadata={
-                                "name": item.get("name", ""),
-                                "category": item.get("category", ""),
-                                "address": item.get("address", ""),
-                                "description": item.get("description", ""),
-                                "image_url": item.get("image_url", ""),
-                                "source": file_path
+                                "name": data_field.get("name", ""),
+                                "category": data_field.get("category", ""),  # Có thể rỗng nếu không có trong JSON
+                                "address": data_field.get("address", ""),
+                                "description": data_field.get("description", ""),
+                                "image_url": data_field.get("image_url", ""),
+                                "source": file_path,
+                                "type": item.get("type", ""),  # Thêm trường type
+                                "created_at": item.get("created_at", None),  # Thêm trường created_at
+                                "updated_at": item.get("updated_at", None)  # Thêm trường updated_at
                             }
                         )
+                        if not content.strip():  # Bỏ qua nếu content rỗng
+                            print(f"Warning: Skipping empty content for item {data_field.get('name', 'unknown')} in {file_path}")
+                            continue
                         docs.append(doc)
                 else:
-                    content = f"{data.get('name', '')} {data.get('address', '')} {data.get('description', '')}"
+                    # Kiểm tra nếu không có trường 'data'
+                    if 'data' not in data:
+                        raise ValueError(f"JSON file {file_path} must contain a 'data' field")
+                    
+                    data_field = data['data']
+                    content = f"{data_field.get('name', '')} {data_field.get('address', '')} {data_field.get('description', '')}"
                     doc = Document(
                         page_content=content.strip(),
                         metadata={
-                            "name": data.get("name", ""),
-                            "category": data.get("category", ""),
-                            "address": data.get("address", ""),
-                            "description": data.get("description", ""),
-                            "image_url": data.get("image_url", ""),
-                            "source": file_path
+                            "name": data_field.get("name", ""),
+                            "category": data_field.get("category", ""),
+                            "address": data_field.get("address", ""),
+                            "description": data_field.get("description", ""),
+                            "image_url": data_field.get("image_url", ""),
+                            "source": file_path,
+                            "type": data.get("type", ""),
+                            "created_at": data.get("created_at", None),
+                            "updated_at": data.get("updated_at", None)
                         }
                     )
+                    if not content.strip():
+                        raise ValueError(f"JSON file {file_path} contains empty content")
                     docs = [doc]
                 return docs
             else:
