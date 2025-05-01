@@ -9,6 +9,7 @@ from summarization import summarization
 import spacy
 
 import sys
+import argparse
 import os
 from vector_database import ingest_data_to_vector_db
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/vector_store")))
@@ -109,13 +110,21 @@ def format_output(state: State) -> State:
     )
     return state
 
-try:
-    with open("faiss_name.txt", "r") as f:
-        faiss_name = f.read().strip()
-    print(f"Using existing vector database with faiss_name: {faiss_name}")
-except FileNotFoundError:
-    print("No existing vector database found. Creating a new one...")
-    faiss_name = ingest_data_to_vector_db()
+parser = argparse.ArgumentParser(description="Run graph.py with a specific faiss_name")
+parser.add_argument("--faiss_name", type=str, help="FAISS name to use for the vector database", default=None)
+args = parser.parse_args()
+
+if args.faiss_name:
+    faiss_name = args.faiss_name
+    print(f"Using provided faiss_name: {faiss_name}")
+else:
+    try:
+        with open("faiss_name.txt", "r") as f:
+            faiss_name = f.read().strip()
+        print(f"Using existing vector database with faiss_name: {faiss_name}")
+    except FileNotFoundError:
+        print("No existing vector database found. Creating a new one...")
+        faiss_name = ingest_data_to_vector_db()
 
 builder = StateGraph(State)
 builder.add_node("Summarize", RunnableLambda(summarize))
@@ -131,11 +140,12 @@ builder.set_entry_point("Summarize")
 graph = builder.compile()
 
 messages = [
-    "Tuốn đi đến một nơi nào đó ở Hưng Yên.",
-    #"Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
+    #"Tuốn đi đến một nơi nào đó ở Hưng Yên.",
+    "Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
+    #"Nơi nào đó ở xã Ngã Năm cũng hay đấy!"
     #"Vườn cò Tân Long ở Sóc Trăng thì sao nhỉ?",
-    "Tuyệt vời, nghe nói ẩm thực ở đấy rất ngon!",
-    "Ở đó có nhà hàng nào nổi tiếng và đồ ăn rẻ không nhỉ?"
+    #"Tuyệt vời, nghe nói ẩm thực ở đấy rất ngon!",
+    #"Ở đó có nhà hàng nào nổi tiếng và đồ ăn rẻ không nhỉ?"
 ]
 
 final_state = graph.invoke({"messages": messages})
