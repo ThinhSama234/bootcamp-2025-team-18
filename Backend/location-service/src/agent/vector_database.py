@@ -2,12 +2,14 @@ import os
 import json
 from pathlib import Path
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/vector_store")))
-from vectordb import VectorDB
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service")))
+from vector_store.vectordb import VectorDB
+from dotenv import load_dotenv
+from vector_store.version_manager import get_version_timestamp
+from data_interface import MongoDB
+from bson import ObjectId
 
-from version_manager import get_version_timestamp
-
-def ingest_data_to_vector_db():
+def ingest_data_to_vector_db(object_ids):
     manager = VectorDB()
     faiss_name = get_version_timestamp()
 
@@ -36,7 +38,12 @@ def ingest_data_to_vector_db():
             with open(file_path, 'r', encoding='utf-8') as f:
                 destinations = json.load(f)
 
-            for dest in destinations:
+            for i, dest in enumerate(destinations):
+                if i >= len(object_ids):
+                    print(f"⚠️ Không đủ object_id để ánh xạ. Bỏ qua dòng {i}")
+                    break
+                #_id = "680d1faac29c10273910b825"
+                _id = object_ids[i]
                 data = dest.get('data', {})
                 name = data.get('name', '')
                 address = data.get('address', '')
@@ -45,7 +52,8 @@ def ingest_data_to_vector_db():
 
                 result = manager.ingest(
                     source=merged_text,
-                    faiss_name=faiss_name
+                    faiss_name=faiss_name,
+                    _id = _id
                 )
                 print(f"✅ Ingested {name}: {result}")
                 total_ingested += 1
@@ -75,7 +83,28 @@ def ingest_data_to_vector_db():
         f.write(faiss_name)
     return faiss_name
 
+def fetch_from_mongodb(db, id_strs):
+    # Convert sang ObjectId
+    object_ids = [ObjectId(_id) for _id in id_strs]
+
+    # Truy vấn bằng $in
+    docs = list(db.find({"_id": {"$in": object_ids}}))
+    return docs
 if __name__ == "__main__":
-    faiss_name = ingest_data_to_vector_db()
+    load_dotenv()
+    # Load MongoDB URI từ biến môi trường
+    DB_URL = os.getenv("vietnamtourism_URL")
+    if not DB_URL:
+        raise Exception("vietnamtourism_URL is not set in environment variables")
+
+    # Khởi tạo kết nối MongoDB
+    db = MongoDB(DB_URL, "vietnamtourism_db", "vietnamtourism_db")
+    records = list(db.collection.find({}, {"_id": 1}))  # lấy danh sách _id
+    object_ids = [str(record["_id"]) for record in records]
+    faiss_name = ingest_data_to_vector_db(object_ids)
     print(f"Completed ingestion with faiss_name: {faiss_name}")
+    # id_strs = []
+    # id_strs.append("680ca1618372cda0a3d6adfd")
+    # docs = fetch_from_mongodb(db, id_strs)
+    # print(docs[0])
         

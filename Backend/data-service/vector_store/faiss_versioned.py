@@ -6,8 +6,8 @@ import faiss
 from langchain_community.vectorstores import FAISS as LangchainFAISS
 from langchain.embeddings.base import Embeddings
 
-from faiss_io import save_faiss_index, load_faiss_index
-from version_manager import get_version_timestamp, load_version_log, save_version_log
+from .faiss_io import save_faiss_index, load_faiss_index
+from .version_manager import get_version_timestamp, load_version_log, save_version_log
 
 def save_index_with_version(
     index: Union[LangchainFAISS, faiss.Index], 

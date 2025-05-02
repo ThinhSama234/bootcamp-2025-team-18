@@ -6,6 +6,7 @@ import pickle
 import shutil
 import numpy as np
 import faiss
+import sys
 from datetime import datetime
 from typing import List, Dict, Optional, Union, Tuple
 from dataclasses import dataclass
@@ -13,17 +14,17 @@ from langchain.schema import Document
 from langchain_community.vectorstores import FAISS as LangchainFAISS
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import CharacterTextSplitter
-from faiss_utils import FAISS_Utils
-from faiss_io import save_faiss_index, load_faiss_index
-from faiss_versioned import (
+from .faiss_utils import FAISS_Utils
+from .faiss_io import save_faiss_index, load_faiss_index
+from .faiss_versioned import (
     save_index_with_version,
     load_version,
     list_index_versions,
     delete_version
 )
-from file_loader import DocumentProcessor
-from version_manager import get_version_timestamp
-from config import DATA_DIR, VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
+from .file_loader import DocumentProcessor
+from .version_manager import get_version_timestamp
+from .config import DATA_DIR, VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
 @dataclass
 class VectorSearchResult:
     documents: List[Document]
@@ -37,7 +38,7 @@ class VectorDB:
         self.embedding_model = embedding_model
         self._init_embedding_model()
     
-    def ingest(self, source: str, faiss_name: str, chunk_size: int = 500, chunk_overlap: int = 50) -> str:
+    def ingest(self, source: str, faiss_name: str, chunk_size: int = 500, chunk_overlap: int = 50, _id: str = None) -> str:
         """
         End-to-end document ingestion pipeline
         1. Load -> 2. Chunk -> 3. Embed -> 4. Index -> 5. Store
@@ -52,20 +53,42 @@ class VectorDB:
         print(chunks)
         # 3. Create embeddings and index
         vectors = self.embed_texts([chunk.page_content for chunk in chunks])
+        # 4. Chuẩn bị ánh xạ FAISS ID ↔ Mongo ID
+        mongo_ids = [str(_id) for chunk in chunks]  # or chunk.metadata["id"]
         index_dir = self.vector_db_dir/faiss_name
-        if (index_dir / "index.faiss").exists():
+        index_path = index_dir / "index.faiss"
+        id_map_path = index_dir / "map_id.json"
+        if index_path.exists():
             # Mở rộng index hiện có
-            index = faiss.read_index(str(index_dir / "index.faiss"))
-            new_index = FAISS_Utils.add_to_index(index, vectors)
+            index = faiss.read_index(str(index_path))
+            offset = index.ntotal
+            faiss_ids = np.arange(offset, offset+len(mongo_ids)).astype("int64")
+            index = faiss.IndexIDMap(index) if not isinstance(index, faiss.IndexIDMap) else index
+            #new_index = FAISS_Utils.add_to_index(index, vectors)
+            FAISS_Utils.add_to_index_with_ids(index, vectors, faiss_ids)
+            new_index = index
         else:
             # Tạo index mới
             index_dir.mkdir(parents=True, exist_ok=True)
-            new_index = FAISS_Utils.create_flat_index(vectors)
+            faiss_ids = np.arange(len(mongo_ids)).astype("int64")
+            new_index = FAISS_Utils.create_flat_index(vectors, faiss_ids)
+        if id_map_path.exists():
+            with open(id_map_path) as f:
+                old_id_map = json.load(f)
+        else:
+            old_id_map = {}
+
+        new_id_map = {int(fid): mid for fid, mid in zip(faiss_ids, mongo_ids)}
+        merged_id_map = {**old_id_map, **new_id_map}
+        # save merge
+        FAISS_Utils.save_id_map(merged_id_map, id_map_path)
         print("Success create index")
-        # 4. Save everything
+        # 5. Save everything
         self._save_artifacts(new_index, faiss_name, chunks)
         return f"Ingested {len(chunks)} chunks from {source}"
-
+        # index = FAISS_Utils.create_flat_index(vectors, ids=faiss_ids)
+        # faiss.write_index(index, "index.faiss")
+        # FAISS_Utils.save_id_map(id_map, "id_map.json")
     def _save_artifacts(self, index, faiss_name, chunks):
         """Save all components to disk"""
         index_dir = self.vector_db_dir/faiss_name
@@ -209,33 +232,36 @@ class VectorDB:
             # 3. Load metadata
             with open(index_dir / "metadata.pkl", "rb") as f:
                 metadata = pickle.load(f)
+            with open(index_dir/ "map_id.json", "r", encoding="utf-8") as f:
+                id_map = json.load(f)
+                mongo_id = {int(k): v for k, v in id_map.items()} # 👈 ép key về int
+            print("loaded successfully map id faiss <-> mongo")
             print(f"Index size: {index.ntotal} vectors")
             print(f"Vector dimension: {index.d}")
             print(f"Length of metadata['documents']: {len(metadata['documents'])}")
-            
             # 4. Chuyển query thành vector
             query_vector = self.embed_query(query)
             print("Query vector norm:", np.linalg.norm(query_vector))
             
             # 5. Thực hiện tìm kiếm
             scores, indices = index.search(query_vector, top_k)
-            
             # 6. Xử lý kết quả
             results = []
             for i in range(len(indices[0])):
                 print(f"Score: {scores[0][i]}, Index: {indices[0][i]}")
                 # So sánh khoảng cách (nhỏ hơn threshold thì giữ lại)
                 if scores[0][i] <= threshold:
-                    doc_id = indices[0][i]
+                    doc_id = int(indices[0][i])
                     # Kiểm tra doc_id hợp lệ
                     if doc_id < len(metadata["documents"]):
                         doc_data = metadata["documents"][doc_id]
-                        print("check metadata fjsbfjbdsfbdsbfjdsbfbdsbfdsjbfv:", metadata["documents"])
+                        #print("check metadata fjsbfjbdsfbdsbfjdsbfbdsbfdsjbfv:", metadata["documents"])
                         # Tạo kết quả
                         result = {
                             "source": faiss_name,
                             "score": scores[0][i],
                             "content": doc_data["content"],
+                            "mongo_id": mongo_id[doc_id],
                         }
                         # Thêm metadata nếu yêu cầu
                         if include_metadata:

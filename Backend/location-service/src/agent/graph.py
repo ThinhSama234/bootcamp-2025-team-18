@@ -6,15 +6,15 @@ from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langchain_core.runnables import RunnableLambda
 from summarization import summarization
-import spacy
-
+#import spacy
+from extract_metadata import fetch_from_mongodb
 import sys
 import os
 from vector_database import ingest_data_to_vector_db
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/vector_store")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service")))
 print(sys.path)
-from vectordb import VectorDB
-from version_manager import get_version_timestamp
+from vector_store.vectordb import VectorDB
+from vector_store.version_manager import get_version_timestamp
 #nlp = spacy.load("vi_core_news_lg")
 class State(TypedDict):
     messages: Annotated[list, add_messages]
@@ -44,10 +44,12 @@ def search_vector_db(state: State) -> State:
             top_k=5,
             threshold=0.6  # Ngưỡng similarity
         )
-        
         location_details = []
-
+        id_strs = []
         for result in results:
+            id_strs.append(result["mongo_id"])
+        docs = fetch_from_mongodb(id_strs, URL= "vietnamtourism_URL", collection="vietnamtourism_db", document="vietnamtourism_db")
+        for doc, result in zip(docs, results):
             print(f"\n🔍 Score: {result['score']:.4f}")
             print(result["content"])
             #print(result["metadata"])
@@ -59,11 +61,16 @@ def search_vector_db(state: State) -> State:
             category = metadata.get("category", "").lower()
             address = metadata.get("address", "")
             
+            data = doc.get('data', {})
+            name1 = data.get('name', '')
+            address1 = data.get('address', '')
+            description = data.get('description', '')
             location_details.append({
-                "name": name,
+                "name": name1,
                 "category": category,
-                "address": address,
-                "score": result["score"]
+                "address": address1,
+                "score": result["score"],
+                "description": description,
             })
         #state["result"] = locations if locations else ["Phú Quốc", "Đà Lạt", "Vũng Tàu"]
         state["location_details"] = location_details
