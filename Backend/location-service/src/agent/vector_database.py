@@ -8,48 +8,21 @@ from dotenv import load_dotenv
 from vector_store.version_manager import get_version_timestamp
 from data_interface import MongoDB
 from bson import ObjectId
-
-def ingest_data_to_vector_db(object_ids):
+from json_loader import load_json_data
+def ingest_data_to_vector_db(db):
     manager = VectorDB()
     faiss_name = get_version_timestamp()
 
-    data_dir = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/crawl_data/Data")))
-    print(f"Data directory: {data_dir}")
-
-    # json_files = [
-    #     "baclieu_tourist_destinations.json",
-    #     "bacninh_tourist_destinations.json",
-    #     "danang_tourist_destinations.json",
-    #     "haiphong_tourist_destinations.json",
-    #     "hanoi_tourist_destinations.json",
-    #     "hoian_tourist_destinations.json",
-    #     "quangbinh_tourist_destinations.json",
-    #     "quangnam_tourist_destinations (2).json",
-    #     "saigon_tourist_destinations.json",
-    #     "vungtau_tourist_destinations.json"
-    # ]
-
-    json_files = ["vietnamtourism_db.vietnamtourism_db.json"]
-
-    merged_texts = load_json_data(data_dir, json_files)
-
     total_ingested = 0
-    for json_file in json_files:
-        file_path = data_dir / json_file
+    for dest in db.collection.find({}):
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                destinations = json.load(f)
-
-            for i, dest in enumerate(destinations):
-                if i >= len(object_ids):
-                    print(f"⚠️ Không đủ object_id để ánh xạ. Bỏ qua dòng {i}")
-                    break
-                #_id = "680d1faac29c10273910b825"
-                _id = object_ids[i]
+            if dest:
+                # Lấy các trường cần thiết từ metadata
+                _id = dest.get("_id")
                 data = dest.get('data', {})
                 name = data.get('name', '')
                 address = data.get('address', '')
-                description = data.get('description', '')
+                description = data.get('discription', '')
                 merged_text = f"{name} {address} {description}"
 
                 result = manager.ingest(
@@ -64,34 +37,36 @@ def ingest_data_to_vector_db(object_ids):
 
 
     print(f"Total destinations ingested: {total_ingested}")
-
-    # print("\nSearching...")
-    # try:
-    #     results = manager.search(
-    #         faiss_name=faiss_name,
-    #         query="bình phước",
-    #         top_k=3,
-    #         threshold=0.6  # Ngưỡng similarity
-    #     )
-        
-    #     for result in results:
-    #         print(f"\n🔍 Score: {result['score']:.4f}")
-    #         print(result['content'])
-    #         print(result['source'])
-
-    # except Exception as e:
-    #     print(f"Search error: {str(e)}")
     with open("faiss_name.txt", "w") as f:
         f.write(faiss_name)
     return faiss_name
 
-def fetch_from_mongodb(db, id_strs):
-    # Convert sang ObjectId
-    object_ids = [ObjectId(_id) for _id in id_strs]
+def ingest_data_to_vector_db_json():
+    manager = VectorDB()
+    faiss_name = get_version_timestamp()
 
-    # Truy vấn bằng $in
-    docs = list(db.find({"_id": {"$in": object_ids}}))
-    return docs
+    data_dir = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service/crawl_data/Data")))
+    print(f"Data directory: {data_dir}")
+    json_files = ["vietnamtourism_db.vietnamtourism_db.json"]
+
+    merged_texts = load_json_data(data_dir, json_files)
+    total_ingested = 0
+    for merged_text in merged_texts:
+        try:
+            result = manager.ingest(
+                source=merged_text["merged_text"],
+                faiss_name=faiss_name,
+                _id=merged_text["_id"],
+            )
+            print(f"✅ Ingested: {result}")
+            total_ingested += 1
+        except Exception as e:
+            print(f"❌ Error ingesting text: {str(e)}")
+    print(f"Total destinations ingested: {total_ingested}")
+    with open("faiss_name.txt", "w") as f:
+        f.write(faiss_name)
+    return faiss_name
+
 if __name__ == "__main__":
     load_dotenv()
     # Load MongoDB URI từ biến môi trường
@@ -100,10 +75,8 @@ if __name__ == "__main__":
         raise Exception("vietnamtourism_URL is not set in environment variables")
 
     # Khởi tạo kết nối MongoDB
-    db = MongoDB(DB_URL, "vietnamtourism_db", "vietnamtourism_db")
-    records = list(db.collection.find({}, {"_id": 1}))  # lấy danh sách _id
-    object_ids = [str(record["_id"]) for record in records]
-    faiss_name = ingest_data_to_vector_db(object_ids)
+    #db = MongoDB(DB_URL, "vietnamtourism_db", "vietnamtourism_db")
+    faiss_name = ingest_data_to_vector_db_json()
     print(f"Completed ingestion with faiss_name: {faiss_name}")
     # id_strs = []
     # id_strs.append("680ca1618372cda0a3d6adfd")

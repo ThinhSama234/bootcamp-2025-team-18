@@ -43,8 +43,9 @@ def search_vector_db(state: State) -> State:
             faiss_name=faiss_name,
             query=state['summary'],
             top_k=5,
-            threshold=0.6  # Ngưỡng similarity
+            threshold=0.7  # Ngưỡng similarity
         )
+        # trong search trả về id của document trong mongodb
         location_details = []
         id_strs = []
         for result in results:
@@ -52,24 +53,21 @@ def search_vector_db(state: State) -> State:
         docs = fetch_from_mongodb(id_strs, URL= "vietnamtourism_URL", collection="vietnamtourism_db", document="vietnamtourism_db")
         for doc, result in zip(docs, results):
             print(f"\n🔍 Score: {result['score']:.4f}")
-            print(result["content"])
-            #print(result["metadata"])
-            #print(result["source"])
-            
-            metadata = result["metadata"]
-            #print('name:', name)
-            name = metadata.get("name", "")  # Chỉ lấy name từ metadata
-            category = metadata.get("category", "").lower()
-            address = metadata.get("address", "")
+            print(result["content"])            
+            #metadata = result["metadata"]
+            #name = metadata.get("name", "")  # Chỉ lấy name từ metadata
+            #category = metadata.get("category", "").lower()
+            #address = metadata.get("address", "")
             
             data = doc.get('data', {})
-            name1 = data.get('name', '')
-            address1 = data.get('address', '')
-            description = data.get('description', '')
+            name = data.get('name', '')
+            address = data.get('address', '')
+            category = data.get('category', '').lower()
+            description = data.get('discription', '')
             location_details.append({
-                "name": name1,
+                "name": name,
                 "category": category,
-                "address": address1,
+                "address": address,
                 "score": result["score"],
                 "description": description,
             })
@@ -105,7 +103,7 @@ def format_output(state: State) -> State:
         suggestion_text = "Danh sách địa điểm gợi ý:\n"
         for i, detail in enumerate(location_details, 1):
             suggestion_text += (
-                f"{i}. {detail['name']} ({detail['category'].capitalize()})\n"
+                f"{i}. {detail['name']} ({detail['description'].capitalize()})\n"
                 f"   - Địa chỉ: {detail['address']}\n"
                 f"   - Độ phù hợp: {detail['score']:.4f}\n"
             )
@@ -147,8 +145,9 @@ builder.set_entry_point("Summarize")
 graph = builder.compile()
 
 messages = [
-    #"Tuốn đi đến một nơi nào đó ở Hưng Yên.",
-    "Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
+    "Tuốn đi đến một nơi nào đó ở Hà Nội.",
+    "Tôi nghĩ chúng ta nên đi đến một nơi cổ kính.",
+    "tôi nghĩ nên đến khu du lịch",
     #"Nơi nào đó ở xã Ngã Năm cũng hay đấy!"
     #"Vườn cò Tân Long ở Sóc Trăng thì sao nhỉ?",
     #"Tuyệt vời, nghe nói ẩm thực ở đấy rất ngon!",

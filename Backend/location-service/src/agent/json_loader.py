@@ -16,12 +16,19 @@ def load_json_data(data_dir: Path, json_files: list) -> list:
                 destinations = json.load(f)
 
             for dest in destinations:
+                # Lấy các trường cần thiết từ metadata
+                _id = dest.get("_id")
+                if isinstance(_id, dict) and "$oid" in _id:
+                    _id = _id["$oid"]
                 data = dest.get('data', {})
                 name = data.get('name', '')
                 address = data.get('address', '')
                 description = data.get('description', '')
                 merged_text = f"{name} {address} {description}"
-                merged_texts.append(merged_text)
+                merged_texts.append({
+                    "_id": str(_id),
+                    "merged_text": merged_text
+                })
                 print(f"✅ Loaded data for {name} from {json_file}")
         except Exception as e:
             print(f"❌ Error processing {file_path}: {str(e)}")
