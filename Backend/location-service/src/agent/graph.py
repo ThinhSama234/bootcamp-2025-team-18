@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Annotated, Dict, Any, Tuple
+from typing import Annotated, Dict, Any, Tuple
 from typing_extensions import TypedDict
 
 from langgraph.graph.message import add_messages
@@ -168,6 +169,9 @@ class Graph:
         builder.add_node("Search", RunnableLambda(self.search_vector_db))
         builder.add_node("Format", RunnableLambda(self.format_output))
 
+        builder.add_edge("Summarize", "Search")
+        builder.add_edge("Search", "Format")
+        builder.add_edge("Format", END)
         builder.add_edge("Summarize", "Search")
         builder.add_edge("Search", "Format")
         builder.add_edge("Format", END)
