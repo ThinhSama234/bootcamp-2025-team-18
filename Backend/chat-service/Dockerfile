@@ -1,4 +1,4 @@
-FROM node AS builder
+FROM node:22
 
 WORKDIR /app
 
@@ -6,23 +6,11 @@ COPY package*.json ./
 
 RUN npm ci
 
-COPY . .
-
-FROM node
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm ci --production
-
-COPY --from=builder /app/src ./src
-COPY --from=builder /app/tsconfig.json .
+COPY src/ ./src
+COPY tsconfig.json ./
 
 RUN npm install tsx
 
-ENV PORT=3000
-
-EXPOSE 3000
+EXPOSE ${PORT}
 
 CMD ["npm", "start"]
