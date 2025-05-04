@@ -142,16 +142,6 @@ class MongoDB(IDatabase):
 
 
 def main():
-    # format (figure in Slack):
-    # "data": {
-    #             "address": "456 New St",
-    #             "latitude": 21.0285,
-    #             "longitude": 105.8542,
-    #             "category": "cultural",
-    #             "name": "Hanoi Old Quarter"
-    #         }
-
-
     # Initialize the MongoDB connection
     try:
         DB_URL = os.environ.get('TRAVELDB_URL')

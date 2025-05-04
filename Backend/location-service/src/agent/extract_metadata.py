@@ -7,8 +7,6 @@ from data_interface import MongoDB
 def fetch_from_mongodb(id_strs = [], URL = "TRAVELDB_URL", collection = "travel_db", document = "locations"):
     # Convert sang ObjectId
     load_dotenv()
-        # Load MongoDB URI từ biến môi trường
-    #DB_URL = os.getenv("TRAVELDB_URL")
     DB_URL = os.getenv(URL)
     if not DB_URL:
         raise Exception("TRAVELDB_URL is not set in environment variables")

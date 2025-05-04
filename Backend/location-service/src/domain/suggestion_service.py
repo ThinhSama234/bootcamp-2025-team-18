@@ -29,6 +29,7 @@ class SuggestionService:
 
 if __name__ == "__main__":
     messages = ["Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi."]
-    suggestion_service = SuggestionService(messages, faiss_name="v20250504_161455")
+    #suggestion_service = SuggestionService(messages, faiss_name="v20250504_161455")
+    suggestion_service = SuggestionService(messages, faiss_name="v20250504_174659")
     location_ids = suggestion_service.get_location_ids(k=5)
     print("Location IDs:", location_ids)

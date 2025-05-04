@@ -1,35 +1,16 @@
-import os
-from pathlib import Path
 import json 
-import logging
-import pickle
-import shutil
 import numpy as np
 import faiss
-import sys
-from datetime import datetime
-from typing import List, Dict, Optional, Union, Tuple
-from dataclasses import dataclass
+from typing import List, Dict, Optional, Union
 from langchain.schema import Document
 from langchain_community.vectorstores import FAISS as LangchainFAISS
 from langchain.embeddings.base import Embeddings
 from langchain.text_splitter import CharacterTextSplitter
 from .faiss_utils import FAISS_Utils
 from .faiss_io import save_faiss_index, load_faiss_index
-from .faiss_versioned import (
-    save_index_with_version,
-    load_version,
-    list_index_versions,
-    delete_version
-)
 from .file_loader import DocumentProcessor
 from .version_manager import get_version_timestamp
 from .config import DATA_DIR, VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
-@dataclass
-class VectorSearchResult:
-    documents: List[Document]
-    distances: List[float]
-    indices: List[int]
 
 class VectorDB:
     def __init__(self, embedding_model: Optional[Embeddings] = None, data_dir = DATA_DIR, vector_db_dir = VECTOR_DB_DIR):
@@ -46,15 +27,15 @@ class VectorDB:
         # 1. Load documents
         docs = DocumentProcessor.load(source)
         print("success load documents")
-        print(docs)
         # 2. Split into chunks
         chunks = DocumentProcessor.chunk(docs, chunk_size, chunk_overlap)
         print("success chunk")
-        print(chunks)
         # 3. Create embeddings and index
         vectors = self.embed_texts([chunk.page_content for chunk in chunks])
         # 4. Chuẩn bị ánh xạ FAISS ID ↔ Mongo ID
-        mongo_ids = [str(_id) for chunk in chunks]  # or chunk.metadata["id"]
+        mongo_ids = [str(_id)] * len(chunks)
+        if len(chunks) > 1:
+            print(f"Warning: {len(chunks)} chunks created from {_id}.")
         index_dir = self.vector_db_dir/faiss_name
         index_path = index_dir / "index.faiss"
         id_map_path = index_dir / "map_id.json"
@@ -64,7 +45,6 @@ class VectorDB:
             offset = index.ntotal
             faiss_ids = np.arange(offset, offset+len(mongo_ids)).astype("int64")
             index = faiss.IndexIDMap(index) if not isinstance(index, faiss.IndexIDMap) else index
-            #new_index = FAISS_Utils.add_to_index(index, vectors)
             FAISS_Utils.add_to_index_with_ids(index, vectors, faiss_ids)
             new_index = index
         else:
@@ -85,39 +65,14 @@ class VectorDB:
         print("Success create index")
         # 5. Save everything
         self._save_artifacts(new_index, faiss_name, chunks)
-        return f"Ingested {len(chunks)} chunks from {source}"
-        # index = FAISS_Utils.create_flat_index(vectors, ids=faiss_ids)
-        # faiss.write_index(index, "index.faiss")
-        # FAISS_Utils.save_id_map(id_map, "id_map.json")
+        return f"{len(chunks)} chunks from {_id}"
+
     def _save_artifacts(self, index, faiss_name, chunks):
         """Save all components to disk"""
         index_dir = self.vector_db_dir/faiss_name
         faiss.write_index(index, str(index_dir / "index.faiss"))
         print(str(index_dir / "index.faiss"))
-        # 2. Lưu metadata (sử dụng pickle)
-        import pickle
-        metadata_path = index_dir / "metadata.pkl"
-        if metadata_path.exists():
-            # Đọc metadata hiện có
-            with open(metadata_path, "rb") as f:
-                metadata = pickle.load(f)
-            existing_docs = metadata["documents"]
-            # Tính offset cho ID của các chunk mới
-            offset = len(existing_docs)
-            # Thêm các chunk mới với ID tiếp nối
-            new_docs = [{"id": i + offset, "content": chunk.page_content} for i, chunk in enumerate(chunks)]
-            metadata["documents"] = existing_docs + new_docs
-        else:
-            # Tạo metadata mới nếu chưa tồn tại
-            metadata = {
-                "documents": [{"id": i, "content": chunk.page_content} for i, chunk in enumerate(chunks)],
-                "total_vectors": index.ntotal
-            }
-        #print("metadata fjhasjgfjsgfgasgfsahfhsahfygsda", metadata)
-        print(f"Length of metadata['documents']: {len(metadata['documents'])}")
         print(f"Total vectors in index: {index.ntotal}")
-        with open(metadata_path, "wb") as f:
-            pickle.dump(metadata, f)
 
     def _init_embedding_model(self):
         """Khởi tạo embedding model"""
@@ -159,47 +114,8 @@ class VectorDB:
             return FAISS_Utils.create_hnsw_index(vectors, **index_params)
         else:
             raise ValueError(f"Unknown index type: {index_type}")
-    # ====================== Version Management ======================
-    def save_index(self, 
-                 index: Union[faiss.Index, LangchainFAISS], 
-                 config: Optional[Dict] = None,
-                 base_path: str = "faiss_index") -> str:
-        """
-        Lưu index với versioning
-        
-        Args:
-            index: Index cần lưu
-            config: Cấu hình metadata
-            base_path: Đường dẫn cơ sở
-            
-        Returns:
-            Version ID được tạo
-        """
-        config = config or {}
-        return save_index_with_version(index, config, base_path)
-
-    def load_index(self, version: str) -> Union[faiss.Index, LangchainFAISS, None]:
-        """
-        Tải index từ version
-        
-        Args:
-            version: Version ID cần tải
-        """
-        return load_version(version, self.embedding_model)
-
-    def list_versions(self):
-        """Liệt kê tất cả các version có sẵn"""
-        return list_index_versions()
-
-    def delete_index(self, version: str):
-        """Xóa một version cụ thể"""
-        delete_version(version)
-
-    # ====================== Search Functionality ======================
     def search(self, faiss_name: str, query: str,  top_k: int = 5, 
                threshold: float = 0.7, 
-               include_metadata: bool = True, 
-               filter_condition: Optional[dict] = None
     ) -> Dict[str, Union[List[Document], List[float], List[int]]]:
         """
         Tìm kiếm nâng cao với nhiều tùy chọn
@@ -208,18 +124,12 @@ class VectorDB:
             query: Câu truy vấn đầu vào
             top_k: Số lượng kết quả trả về
             threshold: Ngưỡng điểm similarity (0-1)
-            include_metadata: Có bao gồm metadata trong kết quả không
-            filter_condition: Điều kiện lọc metadata (ví dụ: {"source": "doc1.pdf"})
         
         Returns:
-            Dict chứa:
-            - documents: List[Document] hoặc List[str]
-            - scores: List[float]
-            - ids: List[int]
-        
-        Raises:
-            ValueError: Nếu index không tồn tại
-            RuntimeError: Nếu có lỗi khi tìm kiếm
+            results: Danh sách kết quả tìm kiếm, mỗi kết quả là một dict chứa:
+                - source: Tên nguồn (faiss_name)
+                - score: Điểm similarity
+                - mongo_id: ID của document trong MongoDB
         """
         try:
             # 1. Kiểm tra index tồn tại
@@ -230,15 +140,13 @@ class VectorDB:
             # 2. Load index
             index = faiss.read_index(str(index_dir / "index.faiss"))
             # 3. Load metadata
-            with open(index_dir / "metadata.pkl", "rb") as f:
-                metadata = pickle.load(f)
             with open(index_dir/ "map_id.json", "r", encoding="utf-8") as f:
                 id_map = json.load(f)
                 mongo_id = {int(k): v for k, v in id_map.items()} # 👈 ép key về int
             print("loaded successfully map id faiss <-> mongo")
             print(f"Index size: {index.ntotal} vectors")
             print(f"Vector dimension: {index.d}")
-            print(f"Length of metadata['documents']: {len(metadata['documents'])}")
+
             # 4. Chuyển query thành vector
             query_vector = self.embed_query(query)
             print("Query vector norm:", np.linalg.norm(query_vector))
@@ -252,90 +160,14 @@ class VectorDB:
                 # So sánh khoảng cách (nhỏ hơn threshold thì giữ lại)
                 if scores[0][i] <= threshold:
                     doc_id = int(indices[0][i])
-                    # Kiểm tra doc_id hợp lệ
-                    if doc_id < len(metadata["documents"]):
-                        doc_data = metadata["documents"][doc_id]
-                        #print("check metadata fjsbfjbdsfbdsbfjdsbfbdsbfdsjbfv:", metadata["documents"])
-                        # Tạo kết quả
-                        result = {
-                            "source": faiss_name,
-                            "score": scores[0][i],
-                            "content": doc_data["content"],
-                            "mongo_id": mongo_id[doc_id],
-                        }
-                        # Thêm metadata nếu yêu cầu
-                        if include_metadata:
-                            result["metadata"] = doc_data.get("metadata", {})
-                        # Lọc theo filter_condition nếu có
-                        # if filter_condition:
-                        #     matches_filter = True
-                        #     for key, value in filter_condition.items():
-                        #         if result["metadata"].get(key) != value:
-                        #             matches_filter = False
-                        #             break
-                        #     if not matches_filter:
-                        #         continue
-                        results.append(result)
-                    else:
-                        print(f"Warning: doc_id {doc_id} out of range for metadata['documents'] (length: {len(metadata['documents'])})")
-            
-            print("Search results:", results)
+                    result = {
+                        "source": faiss_name,
+                        "score": scores[0][i],
+                        "mongo_id": mongo_id[doc_id],
+                    }
+                    results.append(result)
             return results
         except Exception as e:
             error_msg = f"Search failed: {str(e)}"
-            self._log_error(error_msg)
             raise RuntimeError(error_msg)
-    def _log_error(self, message: str):
-        """Ghi log lỗi đơn giản"""
-        error_log = self.vector_db_dir / "errors.log"
-        with open(error_log, 'a', encoding='utf-8') as f:
-            f.write(f"[{datetime.now()}] {message}\n")
 
-
-
-def main():
-    manager = VectorDB()
-
-    sources = [
-        DATA_DIR/"2401.08281v3.pdf",  # File PDF
-        DATA_DIR/"sample-html-files-sample2.html",  # File HTML
-        "Ngày hôm nay thật vui, tôi có quen một cô gái xinh đẹp",  # Raw text
-        "Tôi crush một cô gái đẹp"  # Raw text
-    ]
-
-    # Xử lý từng nguồn
-    faiss_name = get_version_timestamp()
-    for source in sources:
-        print(f"\nProcessing: {source}")
-        try:
-            result = manager.ingest(
-                source=source,
-                faiss_name=faiss_name,
-                chunk_size=500,
-                chunk_overlap=50
-            )
-            print(f"✅ {result}")
-        except Exception as e:
-            print(f"❌ Error processing {source}: {str(e)}")
-
-    # Tìm kiếm
-    print("\nSearching...")
-    try:
-        results = manager.search(
-            faiss_name=faiss_name,
-            query="machine learning",
-            top_k=2,
-            threshold=0.6  # Ngưỡng similarity
-        )
-        
-        for result in results:
-            print(f"\n🔍 Score: {result['score']:.4f}")
-            print(result['content'])
-            print(result['source'])
-
-    except Exception as e:
-        print(f"Search error: {str(e)}")
-
-
-if __name__ == "__main__":
-    main()

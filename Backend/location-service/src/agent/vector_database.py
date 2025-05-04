@@ -22,15 +22,14 @@ def ingest_data_to_vector_db(db):
                 data = dest.get('data', {})
                 name = data.get('name', '')
                 address = data.get('address', '')
-                description = data.get('discription', '')
+                description = data.get('description', '')
                 merged_text = f"{name} {address} {description}"
-
                 result = manager.ingest(
                     source=merged_text,
                     faiss_name=faiss_name,
                     _id = _id
                 )
-                print(f"✅ Ingested {name}: {result}")
+                print(f"✅ Ingested: {result}")
                 total_ingested += 1
         except Exception as e:
             print(f"❌ Error ingesting text: {str(e)}")
@@ -75,11 +74,7 @@ if __name__ == "__main__":
         raise Exception("vietnamtourism_URL is not set in environment variables")
 
     # Khởi tạo kết nối MongoDB
-    #db = MongoDB(DB_URL, "vietnamtourism_db", "vietnamtourism_db")
-    faiss_name = ingest_data_to_vector_db_json()
+    db = MongoDB(DB_URL, "vietnamtourism_db", "vietnamtourism_db")
+    #faiss_name = ingest_data_to_vector_db_json()
+    faiss_name = ingest_data_to_vector_db(db)
     print(f"Completed ingestion with faiss_name: {faiss_name}")
-    # id_strs = []
-    # id_strs.append("680ca1618372cda0a3d6adfd")
-    # docs = fetch_from_mongodb(db, id_strs)
-    # print(docs[0])
-        
