@@ -24,14 +24,6 @@ services:
       KAFKA_LOG_RETENTION_MS: -1
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  location_db:
-    container_name: location_db
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-
   ingest-service:
     container_name: ingest-service
     build:
@@ -55,14 +47,7 @@ services:
     depends_on:
       kafka:
         condition: service_started
-      location_db:
-        condition: service_started
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      MONGODB_URI: mongodb://location_db:27017/location_data
     volumes:
       - ./processing-service:/app
-
-
-volumes:
-  mongodb_data:
