@@ -14,7 +14,7 @@ class SuggestionService:
     self.location_details, self.response = graph.process_messages(messages)
     
   def get_session_id(self) -> str:
-    return str(uuid.uuid4())
+    return str(uuid.uuid4())    
 
   def get_location_ids(self, k: int) -> list[str]: # done
     # This is a placeholder implementation. In a real-world scenario, this would involve
