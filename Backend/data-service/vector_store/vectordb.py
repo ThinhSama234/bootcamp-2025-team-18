@@ -158,7 +158,7 @@ class VectorDB:
             for i in range(len(indices[0])):
                 print(f"Score: {scores[0][i]}, Index: {indices[0][i]}")
                 # So sánh khoảng cách (nhỏ hơn threshold thì giữ lại)
-                if scores[0][i] <= threshold:
+                if scores[0][i] >= threshold:
                     doc_id = int(indices[0][i])
                     result = {
                         "source": faiss_name,
