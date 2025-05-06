@@ -1,0 +1,70 @@
+.message-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .avatar-small {
+    align-self: flex-end;
+    margin-bottom: 10px;
+  }
+
+  .message-header {
+    max-width: 60%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+
+  .sender-name {
+    font-size: 12px;
+    margin-bottom: 2px;
+    margin-left: 12px;
+  }
+
+.message-sent-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-self: flex-end;
+    max-width: 60%;
+    margin-bottom: 10px;
+}
+
+.message-sent-subcontainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 16px;
+    width: auto;
+  }
+  
+  .sent {
+    background-color: #d1f5d3;
+    align-self: flex-end;
+  }
+  
+  .received {
+    background-color: #e4e6eb;
+    align-self: flex-start;
+  }
+
+  .message-checkbox-received {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  .message-checkbox-sent {
+    align-self: flex-end;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
