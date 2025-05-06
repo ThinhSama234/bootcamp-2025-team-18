@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import logger from "../../../core/logger";
-import { JoinGroupPayload, LeaveGroupPayload, SendMessagePayload, SocketClientEvent } from "../types/socketClient.types";
+import { JoinGroupPayload, LeaveGroupPayload, RequestSuggestionsPayload, SendTextMessagePayload, SocketClientEvent } from "../types/socketClient.types";
 import { SocketServerEvent } from "../types/socketServer.types";
 import { handleSendTextMessage } from "./message.handler";
 import { handleRequestSuggestions } from "./suggestion.handler";
@@ -25,7 +25,7 @@ export default function registerHandlers(io: Server, socket: Socket): void {
   socket.on(SocketClientEvent.JOIN_GROUP, (payload: JoinGroupPayload) => wrapHandler(handleUserJoinGroup)(io, socket, payload));
   socket.on(SocketClientEvent.LEAVE_GROUP, (payload: LeaveGroupPayload) => wrapHandler(handleUserLeaveGroup)(io, socket, payload));
 
-  socket.on(SocketClientEvent.SEND_MESSAGE, (payload: SendMessagePayload) => wrapHandler(handleSendTextMessage)(io, socket, payload));
+  socket.on(SocketClientEvent.SEND_MESSAGE, (payload: SendTextMessagePayload) => wrapHandler(handleSendTextMessage)(io, socket, payload));
 
-  socket.on(SocketClientEvent.REQUEST_SUGGESTIONS, (payload: SendMessagePayload) => wrapHandler(handleRequestSuggestions)(io, socket, payload));
+  socket.on(SocketClientEvent.REQUEST_SUGGESTIONS, (payload: RequestSuggestionsPayload) => wrapHandler(handleRequestSuggestions)(io, socket, payload));
 }
