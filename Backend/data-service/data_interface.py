@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 from typing import List, Dict, Any, Tuple
 from bson.objectid import ObjectId
-
+from typing import Optional
 import os
 from dotenv import load_dotenv
 
@@ -57,6 +57,13 @@ class MongoDB(IDatabase):
         self.db = self.client[database]
         self.collection = self.db[collection]
 
+    # Add the method to list collection names
+    def list_collections(self):
+        try:
+            return self.db.list_collection_names()  # Call on the database object
+        except PyMongoError as e:
+            return [], Exception(f"failed to list collections: {e}")
+        
     def save_record(self, record: Dict[str, Any]) -> Tuple[str, Exception]:
         try:
             if not record.get('type'):
@@ -105,6 +112,26 @@ class MongoDB(IDatabase):
         except ValueError as e:
             return [], Exception(f"Invalid filter value: {e}")
     
+    def find_one(self, query):
+        return self.collection.find_one(query)
+    def find(self, query: dict = {}, projection: Optional[dict] = None, limit: Optional[int] = None) -> List[dict]:
+        """
+        Truy vấn nhiều document trong collection.
+
+        Args:
+            query (dict): Điều kiện lọc MongoDB.
+            projection (dict, optional): Chỉ định các trường cần lấy.
+            limit (int, optional): Giới hạn số lượng kết quả.
+
+        Returns:
+            List[dict]: Danh sách các document phù hợp.
+        """
+        cursor = self.collection.find(query, projection)
+        if limit:
+            cursor = cursor.limit(limit)
+        return list(cursor)
+    def update_one(self, query, update):
+        return self.collection.update_one(query, update)
     def count_documents(self, filter=None):
         if filter is None:
             filter = {}
@@ -115,16 +142,6 @@ class MongoDB(IDatabase):
 
 
 def main():
-    # format (figure in Slack):
-    # "data": {
-    #             "address": "456 New St",
-    #             "latitude": 21.0285,
-    #             "longitude": 105.8542,
-    #             "category": "cultural",
-    #             "name": "Hanoi Old Quarter"
-    #         }
-
-
     # Initialize the MongoDB connection
     try:
         DB_URL = os.environ.get('TRAVELDB_URL')

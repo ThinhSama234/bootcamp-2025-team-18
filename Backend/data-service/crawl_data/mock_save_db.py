@@ -71,12 +71,12 @@ load_dotenv()
 
 def save_locations_from_json(file_path: str):
     # Load MongoDB URI từ biến môi trường
-    DB_URL = os.getenv("TRAVELDB_URL")
-    if not DB_URL:
-        raise Exception("TRAVELDB_URL is not set in environment variables")
+    # DB_URL = os.getenv("TRAVELDB_URL")
+    # if not DB_URL:
+    #     raise Exception("TRAVELDB_URL is not set in environment variables")
 
-    # Khởi tạo kết nối MongoDB
-    db = MongoDB(DB_URL, "travel_db", "locations")
+    # # Khởi tạo kết nối MongoDB
+    # db = MongoDB(DB_URL, "travel_db", "locations")
 
     # Đọc dữ liệu từ file JSON
     with open(file_path, "r", encoding="utf-8") as f:
@@ -84,33 +84,43 @@ def save_locations_from_json(file_path: str):
 
     # Gửi từng record lên Mongo
     for loc in locations:
-        record = {
-            "type": "location",
-            "data": {
-                "name": loc["name"],
-                "address": loc["address"],
-                "description": loc.get("description"),
-                "image_url": loc.get("image_url"),
-                "category": loc.get("category"),
-            }
-        }
-        record_id, error = db.save_record(record)
-        if error:
-            print(f"[❌] Error saving: {loc['name']}. Reason: {error}")
-        else:
-            print(f"[✅] Saved {loc['name']} with ID: {record_id}")
+        # record = {
+        #     "type": "location",
+        #     "data": {
+        #         "name": loc.get("name"),
+        #         "address": loc.get("address"),
+        #         "discription": loc.get("discription"),
+        #         # "image_url": loc.get("image_url"),
+        #         # "category": loc.get("category"),
+        #     }
+        # }
+        name = loc.get("data", {}).get("name")
+        address = loc.get("data", {}).get("address")
+        discription = loc.get("data", {}).get("discription") 
+        if name is None:
+            print(f"Skipping record due to missing name: {loc}")
+            continue
+        with open("location_hotels.txt", "a", encoding="utf-8") as f:
+            f.write(name + "\n")
+        # record_id, error = db.save_record(record)
+        # if error:
+        #     print(f"[❌] Error saving: {loc['name']}. Reason: {error}")
+        # else:
+        #     print(f"[✅] Saved {loc['name']} with ID: {record_id}")
     # in ra số lượng documents hiện tại trong database
-    print("Số lượng documents hiện tại:", db.count_documents({}))
-    db.close()
+    # print("Số lượng documents hiện tại:", db.count_documents({}))
+    # db.close()
     print("MongoDB connection closed.")
 if __name__ == "__main__":
     # file_path = "Data/dia_diem_du_lich_binh_phuoc.json"
-    folder_path = os.path.join(os.path.dirname(__file__), "Data")
-    print(folder_path)
-    # Kiểm tra nếu thư mục Data tồn tại
-    if not os.path.exists(folder_path):
-        raise Exception("The 'Data' folder does not exist!")
-    for file_name in os.listdir(folder_path):
-        if file_name.endswith(".json"):
-            file_path = os.path.join(folder_path, file_name)
-            save_locations_from_json(file_path)
+    # folder_path = os.path.join(os.path.dirname(__file__), "Data")
+    # print(folder_path)
+    # # Kiểm tra nếu thư mục Data tồn tại
+    # if not os.path.exists(folder_path):
+    #     raise Exception("The 'Data' folder does not exist!")
+    # for file_name in os.listdir(folder_path):
+    #     if file_name.endswith(".json"):
+    #         file_path = os.path.join(folder_path, file_name)
+    #         save_locations_from_json(file_path)
+    file_path = "vietnamtourism_db.restaurant.json"
+    save_locations_from_json(file_path)
