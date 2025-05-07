@@ -61,7 +61,14 @@
     flex-direction: column-reverse;
   }
   
-
+  .no-messages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 18px;
+    color: #09ad4f;
+  }
   
   .chat-input {
     display: flex;

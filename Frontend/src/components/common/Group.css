@@ -4,11 +4,18 @@
     align-items: center;
     margin: 4px 0;
     height: 64px;
+    width: 96%;
     cursor: pointer;
     /* background-color: #fff; */
     padding: 8px;
     border-radius: 8px;
+    transition: background-color 0.3s ease;
   }
+
+  .group.selected {
+    background-color: #e0e0e0; /* Light gray, adjust as needed */
+  }
+  
   
   .group:hover {
     background-color: #e4e6eb;

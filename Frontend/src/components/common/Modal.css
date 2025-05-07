@@ -10,6 +10,19 @@
     align-items: center;
     z-index: 1000;
   }
+
+  .toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  
+  .toggle-container label {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
   
   .modal-box {
     background: white;

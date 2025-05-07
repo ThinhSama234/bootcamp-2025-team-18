@@ -1,0 +1,60 @@
+import './Chat.css';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { SocketProvider } from '../context/SocketContext';
+import { fetchGroupList } from '../api/groupService';
+import SidebarLeft from '../components/GroupList';
+import ChatWindow from '../components/MainChat';
+import SidebarRight from '../components/ChatInfo';
+
+function Chat() {
+    const { username } = useAuth();
+    const [groupList, setGroupList] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const loadGroups = useCallback(async () => {
+        if (!username) return;
+        try {
+            const groups = await fetchGroupList(username);
+            setGroupList(groups);
+            if (groups.length > 0 && !selectedGroup) {
+                setSelectedGroup(groups[0]);
+            }
+        } catch (err) {
+            console.error("Failed to fetch groups:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, [username, selectedGroup]);
+
+    useEffect(() => {
+        loadGroups();
+    }, [loadGroups]);
+
+    if (loading || !selectedGroup) {
+        return (
+            <div className="loading-screen">
+                <img src="/loading.gif" alt="Loading..." className="loading-gif" />
+            </div>
+        );
+    }
+
+
+    return (
+        <SocketProvider username={username}>
+            <div className="app-container">
+                <SidebarLeft 
+                    groupList={groupList}
+                    onGroupSelect={setSelectedGroup}
+                    selectedGroupName = {selectedGroup.groupName}
+                    refreshGroupList = {loadGroups}
+                />
+                <ChatWindow group={selectedGroup} />
+                <SidebarRight group={selectedGroup} />
+            </div>
+        </SocketProvider>
+    );
+}
+
+export default Chat;

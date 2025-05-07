@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import './GroupList.css';
 import Group from './common/Group';
 import { JoinGroupModal } from './common/Modal';
+import { useSocket } from '../context/SocketContext';
 
-function SidebarLeft({groupList}) {
+function SidebarLeft({groupList, onGroupSelect, selectedGroupName, refreshGroupList}) {
   const [showModal, setShowModal] = React.useState(false);
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const currentUsername = localStorage.getItem('username');
+
+    const handleUserJoined = (data) => {
+      if (data.username === currentUsername) {
+        refreshGroupList();
+      }
+    };
+
+    const handleReceiveMessage = () => {
+      refreshGroupList();
+    };
+
+    socket.on('user_joined', handleUserJoined);
+    socket.on('receive_message', handleReceiveMessage);
+
+    return () => {
+      socket.off('user_joined', handleUserJoined);
+      socket.off('receive_message', handleReceiveMessage);
+    };
+  }, [socket, refreshGroupList]);
 
   return (
     <div className="sidebar-left">
 
-      <div class="group-list-header">
+      <div className="group-list-header">
         <h2>Group Chats</h2>
-        <button className="join-group-button" title="Join Group" onClick= {() => setShowModal(true)}>
+        <button className="join-group-button" title="Create Group" onClick= {() => setShowModal(true)}>
           <img src="/join-group-icon.png" alt="Join Group" className="join-group-icon" />
         </button>
       </div>
@@ -35,6 +61,8 @@ function SidebarLeft({groupList}) {
             groupPicSrc={group.groupPicSrc}
             lastMessage={group.lastMessage}
             timestamp={group.timestamp}
+            onClick={() => onGroupSelect(group)}
+            isSelected={group.groupName === selectedGroupName}
           />
         ))} 
       </div>
