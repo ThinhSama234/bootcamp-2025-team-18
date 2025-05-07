@@ -11,6 +11,10 @@ COPY tsconfig.json ./
 
 RUN npm install tsx
 
-EXPOSE ${PORT}
+ENV PORT=3000
+ENV CHATDB_URL=
+ENV LOCATION_SERVICE_GRPC_URL=
+
+EXPOSE 3000
 
 CMD ["npm", "start"]

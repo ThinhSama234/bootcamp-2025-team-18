@@ -9,7 +9,7 @@ class GroupService implements IGroupService {
   async createGroup(groupName: string): Promise<GroupType> {
     const existingGroup = await Group.find({ groupName });
     if (existingGroup.length > 0) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Group already exists");
+      throw new BadRequestError(DomainCode.NOT_FOUND, "Group already exists");
     }
 
     const groupDoc = await new Group({ groupName }).save();
@@ -36,7 +36,7 @@ class GroupService implements IGroupService {
   async addUserToGroup(groupName: string, username: string): Promise<GroupType> {
     const existingGroup = await Group.find({ groupName });
     if (existingGroup.length === 0)
-      throw new NotFoundError(DomainCode.NOT_FOUND, 'Group does not exist!');
+      throw new NotFoundError(DomainCode.NOT_FOUND, 'Group not found!');
 
     if (existingGroup[0].members.includes(username))
       throw new BadRequestError(DomainCode.FORBIDDEN, 'User already in group!');

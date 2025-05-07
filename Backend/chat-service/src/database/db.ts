@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 import logger from "../core/logger";
-import { CHATDB_URL } from "../config/db";
+import { CHATDB_URL, DB_NAME } from "../config/db";
 
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(CHATDB_URL);
+    await mongoose.connect(CHATDB_URL, {
+      dbName: DB_NAME,
+    });
     
     logger.info('MongoDB connected');
   } catch (err: any) {

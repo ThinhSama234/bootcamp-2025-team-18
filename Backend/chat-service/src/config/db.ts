@@ -4,3 +4,5 @@ if (!process.env.CHATDB_URL) {
 }
 
 export const CHATDB_URL = process.env.CHATDB_URL;
+
+export const DB_NAME = 'chat_db';

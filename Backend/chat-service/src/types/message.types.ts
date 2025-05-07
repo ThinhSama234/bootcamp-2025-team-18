@@ -68,15 +68,18 @@ export class SuggestionMessage extends IMessage {
 }
 
 export class ImageMessage extends IMessage {
+  key: string;
   imageUrl: string;
 
-  constructor(id: string, senderUsername: string, groupName: string, imageUrl: string, createdAt?: Date, updatedAt?: Date) {
+  constructor(id: string, senderUsername: string, groupName: string, key: string, imageUrl: string, createdAt?: Date, updatedAt?: Date) {
     super(id, MessageType.IMAGE, senderUsername, groupName, createdAt, updatedAt);
+    this.key = key;
     this.imageUrl = imageUrl;
   }
   get content(): any {
     return { 
-      url: this.imageUrl
+      key: this.key,
+      imageUrl: this.imageUrl
     }
   }
 }
@@ -109,6 +112,7 @@ export class MessageFactory {
           doc._id.toString(),
           doc.senderUsername,
           doc.groupName,
+          doc.content.key,
           doc.content.url,
           doc.createdAt,
           doc.updatedAt
