@@ -1,6 +1,7 @@
 export enum SocketClientEvent {
   JOIN_GROUP = 'join_group',
   LEAVE_GROUP = 'leave_group',
+  ADD_FRIEND_TO_GROUP = 'add_friend_to_group',
 
   SEND_MESSAGE = 'send_message',
   
@@ -14,6 +15,11 @@ export interface JoinGroupPayload {
 
 export interface LeaveGroupPayload {
   groupName: string;
+}
+
+export interface AddFriendToGroupPayload {
+  groupName: string;
+  friendUsername: string;
 }
 
 export interface SendMessagePayload {

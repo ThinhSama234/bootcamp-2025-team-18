@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import logger from "../../../core/logger";
-import { JoinGroupPayload, LeaveGroupPayload, SendMessagePayload, SocketClientEvent } from "../types/socketClient.types";
+import { AddFriendToGroupPayload, JoinGroupPayload, LeaveGroupPayload, SendMessagePayload, SocketClientEvent } from "../types/socketClient.types";
 import { SocketServerEvent } from "../types/socketServer.types";
 import { handleSendTextMessage } from "./message.handler";
 import { handleRequestSuggestions } from "./suggestion.handler";
@@ -24,6 +24,7 @@ const wrapHandler = (handler: Function) => {
 export default function registerHandlers(io: Server, socket: Socket): void {
   socket.on(SocketClientEvent.JOIN_GROUP, (payload: JoinGroupPayload) => wrapHandler(handleUserJoinGroup)(io, socket, payload));
   socket.on(SocketClientEvent.LEAVE_GROUP, (payload: LeaveGroupPayload) => wrapHandler(handleUserLeaveGroup)(io, socket, payload));
+  socket.on(SocketClientEvent.ADD_FRIEND_TO_GROUP, (payload: AddFriendToGroupPayload) => wrapHandler(handleUserJoinGroup)(io, socket, payload));
 
   socket.on(SocketClientEvent.SEND_MESSAGE, (payload: SendMessagePayload) => wrapHandler(handleSendTextMessage)(io, socket, payload));
 

@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { JoinGroupPayload, LeaveGroupPayload } from "../types/socketClient.types";
+import { AddFriendToGroupPayload, JoinGroupPayload, LeaveGroupPayload } from "../types/socketClient.types";
 import groupService from "../../../services/impl/group.service";
 import { SocketServerEvent, UserJoinedPayload, UserLeftPayload } from "../types/socketServer.types";
 import logger from "../../../core/logger";
@@ -38,4 +38,20 @@ export async function handleUserLeaveGroup(io: Server, socket: Socket, payload: 
   io.to(groupName).emit(SocketServerEvent.USER_LEFT, userLeftPayload);
 
   logger.info(`User ${username} left group ${groupName}`);
+}
+
+export async function handleAddFriendToGroup(io: Server, socket: Socket, payload: AddFriendToGroupPayload): Promise<void> {
+  const { groupName, friendUsername } = payload;
+  
+  await groupService.addUserToGroup(groupName, friendUsername);
+  
+  await socket.join(groupName);
+  const userJoinedPayload: UserJoinedPayload = {
+    username: friendUsername,
+    groupName,
+    timestamp: new Date()
+  }
+  io.to(groupName).emit(SocketServerEvent.USER_JOINED, userJoinedPayload);
+
+  logger.info(`User ${friendUsername} joined group ${groupName}`);
 }
