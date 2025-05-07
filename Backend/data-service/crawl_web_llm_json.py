@@ -7,12 +7,14 @@ import json
 import re
 import os
 import sys
+import logging
 import requests
 from bs4 import BeautifulSoup
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../crawl_data/Data")))
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../crawl_data/Data")))
+from dotenv import load_dotenv
 # model = init_chat_model("gpt-4o-mini", model_provider="openai")
 from google import genai
-
+from data_interface import MongoDB
 # Cấu hình API key cho Google Generative AI (thay bằng API key của bạn)
 
 # Khởi tạo client và mô hình Gemini
@@ -154,59 +156,109 @@ def parse_html_to_text_and_images(html_content):
     
     return after_align, image_urls
 
-#url = "https://mia.vn/cam-nang-du-lich/suoi-truc-tay-ninh-dia-diem-du-lich-tu-nhien-moi-me-thu-hut-gioi-tre-8964"
-url = "https://mia.vn/cam-nang-du-lich/le-hoi-den-cua-ong-le-hoi-tung-bung-bac-nhat-tinh-quang-ninh-3391"
-headers = {"User-Agent": "Mozilla/5.0"}
-html_content = requests.get(url, headers=headers).text
-soup = BeautifulSoup(html_content, "html.parser")
-main_content = soup.find("div", class_="post-content")
-print(main_content)
-print("200 OK")
-query, image_urls = parse_html_to_text_and_images(main_content)
-# Prompt
-prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-        # "system",
-        # "Answer the user query. Output your answer as JSON that "
-        # "matches the given schema: ```json\n{schema}\n```."
-        # "Make sure to wrap the answer in ```json``` tags",
-        "system",
-            "Extract location information from the user query and output it as JSON that matches the given schema: ```json\n{schema}\n```. "
-            "Create a description as a concise sumary (4-5 sentences) with objective information: focus on the location's standout features, ecosystem, notable experiences, and reasons to choose it (e.g., natural beauty, unique activities, accessibility)."
-            "Avoid subjective phrases (e.g., 'wonderful', 'amazing') and promotional content (e.g., 'MIA.vn', 'will bring you great experiences'). "
-            "language will be Vietnamese. "
-            "Determine the category based on the context using the following format: '[sao] [giá thành] [loại sở hữu] [loại hình] [văn hóa]', where: "
-            "- [sao]: Số sao (ví dụ: 4.5 sao) nếu có thông tin đánh giá, bỏ qua nếu không có. "
-            "- [giá thành]: 'giá cao' hoặc 'giá thấp' nếu có thông tin về chi phí, bỏ qua nếu không có. "
-            "- [loại sở hữu]: 'thiên nhiên' hoặc 'tư nhân' dựa trên bối cảnh, bỏ qua nếu không rõ. "
-            "- [loại hình]: Một trong 'khu du lịch', 'bảo tàng', 'di tích', 'biển', 'hồ', 'lăng', v.v., dựa trên mô tả, bỏ qua nếu không rõ. "
-            "- [văn hóa]: Thêm 'tâm linh', 'thủ công', hoặc 'di sản văn hóa' nếu có yếu tố văn hóa liên quan, bỏ qua nếu không có. "
-            "Use the provided image_urls: {image_urls} for the 'image_url' field in the JSON output. "
-            "If any information (like latitude, longitude) is missing, use "". "
-            "Make sure to wrap the answer in ```json``` tags",
-        ),
-        ("human", "{query}"),
-    ]
-).partial(schema=Location.model_json_schema(), image_urls=image_urls)
+def save_to_mongodb(data_json, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="new_locations"):
+    """Saves data to MongoDB."""
+    load_dotenv()
+    DB_URL = os.getenv(URL)
+    if not DB_URL:
+        raise Exception("TRAVELDB_URL is not set in environment variables")
+    """Saves data to MongoDB."""
+    # Kết nối đến MongoDB
+    db = MongoDB(DB_URL, db_name, collection_name)
+    db.save_record(data_json)
+    print("Data saved to MongoDB successfully.")
+    print("Số lượng doc hiện tại là:",db.count_documents())
+    db.close()
+    return
 
-print("====================")
-print("Extracted text:", query)
-print("Extracted image URLs:", image_urls)
-print("====================================")
-print(prompt.format_prompt(query=query).to_string())
-# Chuẩn bị nội dung prompt để gửi đến Gemini
-formatted_prompt = prompt.format_prompt(query=query).to_string()
-# Gửi yêu cầu đến Gemini và nhận phản hồi
-response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=formatted_prompt
-        )
-# Trích xuất JSON từ phản hồi
-result = extract_json(AIMessage(content=response.text))
-print(result)
-#Lưu kết quả vào file JSON
-save_json_to_file(result, "output1.json")
+def save_to_mongodb_full_text(name, full_text, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="more_details"):
+    """Saves data to MongoDB full text."""
+    load_dotenv()
+    DB_URL = os.getenv(URL)
+    if not DB_URL:
+        raise Exception("TRAVELDB_URL is not set in environment variables")
+    # Kết nối đến MongoDB
+    db = MongoDB(DB_URL, db_name, collection_name)
+    db.save_record(
+        {
+            'type': 'full_text',
+            'name': name,
+            'full_text': full_text,
+            "ref_id": "",
+        }
+    )
+    print("Data saved to MongoDB successfully.")
+    print("Số lượng doc hiện tại là:",db.count_documents())
+    db.close()
+    return
+#url = "https://mia.vn/cam-nang-du-lich/suoi-truc-tay-ninh-dia-diem-du-lich-tu-nhien-moi-me-thu-hut-gioi-tre-8964"
+#url = "https://mia.vn/cam-nang-du-lich/le-hoi-den-cua-ong-le-hoi-tung-bung-bac-nhat-tinh-quang-ninh-3391"
+#url = "https://mia.vn/cam-nang-du-lich/kham-pha-lang-tranh-dong-ho-13832"
+#url = "https://mia.vn/cam-nang-du-lich/lang-gom-phu-lang-bac-ninh-12875"
+#url = "https://mia.vn/cam-nang-du-lich/con-oc-ben-tre-va-ve-dep-dam-chat-hoang-so-thanh-binh-11296"
+#url = "https://mia.vn/cam-nang-du-lich/den-san-chim-vam-ho-chiem-nguong-ve-dep-thien-nhien-ky-thu-11553"
+#url = "https://mia.vn/cam-nang-du-lich/vuon-trai-cay-cai-mon-toa-do-giai-nhiet-ngay-nang-nong-11062"
+with open("mia.txt", "r", encoding="utf-8") as f:
+    urls = [line.strip() for line in f if line.strip()]
+#print(urls)
+#url = "https://mia.vn/cam-nang-du-lich/den-dinh-phu-tu-ben-tre-chiem-nguong-loi-kien-truc-co-xua-10951"
+for url in urls:
+    logging.info(f"Xử lý URL: {url}")
+    headers = {"User-Agent": "Mozilla/5.0"}
+    html_content = requests.get(url, headers=headers).text
+    soup = BeautifulSoup(html_content, "html.parser")
+    main_content = soup.find("div", class_="post-content")
+    # div class="content-wrapper  vinpearl.com
+    #print(main_content)
+    print("200 OK")
+    query, image_urls = parse_html_to_text_and_images(main_content)
+    # Prompt
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+            # "system",
+            # "Answer the user query. Output your answer as JSON that "
+            # "matches the given schema: ```json\n{schema}\n```."
+            # "Make sure to wrap the answer in ```json``` tags",
+            "system",
+                "Extract location information from the user query and output it as JSON that matches the given schema: ```json\n{schema}\n```. "
+                "Create a description as a concise sumary (4-5 sentences) with objective information: focus on the location's standout features, ecosystem, notable experiences, and reasons to choose it (e.g., natural beauty, unique activities, accessibility)."
+                "Avoid subjective phrases (e.g., 'wonderful', 'amazing') and promotional content (e.g., 'MIA.vn', 'will bring you great experiences'). "
+                "language will be Vietnamese. "
+                "Determine the category based on the context using the following format: '[sao] [giá thành] [loại sở hữu] [loại hình] [văn hóa]', where: "
+                "- [sao]: Số sao (ví dụ: 4.5 sao) nếu có thông tin đánh giá, bỏ qua nếu không có. "
+                "- [giá thành]: 'giá cao' hoặc 'giá thấp' nếu có thông tin về chi phí, bỏ qua nếu không có. "
+                "- [loại sở hữu]: 'thiên nhiên' hoặc 'tư nhân' dựa trên bối cảnh, bỏ qua nếu không rõ. "
+                "- [loại hình]: Một trong 'khu du lịch', 'bảo tàng', 'di tích', 'biển', 'hồ', 'lăng', v.v., dựa trên mô tả, bỏ qua nếu không rõ. "
+                "- [văn hóa]: Thêm 'tâm linh', 'thủ công', hoặc 'di sản văn hóa' nếu có yếu tố văn hóa liên quan, bỏ qua nếu không có. "
+                "Use the provided image_urls: {image_urls} for the 'image_url' field in the JSON output. "
+                "If any information (like latitude, longitude) is missing, use "". "
+                "Make sure to wrap the answer in ```json``` tags",
+            ),
+            ("human", "{query}"),
+        ]
+    ).partial(schema=Location.model_json_schema(), image_urls=image_urls)
+
+    #print("====================")
+    #print("Extracted text:", query)
+    #print("Extracted image URLs:", image_urls)
+    print("====================================")
+    #print(prompt.format_prompt(query=query).to_string())
+    # Chuẩn bị nội dung prompt để gửi đến Gemini
+    formatted_prompt = prompt.format_prompt(query=query).to_string()
+    # Gửi yêu cầu đến Gemini và nhận phản hồi
+    response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=formatted_prompt
+            )
+    # Trích xuất JSON từ phản hồi
+    result = extract_json(AIMessage(content=response.text)) 
+    print(result)
+    #Lưu kết quả vào file JSON
+    #save_json_to_file(result, "output3.json")
+    # Lưu vào mongodb
+    save_to_mongodb(result[0])
+    save_to_mongodb_full_text(result[0]['data']['name'], query)
 
 
 
