@@ -43,7 +43,7 @@ services:
       context: ./processing-service
       dockerfile: Dockerfile
     ports:
-      - "8002:8000" # For prometheus metrics
+      - "8001:8000" # For prometheus metrics
     depends_on:
       kafka:
         condition: service_started
@@ -51,3 +51,14 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     volumes:
       - ./processing-service:/app
+
+  crawler-service:
+    container_name: crawler-service
+    build:
+      context: ./crawler-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    depends_on:
+      ingest-service:
+        condition: service_started
