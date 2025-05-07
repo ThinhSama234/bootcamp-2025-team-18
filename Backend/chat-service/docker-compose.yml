@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  chat_db:
+    container_name: chat_db
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+
+  chat-server:
+    container_name: chat_server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - CHATDB_URL=mongodb://root:secret@chat_db:27017/chat?authSource=admin
+      - LOCATION_SERVICE_GRPC_URL=${LOCATION_SERVICE_GRPC_URL}
+    depends_on:
+      - chat_db
+
+volumes:
+  mongodb_data:

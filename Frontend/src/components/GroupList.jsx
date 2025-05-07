@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './GroupList.css';
+import Group from './common/Group';
+import { JoinGroupModal } from './common/Modal';
 
-function SidebarLeft({groupName}) {
+function SidebarLeft({groupList}) {
+  const [showModal, setShowModal] = React.useState(false);
+
   return (
     <div className="sidebar-left">
-      <h2>Groups</h2>
-      <div className="group" style={{backgroundColor: '#e4e6eb'}}>
-        <img src="/group1.jpg" alt="Group" className="group-pic" />
-        <div className="group-info">
-          <h4>{groupName}</h4>
-          <p>Last message here...</p>
-        </div>
+
+      <div class="group-list-header">
+        <h2>Group Chats</h2>
+        <button className="join-group-button" title="Join Group" onClick= {() => setShowModal(true)}>
+          <img src="/join-group-icon.png" alt="Join Group" className="join-group-icon" />
+        </button>
       </div>
-      <div className="group">
-        <img src="/group1.jpg" alt="Group" className="group-pic" />
-        <div className="group-info">
-          <h4>Another Travel Planning Group</h4>
-          <p>Last message here...</p>
-        </div>
+
+      {showModal && <JoinGroupModal onClose={() => setShowModal(false)} />}
+
+      <div className="group-search">
+        <input type="text" placeholder="Search groups..." className="search-input" />
+        {/* TODO: add search functionality */}
+        <button className="search-button" title="Search" onClick={() => alert('Search for groups!')}>
+          <img src="/search-icon.png" alt="Search" className="search-icon" />
+        </button>
       </div>
-      {/* You can map through your group list here */}
+
+      {/* TODO: retrieve group list from server */}
+      <div className="group-list">
+        {groupList.map((group, index) => (
+          <Group
+            key={index}
+            groupName={group.groupName}
+            groupPicSrc={group.groupPicSrc}
+            lastMessage={group.lastMessage}
+            timestamp={group.timestamp}
+          />
+        ))} 
+      </div>
     </div>
   );
 }

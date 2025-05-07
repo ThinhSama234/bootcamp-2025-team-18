@@ -1,0 +1,68 @@
+  
+  .group {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+    height: 64px;
+    cursor: pointer;
+    /* background-color: #fff; */
+    padding: 8px;
+    border-radius: 8px;
+  }
+  
+  .group:hover {
+    background-color: #e4e6eb;
+  }
+  
+  .group-pic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .group-info {
+    margin-left: 10px;
+    width: 232px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  
+  .group-info h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    white-space: nowrap;        /* Prevents text from wrapping */
+    overflow: hidden;           /* Hides overflow */
+    text-overflow: ellipsis;    /* Adds "..." */
+    max-width: 100%;
+  }
+  
+  .message-info {
+    display: flex;
+    justify-content: space-between; /* 👈 Pushes items to edges */
+    align-items: center;
+    width: 100%;
+  }
+  
+  .last-message-container {
+    display: flex;
+    align-items: center;
+    width: 164px;
+  }
+
+  .last-message-container p {
+    font-size: 14px;
+    color: #888;
+    white-space: nowrap;        /* Prevents text from wrapping */
+    overflow: hidden;           /* Hides overflow */
+    text-overflow: ellipsis;    /* Adds "..." */
+    max-width: 100%;
+  }
+
+  
+  
+  .message-info span {
+    font-size: 14px;
+    color: #888;
+  }
