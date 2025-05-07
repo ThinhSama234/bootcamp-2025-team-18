@@ -67,6 +67,20 @@ export class SuggestionMessage extends IMessage {
   }
 }
 
+export class ImageMessage extends IMessage {
+  imageUrl: string;
+
+  constructor(id: string, senderUsername: string, groupName: string, imageUrl: string, createdAt?: Date, updatedAt?: Date) {
+    super(id, MessageType.IMAGE, senderUsername, groupName, createdAt, updatedAt);
+    this.imageUrl = imageUrl;
+  }
+  get content(): any {
+    return { 
+      url: this.imageUrl
+    }
+  }
+}
+
 export class MessageFactory {
   static createMessage(doc: any): IMessage {
     switch (doc.messageType) {
@@ -87,6 +101,15 @@ export class MessageFactory {
           doc.content.requestedMessages,
           doc.content.suggestionId,
           doc.content.suggestions,
+          doc.createdAt,
+          doc.updatedAt
+        );
+      case MessageType.IMAGE:
+        return new ImageMessage(
+          doc._id.toString(),
+          doc.senderUsername,
+          doc.groupName,
+          doc.content.url,
           doc.createdAt,
           doc.updatedAt
         );
