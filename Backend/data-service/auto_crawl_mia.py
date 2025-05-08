@@ -51,7 +51,7 @@ def get_all_attractions(province_url):
     print(f"Đã lưu {num_page_save} liên kết điểm tham quan vào file 'attraction_links.txt'.")
 if __name__ == "__main__":
     # URL của trang tỉnh thành
-    province_url = "https://mia.vn/cam-nang-du-lich/an-giang"
+    province_url = "https://mia.vn/cam-nang-du-lich/khanh-hoa"
     get_all_attractions(province_url)
     # xong rồi chạy file crawl_web_llm_json.py để lấy dữ liệu từ file attraction_links.txt 
     # và lưu vào MongoDB

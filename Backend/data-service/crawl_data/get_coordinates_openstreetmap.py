@@ -20,7 +20,7 @@ def clean_name(line: str):
     if cleaned.endswith(" 1"):
         cleaned = cleaned[:-2].strip()
     return cleaned
-def adjusted_coordinates(URL = "TRAVELDB_URL", db_name= "travel_db", collection_name= "address"):
+def adjusted_coordinates(URL = "TRAVELDB_URL", db_name= "travel_db", collection_name= "auto_crawl"):
     DB_URL = os.getenv(URL)
     if not DB_URL:
         raise Exception("TRAVELDB_URL is not set in environment variables")
@@ -54,7 +54,7 @@ def adjusted_coordinates(URL = "TRAVELDB_URL", db_name= "travel_db", collection_
                 print(f"[❌] Missing description for document ID: {idd}")
                 continue
             latitude = line.get("data", {}).get("latitude")
-            if latitude is None or type(latitude) != str or category is None:
+            if latitude is None or type(latitude) != str or category is None or latitude == "" or latitude == ".":
                 print(f"[❌] Missing latitude for document ID: {idd}, {address}")
                 list_try_address = extract_province_and_district(address)
                 for try_address in list_try_address:
@@ -159,5 +159,5 @@ def check_address()-> bool:
     db.close()
     return True
 if __name__ == "__main__":
-    check_address()
-    #adjusted_coordinates()
+    #check_address()
+    adjusted_coordinates()
