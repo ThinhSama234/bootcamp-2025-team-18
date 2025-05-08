@@ -1,3 +1,4 @@
+import logger from "../../core/logger";
 import { DomainCode } from "../../core/responses/DomainCode";
 import { BadRequestError, NotFoundError } from "../../core/responses/ErrorResponse";
 import Group from "../../models/group.model";
