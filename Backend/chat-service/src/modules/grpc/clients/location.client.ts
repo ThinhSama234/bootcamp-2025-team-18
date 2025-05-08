@@ -1,7 +1,7 @@
 import { credentials, ServiceError } from '@grpc/grpc-js';
-import { PROTO_PATH } from '../config/config';
 import { loadProto } from '../loader';
 import logger from '../../../core/logger';
+import path from 'path';
 
 interface SuggestionRequest {
   k: number;
@@ -18,7 +18,7 @@ export class LocationClient {
   private calls: any[];
 
   constructor(address: string) {
-    const proto = loadProto(PROTO_PATH);
+    const proto = loadProto(path.join(import.meta.dirname, '../proto/location_service.proto'));
     this.client = new proto.Location.Suggestion(
       address,
       credentials.createInsecure()

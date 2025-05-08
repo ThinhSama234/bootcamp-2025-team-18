@@ -1,0 +1,73 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  
+  .toggle-container label {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  
+  .modal-box {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: 320px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .group-id-input {
+    width: 100%;
+    padding: 10px;
+    margin: 12px 0;
+    border: none;
+    background-color: #dff4df;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-family: monospace;
+  }
+  
+  .join-group-btn {
+    background-color: #1fc36c;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  

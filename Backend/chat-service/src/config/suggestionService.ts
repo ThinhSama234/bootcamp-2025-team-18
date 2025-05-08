@@ -1,4 +1,5 @@
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 const SUGGESTION_SERVICE_URL = process.env.SUGGESTION_SERVICE_URL;
 if (!SUGGESTION_SERVICE_URL) {

@@ -1,0 +1,119 @@
+.dropdown-container {
+    width: 100%;
+    margin: 0;
+  }
+  
+  .dropdown-header {
+    background-color: #fff;
+    color: #09ad4f;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    margin: 0 8px;
+  }
+
+  .dropdown-header:hover {
+    background-color: #e4e6eb;
+  }
+  
+  .dropdown-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 16px;
+    margin-bottom: 8px;
+  }
+
+  .dropdown-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+  }
+
+  .dropdown-item:hover {
+    background-color: #e4e6eb;
+  }
+
+  .dropdown-item .icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  .dropdown-item .member-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .dropdown-item .add-icon {
+    height: 20px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+  
+  .dropdown-content button {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .dropdown-content button:hover {
+    background-color: #e4e6eb;
+  }
+
+  .media-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 24px;
+    margin-bottom: 8px;
+    height: 300px;
+    overflow-y: auto;
+  }
+  
+  .media-month-section {
+    /* margin-top: 16px; */
+  }
+  
+  .media-month-section h4 {
+    margin: 12px 0 8px;
+  }
+  
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+  }
+  
+  .media-img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    cursor: zoom-out;
+  }
+
+  .modal-content img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }

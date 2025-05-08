@@ -1,24 +1,71 @@
-import React from 'react';
+import React, { use, useState, useEffect } from 'react';
+import './GroupList.css';
+import Group from './common/Group';
+import { JoinGroupModal } from './common/Modal';
+import { useSocket } from '../context/SocketContext';
 
-function SidebarLeft({groupName}) {
+function SidebarLeft({groupList, onGroupSelect, selectedGroupName, refreshGroupList}) {
+  const [showModal, setShowModal] = React.useState(false);
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const currentUsername = localStorage.getItem('username');
+
+    const handleUserJoined = (data) => {
+      if (data.username === currentUsername) {
+        refreshGroupList();
+      }
+    };
+
+    const handleReceiveMessage = () => {
+      refreshGroupList();
+    };
+
+    socket.on('user_joined', handleUserJoined);
+    socket.on('receive_message', handleReceiveMessage);
+
+    return () => {
+      socket.off('user_joined', handleUserJoined);
+      socket.off('receive_message', handleReceiveMessage);
+    };
+  }, [socket, refreshGroupList]);
+
   return (
     <div className="sidebar-left">
-      <h2>Groups</h2>
-      <div className="group" style={{backgroundColor: '#e4e6eb'}}>
-        <img src="/group1.jpg" alt="Group" className="group-pic" />
-        <div className="group-info">
-          <h4>{groupName}</h4>
-          <p>Last message here...</p>
-        </div>
+
+      <div className="group-list-header">
+        <h2>Group Chats</h2>
+        <button className="join-group-button" title="Create Group" onClick= {() => setShowModal(true)}>
+          <img src="/join-group-icon.png" alt="Join Group" className="join-group-icon" />
+        </button>
       </div>
-      <div className="group">
-        <img src="/group1.jpg" alt="Group" className="group-pic" />
-        <div className="group-info">
-          <h4>Another Travel Planning Group</h4>
-          <p>Last message here...</p>
-        </div>
+
+      {showModal && <JoinGroupModal onClose={() => setShowModal(false)} />}
+
+      <div className="group-search">
+        <input type="text" placeholder="Search groups..." className="search-input" />
+        {/* TODO: add search functionality */}
+        <button className="search-button" title="Search" onClick={() => alert('Search for groups!')}>
+          <img src="/search-icon.png" alt="Search" className="search-icon" />
+        </button>
       </div>
-      {/* You can map through your group list here */}
+
+      {/* TODO: retrieve group list from server */}
+      <div className="group-list">
+        {groupList.map((group, index) => (
+          <Group
+            key={index}
+            groupName={group.groupName}
+            groupPicSrc={group.groupPicSrc}
+            lastMessage={group.lastMessage}
+            timestamp={group.timestamp}
+            onClick={() => onGroupSelect(group)}
+            isSelected={group.groupName === selectedGroupName}
+          />
+        ))} 
+      </div>
     </div>
   );
 }

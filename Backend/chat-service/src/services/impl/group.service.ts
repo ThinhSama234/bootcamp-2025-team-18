@@ -1,3 +1,4 @@
+import logger from "../../core/logger";
 import { DomainCode } from "../../core/responses/DomainCode";
 import { BadRequestError, NotFoundError } from "../../core/responses/ErrorResponse";
 import Group from "../../models/group.model";
@@ -9,7 +10,7 @@ class GroupService implements IGroupService {
   async createGroup(groupName: string): Promise<GroupType> {
     const existingGroup = await Group.find({ groupName });
     if (existingGroup.length > 0) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Group already exists");
+      throw new BadRequestError(DomainCode.NOT_FOUND, "Group already exists");
     }
 
     const groupDoc = await new Group({ groupName }).save();
@@ -34,21 +35,19 @@ class GroupService implements IGroupService {
   }
 
   async addUserToGroup(groupName: string, username: string): Promise<GroupType> {
-    const existingGroup = await Group.find({ groupName });
-    if (existingGroup.length === 0)
-      throw new NotFoundError(DomainCode.NOT_FOUND, 'Group does not exist!');
+    const existingGroup = await Group.findOne({ groupName });
+    if (!existingGroup)
+      throw new NotFoundError(DomainCode.NOT_FOUND, 'Group not found!');
 
-    if (existingGroup[0].members.includes(username))
-      throw new BadRequestError(DomainCode.FORBIDDEN, 'User already in group!');
+    if (existingGroup.members.includes(username))
+      throw new BadRequestError(DomainCode.INVALID_INPUT_FIELD, 'User already in group!');
 
     const group = await Group.findOneAndUpdate(
       { groupName: groupName },
       { $addToSet: { members: username } },
       { new: true }
     );
-    if (!group) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Group not found");
-    }
+    
     return this.toGroup(group); 
   }
 

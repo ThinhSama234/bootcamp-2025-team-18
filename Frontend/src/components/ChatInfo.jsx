@@ -1,27 +1,62 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import './ChatInfo.css'; // Assuming you have a CSS file for styling
+import {GroupSettings, MemberList, SharedMedia} from './common/DropDown';
 
-function SidebarRight({groupName}) {
+function SidebarRight({group}) {
+  const [loading, setLoading] = React.useState(true);
+  const [groupMembers, setGroupMembers] = React.useState(null);
+
+  useEffect(() => {
+    if (!group) return; 
+
+    const getGroupDetails = async () => {
+      try {
+        setGroupMembers(group.members.map((member) => {
+          return {
+            name: member,
+            pic: 'thisuser.jpg' // Fallback to default image if not available
+          };
+        }));
+        console.log("Group members:", groupMembers);
+      } catch (err) {
+        console.error("Failed to fetch group details:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getGroupDetails();
+  } , [group]);
+  
+  if (loading || !group) {
+    return (
+      <div className="loading-screen">
+        <img src="/loading.gif" alt="Loading..." className="loading-gif" />
+      </div>
+    );
+  }
+
   return (
     <div className="sidebar-right">
       <img src="/group1.jpg" alt="Group" className="group-pic-large" />
-      <h3>{groupName}</h3>
+      <h3>{group.groupName}</h3>
 
-      <div className="member-list">
-        <div className="member">
-          <img src="/janedoe.jpg" alt="User" className="member-pic" />
-          <span>Jane Doe</span>
-        </div>
-        <div className="member">
-          <img src="/thisuser.jpg" alt="User" className="member-pic" />
-          <span>This user</span>
-        </div>
-        {/* Repeat or map through member list */}
-      </div>
+      <GroupSettings header="Group Settings" />
+      {
+        groupMembers && <MemberList members={groupMembers} />
+      }
 
-      <div className="add-member-box">
-        <input type="text" placeholder="Add new member..." />
-        <button>Add</button>
-      </div>
+      <SharedMedia mediaData={{
+        April: [
+          '/group1.jpg','/group1.jpg','/group1.jpg','/group1.jpg','/group1.jpg'
+        ],
+        March: [
+          '/group1.jpg','/group1.jpg','/group1.jpg','/group1.jpg','/group1.jpg'
+        ]
+      }} />
+    
+
+      
     </div>
   );
 }

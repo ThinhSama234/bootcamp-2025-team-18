@@ -1,0 +1,119 @@
+
+/* Main Chat */
+.main-chat {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    overflow: hidden;
+  }
+  
+  .chat-header {
+    padding: 15px;
+    background-color: #d1f4d5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .chat-header-button {
+    height: 45px;
+    width: 45px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    margin-right: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .chat-header-button:hover {
+    background-color: #ccc;
+  }
+
+  .info-icon {
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;      /* crop image to fill circle */
+    overflow: hidden;       /* hide overflow if necessary */
+  }
+
+  .chat-header-group-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .chat-header-group-info h3 {
+    font-size: 24px;
+    color: #09ad4f;
+    margin-left: 16px;
+  }
+  
+  .chat-messages {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  
+  .no-messages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 18px;
+    color: #09ad4f;
+  }
+  
+  .chat-input {
+    display: flex;
+    padding: 10px;
+    background-color: #d1f4d5;
+  }
+  
+  .chat-input input {
+    height: 40px;
+    flex-grow: 1;
+    background: linear-gradient(90deg, #09ad4f, #78d59f);
+    padding: 10px 16px; 
+    border-radius: 20px;
+    font-size: 16px;
+    color: #fff;
+    outline: none;
+    border: none;
+    margin: 0 10px;
+  }
+
+  .chat-input input::placeholder {
+    color: #fff;
+  }
+
+  .request-button, .add-media-button, .send-button {
+    height: 36px;
+    width: 36px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .request-button:hover,.add-media-button:hover, .send-button:hover {
+    background-color: #ccc;
+  }
+
+  .request-icon, .add-media-icon, .send-icon {
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;      /* crop image to fill circle */
+    overflow: hidden;       /* hide overflow if necessary */
+  }

@@ -1,0 +1,11 @@
+services:
+  location-service:
+    container_name: location-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+    environment:
+      - LOCATIONDB_URL=${LOCATIONDB_URL}

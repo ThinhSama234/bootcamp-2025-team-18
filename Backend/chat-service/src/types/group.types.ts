@@ -1,6 +1,3 @@
-
-
-
 export interface GroupType {
   id: string;
   groupName: string;

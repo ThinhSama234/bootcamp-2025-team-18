@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package Location;
+
+service Suggestion {
+  rpc GetSuggestions (SuggestionRequest) returns (stream SuggestionReply);
+}
+
+message SuggestionRequest {
+  int32 k = 1;
+  repeated string messages = 2;
+}
+
+message SuggestionReply {
+  string type = 1; // "INIT" or "SUGGESTION"
+  string content = 2;
+}
+
