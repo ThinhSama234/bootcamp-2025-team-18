@@ -5,6 +5,7 @@ import { SocketServerEvent } from "../types/socketServer.types";
 import { handleSendImageMessage, handleSendTextMessage } from "./message.handler";
 import { handleRequestSuggestions } from "./suggestion.handler";
 import { handleUserJoinGroup, handleUserLeaveGroup } from "./groupAccess.handler";
+import { RequestError } from "../../../core/responses/ErrorResponse";
 
 
 const wrapHandler = (handler: Function) => {
@@ -14,9 +15,17 @@ const wrapHandler = (handler: Function) => {
     } 
     catch (error) {
       logger.error(`Socket handler error: ${error}`);
-      socket.emit(SocketServerEvent.ERROR, {
-        message: 'An error occurred while processing your request'
-      });
+      if (error instanceof RequestError) {
+        socket.emit(SocketServerEvent.ERROR, {
+          domainCode: error.domainCode,
+          message: error.message
+        });
+      }
+      else {
+        socket.emit(SocketServerEvent.ERROR, {
+          message: 'An error occurred while processing your request'
+        });
+      }
     }
   };
 };

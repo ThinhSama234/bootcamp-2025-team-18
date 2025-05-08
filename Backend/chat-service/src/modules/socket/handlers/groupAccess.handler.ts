@@ -45,7 +45,6 @@ export async function handleAddFriendToGroup(io: Server, socket: Socket, payload
   
   await groupService.addUserToGroup(groupName, friendUsername);
   
-  await socket.join(groupName);
   const userJoinedPayload: UserJoinedPayload = {
     username: friendUsername,
     groupName,
