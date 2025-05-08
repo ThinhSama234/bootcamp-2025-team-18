@@ -113,7 +113,7 @@ export class MessageFactory {
           doc.senderUsername,
           doc.groupName,
           doc.content.key,
-          doc.content.url,
+          doc.content.imageUrl,
           doc.createdAt,
           doc.updatedAt
         );
