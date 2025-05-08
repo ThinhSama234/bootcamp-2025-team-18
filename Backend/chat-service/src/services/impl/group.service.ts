@@ -46,9 +46,7 @@ class GroupService implements IGroupService {
       { $addToSet: { members: username } },
       { new: true }
     );
-    if (!group) {
-      throw new NotFoundError(DomainCode.NOT_FOUND, "Group not found");
-    }
+    
     return this.toGroup(group); 
   }
 
