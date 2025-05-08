@@ -11,6 +11,7 @@ from .faiss_io import save_faiss_index, load_faiss_index
 from .file_loader import DocumentProcessor
 from .version_manager import get_version_timestamp
 from .config import DATA_DIR, VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
+from extract_metadata import fetch_from_mongodb
 
 class VectorDB:
     def __init__(self, embedding_model: Optional[Embeddings] = None, data_dir = DATA_DIR, vector_db_dir = VECTOR_DB_DIR):
@@ -114,7 +115,7 @@ class VectorDB:
             return FAISS_Utils.create_hnsw_index(vectors, **index_params)
         else:
             raise ValueError(f"Unknown index type: {index_type}")
-    def search(self, faiss_name: str, query: str,  top_k: int = 5, 
+    def search(self, faiss_name: str, query: str, entities: Optional[Dict] = None, top_k: int = 5, 
                threshold: float = 0.7, 
     ) -> Dict[str, Union[List[Document], List[float], List[int]]]:
         """
@@ -154,10 +155,9 @@ class VectorDB:
             # 5. Thực hiện tìm kiếm
             scores, indices = index.search(query_vector, top_k)
             # 6. Xử lý kết quả
-            results = []
+            initial_results = []
             for i in range(len(indices[0])):
-                print(f"Score: {scores[0][i]}, Index: {indices[0][i]}")
-                # So sánh khoảng cách (nhỏ hơn threshold thì giữ lại)
+                #print(f"Score: {scores[0][i]}, Index: {indices[0][i]}")
                 if scores[0][i] >= threshold:
                     doc_id = int(indices[0][i])
                     result = {
@@ -165,8 +165,59 @@ class VectorDB:
                         "score": scores[0][i],
                         "mongo_id": mongo_id[doc_id],
                     }
-                    results.append(result)
-            return results
+                    print(f"Score: {scores[0][i]}, id: {mongo_id[doc_id]}")
+                    initial_results.append(result)
+
+            #return initial_results
+            mongo_ids = [result["mongo_id"] for result in initial_results]
+            docs = fetch_from_mongodb(mongo_ids, URL="vietnamtourism_URL", collection="vietnamtourism_db", document="vietnamtourism_db")
+            doc_map = {str(doc.get("_id")): doc.get('data', {}) for doc in docs if doc.get("_id")}
+
+            # Re-ranking
+            query_embedding = self.embed_query(query)
+            re_ranked_results = []
+            for result in initial_results:
+                mongo_id = result["mongo_id"]
+                if mongo_id not in doc_map:
+                    continue
+                data = doc_map[mongo_id]
+                content = f"{data.get('name', '')} {data.get('description', '')} {data.get('address', '')}"
+                #print(f"description: {data.get('description', '')}")
+                content_embedding = self.embed_texts([content])[0]
+                # Điểm ngữ nghĩa
+                similarity_score = np.dot(query_embedding, content_embedding) / (
+                    np.linalg.norm(query_embedding) * np.linalg.norm(content_embedding)
+                )
+                #print(f"similarity_score: {similarity_score}")
+
+                entity_boost = 0.0
+                if entities:
+                    # Khớp với locations
+                    locations = entities.get("locations", [])
+                    for location in locations:
+                        if location.lower() in data.get("address", "").lower():
+                            entity_boost += 0.5
+                    # Khớp với features
+                    features = entities.get("features", [])
+                    for feature in features:
+                        if feature.lower() in data.get("description", "").lower() or feature.lower() in data.get("name", "").lower():
+                            entity_boost += 0.4
+                    # Khớp với activities
+                    activities = entities.get("activities", [])
+                    for activity in activities:
+                        if activity.lower() in data.get("description", "").lower():
+                            entity_boost += 0.1
+
+                # Tổng hợp điểm
+                final_score = (similarity_score * 0.6 + entity_boost * 0.4)
+                re_ranked_results.append({
+                    "source": result["source"],
+                    "score": final_score,
+                    "mongo_id": result["mongo_id"],
+                })
+
+            re_ranked_results.sort(key=lambda x: x["score"], reverse=True)
+            return re_ranked_results[:top_k]
         except Exception as e:
             error_msg = f"Search failed: {str(e)}"
             raise RuntimeError(error_msg)

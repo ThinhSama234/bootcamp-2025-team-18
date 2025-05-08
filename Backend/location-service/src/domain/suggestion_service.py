@@ -59,15 +59,28 @@ class SuggestionService:
 if __name__ == "__main__":
   messages = [
     "Tôi nghĩ chúng ta nên đi đến Ninh Bình.",
+    "Ồ, đó thực sự là danh lam thắng cảnh nổi tiếng.",
     "Tuyệt vời, tôi cũng đang muốn ăn món núi rừng"
   ]
+  # messages = [
+  #   "Mọi người ơi, cuối tuần này chúng ta đi leo thác không nhỉ",
+  #   "Ồ, tôi cũng đang muốn chill.",
+  #   "Hay là đi Đà Lạt nhỉ, thời tiết se lạnh leo thác cho đỡ mệt"
+  # ]
+  # messages = [
+  #   "Tôi muốn đi leo núi"
+  # ]
   suggestion_service = SuggestionService(faiss_name="v20250506_153250")
-  location_ids = suggestion_service.get_location_ids(messages, k=10)
+  location_ids = suggestion_service.get_location_ids(messages, k=20)
   print("Location IDs:", location_ids)
 
-  sample_id = location_ids[0] if location_ids else "unknown_id"
-  details = suggestion_service.get_location_details_by_id(sample_id)
-  print("\nLocation Details for ID", sample_id, ":", details)
+  for sample_id in location_ids:
+    details = suggestion_service.get_location_details_by_id(sample_id)
+    print("\nInformation for ID", sample_id)
+    print("Location name", details["name"])
+    print("Location address", details["address"])
 
-  location_response = suggestion_service.get_location_response(sample_id)
-  print("\nLocation Response for ID", sample_id, ":", location_response)
+
+  for sample_id in location_ids:
+    location_response = suggestion_service.get_location_response(sample_id)
+    print("\nLocation Response for ID", sample_id, ":", location_response)

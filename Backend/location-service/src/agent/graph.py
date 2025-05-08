@@ -85,6 +85,7 @@ class Graph:
             results = manager.search(
                 faiss_name=self.faiss_name,
                 query=state['summary'],
+                entities=state["entities"],
                 top_k=k,
                 threshold=0.2
             )
