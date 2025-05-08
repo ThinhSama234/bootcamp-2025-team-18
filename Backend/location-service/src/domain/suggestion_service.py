@@ -1,5 +1,11 @@
 import uuid
-from agent.graph import Graph
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../agent")))
+from extract_metadata import fetch_from_mongodb
+from graph import Graph
+
 class SuggestionService:
   def __init__(self, faiss_name: str = None):
     self.graph = Graph(faiss_name)
@@ -7,9 +13,31 @@ class SuggestionService:
   def get_session_id(self) -> str:
     return str(uuid.uuid4())
 
-  def get_location_ids(self, k: int) -> list[str]: # done
-    self.location_details, self.response = self.graph.process_messages(messages)
-    return [str(loc["_id"]) for loc in self.location_details[:k]]
+  def get_location_ids(self, messages: list[str], k=5) -> list[str]: # done
+    initial_state = {"messages": messages}
+    state = self.graph.summarize(initial_state)
+    state = self.graph.search_vector_db(state, k)
+    location_details = state["location_details"]
+    return location_details
+  
+  def get_location_details_by_id(self, location_id: str) -> dict:
+    """Truy xuất thông tin chi tiết từ MongoDB dựa trên location_id."""
+    try:
+      docs = fetch_from_mongodb([location_id], URL="vietnamtourism_URL", collection="vietnamtourism_db", document="vietnamtourism_db")
+      #if not docs or not docs[0]:
+      #  return {"error": f"No data found for location_id {location_id}"}
+            
+      doc = docs[0]
+      data = doc.get('data', {})
+      return {
+        "_id": str(doc.get("_id")),
+        "name": data.get('name', ''),
+        "category": data.get('category', '').lower(),
+        "address": data.get('address', ''),
+        "description": data.get('description', '')
+      }
+    except Exception as e:
+      return {"error": f"Error fetching data for location_id {location_id}: {str(e)}"}
 
   def get_location_description(self, location_id: str) -> str:
     for item in self.response:
@@ -19,18 +47,35 @@ class SuggestionService:
           return f"{description}"
         return f"Đây là địa điểm phù hợp với yêu cầu của bạn."
     return f"Đây là địa điểm phù hợp với yêu cầu của bạn."
-  
+  def get_location_response(self, location_id: str) -> str:
+    """
+    Tạm thời bây giờ, câu response sẽ là câu mô tả
+    """
+    try:
+      details = self.get_location_details_by_id(location_id)
+      # Kiểm tra nếu có lỗi
+      if "error" in details:
+        return details["error"]
+      
+      # Trả về mô tả nếu có
+      description = details.get("description", "")
+      return description if description else "Đây là địa điểm phù hợp với yêu cầu của bạn."
+      
+    except Exception as e:
+      return f"Error fetching description for location_id {location_id}: {str(e)}"
 
 if __name__ == "__main__":
   messages = [
     "Tôi nghĩ chúng ta nên đi đến Ninh Bình.",
     "Tuyệt vời, tôi cũng đang muốn ăn món núi rừng"
   ]
-  #suggestion_service = SuggestionService(messages, faiss_name="v20250504_161455")
-  suggestion_service = SuggestionService(messages, faiss_name="v20250506_153250")
-  location_ids = suggestion_service.get_location_ids(k=5)
+  suggestion_service = SuggestionService(faiss_name="v20250506_153250")
+  location_ids = suggestion_service.get_location_ids(messages, k=10)
   print("Location IDs:", location_ids)
-  print("\nAll Location Descriptions:")
-  for loc_id in location_ids:
-    description = suggestion_service.get_location_description(loc_id)
-    print("Description:", description)
+
+  sample_id = location_ids[0] if location_ids else "unknown_id"
+  details = suggestion_service.get_location_details_by_id(sample_id)
+  print("\nLocation Details for ID", sample_id, ":", details)
+
+  location_response = suggestion_service.get_location_response(sample_id)
+  print("\nLocation Response for ID", sample_id, ":", location_response)
