@@ -10,13 +10,11 @@ import sys
 import logging
 import requests
 from bs4 import BeautifulSoup
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../crawl_data/Data")))
 from dotenv import load_dotenv
+import time
 # model = init_chat_model("gpt-4o-mini", model_provider="openai")
 from google import genai
 from data_interface import MongoDB
-# Cấu hình API key cho Google Generative AI (thay bằng API key của bạn)
-
 # Khởi tạo client và mô hình Gemini
 client = genai.Client(api_key="AIzaSyDU3Hl2kTKLMOPJlK4tIU3s6vpHYq8d-58")
 
@@ -70,31 +68,6 @@ def load_json_from_file(file_path):
     """Loads JSON data from a file."""
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
-
-# mock_text = """Địa chỉ: xã Định Thành, huyện Dầu Tiếng, tỉnh Bình Dương. Giờ mở cửa: 7h30 - 18h30. Giá vé: Miễn phí. Từ tháng 5 đến tháng 12 là khoảng thời gian lý tưởng để check-in suối Trúc. Khoảng thời gian này suối Trúc có mưa nên bạn nhớ cẩn thận trong quá trình di chuyển và vui chơi. Suối Trúc Tây Ninh còn khá đơn sơ nên các dịch vui chơi, nghỉ dưỡng hay bảo hộ vẫn còn hạn chế. Do đó, bạn nên chuẩn bị đồ ăn, thức uống cho chuyến đi của mình.
-# - Nếu muốn ngâm mình dưới làn nước trong veo, mát lành của suối Trúc, bạn nên mang theo đồ bơi hoặc nhiều quần áo nhé.
-# - Từ 9h đến 10h là khung thời gian tuyệt vời nhất để tắm suối."""
-# query = mock_text
-# print(prompt.format_prompt(query=query).to_string())
-
-
-
-# # Chuẩn bị nội dung prompt để gửi đến Gemini
-# formatted_prompt = prompt.format_prompt(query=query).to_string()
-# # Gửi yêu cầu đến Gemini và nhận phản hồi
-# response = client.models.generate_content(
-#             model="gemini-2.0-flash",
-#             contents=formatted_prompt
-#         )
-# # Trích xuất JSON từ phản hồi
-# result = extract_json(AIMessage(content=response.text))
-# print(result)
-# Lưu kết quả vào file JSON
-#save_json_to_file(result, "output.json")
-# chain = prompt | model | extract_json
-# result = chain.invoke({"query": query})
-# print(result)
-
 def align_text(text):
     """Aligns a messy text into a structured, readable format."""
     # Loại bỏ khoảng trắng thừa và chuẩn hóa dòng
@@ -156,7 +129,7 @@ def parse_html_to_text_and_images(html_content):
     
     return after_align, image_urls
 
-def save_to_mongodb(data_json, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="new_locations"):
+def save_to_mongodb(data_json, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="auto_crawl"):
     """Saves data to MongoDB."""
     load_dotenv()
     DB_URL = os.getenv(URL)
@@ -171,7 +144,7 @@ def save_to_mongodb(data_json, URL = "TRAVELDB_URL", db_name = "travel_db", coll
     db.close()
     return
 
-def save_to_mongodb_full_text(name, full_text, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="more_details"):
+def save_to_mongodb_full_text(name, full_text, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="auto_crawl_text"):
     """Saves data to MongoDB full text."""
     load_dotenv()
     DB_URL = os.getenv(URL)
@@ -191,74 +164,69 @@ def save_to_mongodb_full_text(name, full_text, URL = "TRAVELDB_URL", db_name = "
     print("Số lượng doc hiện tại là:",db.count_documents())
     db.close()
     return
-#url = "https://mia.vn/cam-nang-du-lich/suoi-truc-tay-ninh-dia-diem-du-lich-tu-nhien-moi-me-thu-hut-gioi-tre-8964"
-#url = "https://mia.vn/cam-nang-du-lich/le-hoi-den-cua-ong-le-hoi-tung-bung-bac-nhat-tinh-quang-ninh-3391"
-#url = "https://mia.vn/cam-nang-du-lich/kham-pha-lang-tranh-dong-ho-13832"
-#url = "https://mia.vn/cam-nang-du-lich/lang-gom-phu-lang-bac-ninh-12875"
-#url = "https://mia.vn/cam-nang-du-lich/con-oc-ben-tre-va-ve-dep-dam-chat-hoang-so-thanh-binh-11296"
-#url = "https://mia.vn/cam-nang-du-lich/den-san-chim-vam-ho-chiem-nguong-ve-dep-thien-nhien-ky-thu-11553"
-#url = "https://mia.vn/cam-nang-du-lich/vuon-trai-cay-cai-mon-toa-do-giai-nhiet-ngay-nang-nong-11062"
-with open("mia.txt", "r", encoding="utf-8") as f:
-    urls = [line.strip() for line in f if line.strip()]
-#print(urls)
-#url = "https://mia.vn/cam-nang-du-lich/den-dinh-phu-tu-ben-tre-chiem-nguong-loi-kien-truc-co-xua-10951"
-for url in urls:
-    logging.info(f"Xử lý URL: {url}")
+def process_url(url, max_retries=3, delay=2):
     headers = {"User-Agent": "Mozilla/5.0"}
-    html_content = requests.get(url, headers=headers).text
-    soup = BeautifulSoup(html_content, "html.parser")
-    main_content = soup.find("div", class_="post-content")
-    # div class="content-wrapper  vinpearl.com
-    #print(main_content)
-    print("200 OK")
-    query, image_urls = parse_html_to_text_and_images(main_content)
-    # Prompt
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            (
-            # "system",
-            # "Answer the user query. Output your answer as JSON that "
-            # "matches the given schema: ```json\n{schema}\n```."
-            # "Make sure to wrap the answer in ```json``` tags",
-            "system",
-                "Extract location information from the user query and output it as JSON that matches the given schema: ```json\n{schema}\n```. "
-                "Create a description as a concise sumary (4-5 sentences) with objective information: focus on the location's standout features, ecosystem, notable experiences, and reasons to choose it (e.g., natural beauty, unique activities, accessibility)."
-                "Avoid subjective phrases (e.g., 'wonderful', 'amazing') and promotional content (e.g., 'MIA.vn', 'will bring you great experiences'). "
-                "language will be Vietnamese. "
-                "Determine the category based on the context using the following format: '[sao] [giá thành] [loại sở hữu] [loại hình] [văn hóa]', where: "
-                "- [sao]: Số sao (ví dụ: 4.5 sao) nếu có thông tin đánh giá, bỏ qua nếu không có. "
-                "- [giá thành]: 'giá cao' hoặc 'giá thấp' nếu có thông tin về chi phí, bỏ qua nếu không có. "
-                "- [loại sở hữu]: 'thiên nhiên' hoặc 'tư nhân' dựa trên bối cảnh, bỏ qua nếu không rõ. "
-                "- [loại hình]: Một trong 'khu du lịch', 'bảo tàng', 'di tích', 'biển', 'hồ', 'lăng', v.v., dựa trên mô tả, bỏ qua nếu không rõ. "
-                "- [văn hóa]: Thêm 'tâm linh', 'thủ công', hoặc 'di sản văn hóa' nếu có yếu tố văn hóa liên quan, bỏ qua nếu không có. "
-                "Use the provided image_urls: {image_urls} for the 'image_url' field in the JSON output. "
-                "If any information (like latitude, longitude) is missing, use "". "
-                "Make sure to wrap the answer in ```json``` tags",
-            ),
-            ("human", "{query}"),
-        ]
-    ).partial(schema=Location.model_json_schema(), image_urls=image_urls)
-
-    #print("====================")
-    #print("Extracted text:", query)
-    #print("Extracted image URLs:", image_urls)
-    print("====================================")
-    #print(prompt.format_prompt(query=query).to_string())
-    # Chuẩn bị nội dung prompt để gửi đến Gemini
-    formatted_prompt = prompt.format_prompt(query=query).to_string()
-    # Gửi yêu cầu đến Gemini và nhận phản hồi
-    response = client.models.generate_content(
-                model="gemini-2.0-flash",
-                contents=formatted_prompt
-            )
-    # Trích xuất JSON từ phản hồi
-    result = extract_json(AIMessage(content=response.text)) 
-    print(result)
-    #Lưu kết quả vào file JSON
-    #save_json_to_file(result, "output3.json")
-    # Lưu vào mongodb
-    save_to_mongodb(result[0])
-    save_to_mongodb_full_text(result[0]['data']['name'], query)
+    for attempt in range(max_retries):
+        try:
+            logging.info(f"Attempt {attempt + 1} to process URL: {url}")
+            html_content = requests.get(url, headers=headers).text
+            soup = BeautifulSoup(html_content, "html.parser")
+            main_content = soup.find("div", class_="post-content")
+            print("200 OK")
+            query, image_urls = parse_html_to_text_and_images(main_content)
+            # Prompt
+            prompt = ChatPromptTemplate.from_messages(
+                [
+                    (
+                    "system",
+                        "Extract location information from the user query and output it as JSON that matches the given schema: ```json\n{schema}\n```. "
+                        "Create a description as a concise sumary (4-5 sentences) with objective information: focus on the location's standout features, ecosystem, notable experiences, and reasons to choose it (e.g., natural beauty, unique activities, accessibility)."
+                        "Avoid subjective phrases (e.g., 'wonderful', 'amazing') and promotional content (e.g., 'MIA.vn', 'will bring you great experiences'). "
+                        "language will be Vietnamese. "
+                        "Determine the category based on the context using the following format: '[sao] [giá thành] [loại sở hữu] [loại hình] [văn hóa]', where: "
+                        "- [sao]: Số sao (ví dụ: 4.5 sao) nếu có thông tin đánh giá, bỏ qua nếu không có. "
+                        "- [giá thành]: 'giá cao' hoặc 'giá thấp' nếu có thông tin về chi phí, bỏ qua nếu không có. "
+                        "- [loại sở hữu]: 'thiên nhiên' hoặc 'tư nhân' dựa trên bối cảnh, bỏ qua nếu không rõ. "
+                        "- [loại hình]: Một trong 'khu du lịch', 'bảo tàng', 'di tích', 'biển', 'hồ', 'lăng', v.v., dựa trên mô tả, bỏ qua nếu không rõ. "
+                        "- [văn hóa]: Thêm 'tâm linh', 'thủ công', hoặc 'di sản văn hóa' nếu có yếu tố văn hóa liên quan, bỏ qua nếu không có. "
+                        "Use the provided image_urls: {image_urls} for the 'image_url' field in the JSON output. "
+                        "If any information (like latitude, longitude) is missing, use "". "
+                        "Make sure to wrap the answer in ```json``` tags",
+                    ),
+                    ("human", "{query}"),
+                ]
+            ).partial(schema=Location.model_json_schema(), image_urls=image_urls)
+            print("====================================")
+            #print(prompt.format_prompt(query=query).to_string())
+            # Chuẩn bị nội dung prompt để gửi đến Gemini
+            formatted_prompt = prompt.format_prompt(query=query).to_string()
+            # Gửi yêu cầu đến Gemini và nhận phản hồi
+            response = client.models.generate_content(
+                        model="gemini-2.0-flash",
+                        contents=formatted_prompt
+                    )
+            # Trích xuất JSON từ phản hồi
+            result = extract_json(AIMessage(content=response.text)) 
+            # kiem tra json co hop le khong
+            if not result or not isinstance(result, list) or len(result) == 0:
+                raise ValueError("Invalid JSON response")
+            Location(**result[0])
+            print(result)
+            # Lưu vào mongodb
+            save_to_mongodb(result[0])
+            save_to_mongodb_full_text(result[0]['data']['name'], query)
+            return
+        except (ValueError, Exception) as e:
+            logging.error(f"Lỗi khi xử lý URL {url} (Thử lần {attempt + 1}/{max_retries}): {e}")
+            if attempt == max_retries - 1:
+                logging.error(f"Không thể xử lý URL {url} đã thử hết nhưng vẫn thất bại.")
+                return
+            time.sleep(delay)  # Delay before retrying
+#url = "https://mia.vn/cam-nang-du-lich/vuon-trai-cay-cai-mon-toa-do-giai-nhiet-ngay-nang-nong-11062"
+with open("attraction_links.txt", "r", encoding="utf-8") as f:
+    urls = [line.strip() for line in f if line.strip()]
+for url in urls:
+    process_url(url, max_retries=3, delay=2)
 
 
 
