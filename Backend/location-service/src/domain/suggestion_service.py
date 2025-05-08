@@ -39,14 +39,6 @@ class SuggestionService:
     except Exception as e:
       return {"error": f"Error fetching data for location_id {location_id}: {str(e)}"}
 
-  def get_location_description(self, location_id: str) -> str:
-    for item in self.response:
-      if isinstance(item, dict) and "_id" in item and item["_id"] == location_id:
-        description = item.get("description", "")
-        if description:
-          return f"{description}"
-        return f"Đây là địa điểm phù hợp với yêu cầu của bạn."
-    return f"Đây là địa điểm phù hợp với yêu cầu của bạn."
   def get_location_response(self, location_id: str) -> str:
     """
     Tạm thời bây giờ, câu response sẽ là câu mô tả
