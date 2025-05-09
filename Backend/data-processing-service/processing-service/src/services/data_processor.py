@@ -31,7 +31,7 @@ class DataProcessor:
     self.running = True
     self.setup_signal_handlers()
 
-  def _send_to_dlt(self, error_type: str, original_message: Any, errors: Dict[str, Any] = None):
+  def _send_to_dlt(self, error_type: str, original_message: Any, errors: str):
     dlt_message = {
       'error': error_type,
       'original_message': original_message.value().decode('utf-8'),
@@ -62,17 +62,17 @@ class DataProcessor:
     except json.JSONDecodeError as e:
       logger.error(f"Invalid JSON in message: {str(e)}")
       MESSAGES_PROCESSED.labels(status='json_error').inc()
-      self._send_to_dlt('json_error', msg, e)
+      self._send_to_dlt('json_error', msg, str(e))
 
     except ValidationError as e:
       logger.error(f"Data validation failed: {str(e)}")
       MESSAGES_PROCESSED.labels(status='validation_error').inc()
-      self._send_to_dlt('validation_error', msg, e)
+      self._send_to_dlt('validation_error', msg, str(e))
 
     except Exception as e:
       logger.error(f"Error processing message: {str(e)}")
       MESSAGES_PROCESSED.labels(status='error').inc()
-      self._send_to_dlt('exception', msg, e)    
+      self._send_to_dlt('exception', msg, str(e))    
 
     return False
 
