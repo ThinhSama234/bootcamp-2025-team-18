@@ -63,10 +63,10 @@ def main():
       logger.error(f"Error in main loop: {str(e)}")
       # Wait a bit before retrying in case of error
       time.sleep(10)
-    finally:
-      if len(location_jsons) > 0:
-        send_batch(location_jsons)
-        location_jsons = []
+
+    if len(location_jsons) > 0:
+      send_batch(location_jsons)
+      location_jsons = []
 
 if __name__ == "__main__":
   main()
