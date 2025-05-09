@@ -62,7 +62,7 @@ if __name__ == "__main__":
     "Tuyệt vời, tôi cũng đang muốn ăn món núi rừng"
   ]
   suggestion_service = SuggestionService(faiss_name="v20250506_153250")
-  location_ids = suggestion_service.get_location_ids(messages, k=10)
+  location_ids = suggestion_service.get_location_ids(k = 10, messages = messages)
   print("Location IDs:", location_ids)
 
   sample_id = location_ids[0] if location_ids else "unknown_id"

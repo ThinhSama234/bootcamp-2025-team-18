@@ -19,6 +19,33 @@ class VectorDB:
         self.embedding_model = embedding_model
         self._init_embedding_model()
     
+    def ingest_embedding(self, source: str, faiss_name: str, chunk_size: int = 500, chunk_overlap: int = 50, _id: str = None) -> list[dict]:
+        """
+        End-to-end document ingestion pipeline
+        1. Load -> 2. Chunk -> 3. Embed
+        """
+        # 1. Load documents
+        docs = DocumentProcessor.load(source)
+        print("success load documents")
+        # 2. Split into chunks
+        chunks = DocumentProcessor.chunk(docs, chunk_size, chunk_overlap)
+        print("success chunk")
+        # 3. Create embeddings and index
+        vectors = self.embed_texts([chunk.page_content for chunk in chunks])
+        print(vectors.shape)
+        print(len(chunks))
+        # 4. Chuẩn bị ánh xạ FAISS ID ↔ Mongo ID
+        mongo_ids = [str(_id)] * len(chunks)
+        results = []
+        for i in range(len(mongo_ids)):
+            result = {
+                "embedding": vectors[i].tolist(),
+                "mongo_id": mongo_ids[i],
+            }
+            results.append(result)
+        print("Success create index")
+        return results
+
     def ingest(self, source: str, faiss_name: str, chunk_size: int = 500, chunk_overlap: int = 50, _id: str = None) -> str:
         """
         End-to-end document ingestion pipeline
