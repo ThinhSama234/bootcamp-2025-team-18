@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class ImportApiClient:
   def __init__(self):
-    self.base_url = os.getenv('API_URL', 'http://localhost:8000')
+    self.base_url = os.getenv('INGEST_SERVICE_URL', 'http://localhost:8000')
     self.session = requests.Session()
 
   def import_location(self, location_data: Dict[str, Any], metadata: Dict[str, Any] = None) -> Dict[str, Any]:

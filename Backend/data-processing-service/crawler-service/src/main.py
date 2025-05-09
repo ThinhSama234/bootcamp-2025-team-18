@@ -13,31 +13,40 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
+  # Crawling interval in seconds
+INTERVAL = int(os.getenv('CRAWL_INTERVAL', '5'))
+BATCH_SIZE = int(os.getenv('BATCH_SIZE', '20'))
+
+PROVINCE_URLS = ["https://mia.vn/cam-nang-du-lich/khanh-hoa"]
+
 def main():
-  api_client = ImportApiClient()
-  crawler = Crawler()
-  
-  # Crawling interval in seconds (5 minutes)
-  interval = int(os.getenv('CRAWL_INTERVAL', '300'))
   
   logger.info("Crawler service started...")
   
-  while True:
+  api_client = ImportApiClient()
+  crawler = Crawler()
+
+  location_paper_urls = []
+  for province_url in PROVINCE_URLS:
+    location_paper_urls = location_paper_urls + crawler.crawl_location_paper_urls(province_url)
+  
+  location_jsons = []
+  for paper_url in location_paper_urls:
     try:
-      # Get locations from crawler
-      locations = [] #crawler.crawl_locations(['https://example.com'])
+      location = crawler.crawl_location(paper_url)    
+      if location:
+        location_jsons.append(location)
       
-      if locations:
-        # Send batch of crawled locations
+      if len(location_jsons) >= BATCH_SIZE:
         result = api_client.batch_import_locations(
-          locations,
+          location_jsons,
           metadata={"import_type": "crawled", "timestamp": time.time()}
         )
-        logger.info(f"Successfully sent {len(locations)} locations. Batch ID: {result.get('request_id')}")
+        logger.info(f"Successfully sent {len(location_jsons)} locations. Batch ID: {result.get('request_id')}")
       
       # Wait for the next crawling cycle
-      logger.info(f"Waiting {interval} seconds until next crawl...")
-      time.sleep(interval)
+      logger.info(f"Waiting {INTERVAL} seconds until next crawl...")
+      time.sleep(INTERVAL)
       
     except KeyboardInterrupt:
       logger.info("Shutting down crawler service...")
