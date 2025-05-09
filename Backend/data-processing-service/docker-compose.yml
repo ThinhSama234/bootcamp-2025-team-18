@@ -62,3 +62,6 @@ services:
     depends_on:
       ingest-service:
         condition: service_started
+    environment:
+      GENAI_API_KEY: ${GENAI_API_KEY}
+      INGEST_SERVICE_URL: http://ingest-service:8000
