@@ -17,7 +17,9 @@ load_dotenv()
 INTERVAL = int(os.getenv('CRAWL_INTERVAL', '5'))
 BATCH_SIZE = int(os.getenv('BATCH_SIZE', '20'))
 
-PROVINCE_URLS = ["https://mia.vn/cam-nang-du-lich/khanh-hoa"]
+CRAWLED_URLS = []
+with open('crawled_urls.txt', 'r') as f:
+  CRAWLED_URLS = [line.strip() for line in f.readlines()]
 
 def main():
   
@@ -27,7 +29,7 @@ def main():
   crawler = Crawler()
 
   location_paper_urls = []
-  for province_url in PROVINCE_URLS:
+  for province_url in CRAWLED_URLS:
     location_paper_urls = location_paper_urls + crawler.crawl_location_paper_urls(province_url)
   
   logger.info(f"Found {len(location_paper_urls)} location paper URLs to crawl.")
