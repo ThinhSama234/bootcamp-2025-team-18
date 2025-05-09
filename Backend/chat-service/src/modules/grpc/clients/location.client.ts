@@ -7,6 +7,7 @@ interface SuggestionRequest {
   k: number;
   messages: string[];
   image_urls: string[];
+  coordinates?: { latitude: number; longtitude: number; };
 }
 
 interface SuggestionReply {
@@ -27,8 +28,8 @@ export class LocationClient {
     this.calls = [];
   }
 
-  async getSuggestions(k: number, messages: string[], image_urls: string[], initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function) {
-    const request: SuggestionRequest = { k, messages, image_urls };
+  async getSuggestions(k: number, messages: string[], image_urls: string[], coordinates: { latitude: number, longtitude: number } | undefined, initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function) {
+    const request: SuggestionRequest = { k, messages, image_urls, coordinates };
     const call = this.client.GetSuggestions(request);
     this.calls.push(call);
     

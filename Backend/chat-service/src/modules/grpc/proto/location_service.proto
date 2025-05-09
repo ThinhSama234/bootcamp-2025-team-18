@@ -6,10 +6,22 @@ service Suggestion {
   rpc GetSuggestions (SuggestionRequest) returns (stream SuggestionReply);
 }
 
+message Coordinates {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message OptionalCoordinates {
+  oneof kind {
+    Coordinates coordinates = 1;
+  }
+}
+
 message SuggestionRequest {
   int32 k = 1;
   repeated string messages = 2;
   repeated string image_urls = 3;
+  OptionalCoordinates coordinates = 4;
 }
 
 message SuggestionReply {

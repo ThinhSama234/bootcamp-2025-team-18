@@ -49,13 +49,15 @@ export class TextMessage extends IMessage {
 export class SuggestionMessage extends IMessage {
   requestedMessages: string[];
   requestedImageUrls: string[];
+  requestedCoordinates: { latitude: number; longtitude: number } | undefined;
   suggestionId: string;
   suggestions: string[];
 
-  constructor(id: string, senderUsername: string, groupName: string, requestedMessages: string[], requestedImageUrls: string[], suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
+  constructor(id: string, senderUsername: string, groupName: string, requestedMessages: string[], requestedImageUrls: string[], requestedCoordinates: { latitude: number; longtitude: number } | undefined, suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
     super(id, MessageType.SUGGESTIONS, senderUsername, groupName, createdAt, updatedAt);
     this.requestedMessages = requestedMessages;
     this.requestedImageUrls = requestedImageUrls;
+    this.requestedCoordinates = requestedCoordinates;
     this.suggestionId = suggestionId;
     this.suggestions = suggestions;
   }
@@ -64,6 +66,7 @@ export class SuggestionMessage extends IMessage {
     return { 
       requestedMessages: this.requestedMessages,
       requestedImageUrls: this.requestedImageUrls,
+      requestedCoordinates: this.requestedCoordinates,
       suggestionId: this.suggestionId,
       suggestions: this.suggestions,
     }
@@ -106,6 +109,7 @@ export class MessageFactory {
           doc.groupName,
           doc.content.requestedMessages,
           doc.content.requestedImageUrls,
+          doc.content.requestedCoordinates,
           doc.content.suggestionId,
           doc.content.suggestions,
           doc.createdAt,

@@ -39,5 +39,6 @@ export interface RequestSuggestionsPayload {
   k: number;
   messages: string[];
   image_urls: string[];
+  coordinates?: { latitude: number; longtitude: number; };
 } 
 

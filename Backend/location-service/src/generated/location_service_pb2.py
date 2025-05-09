@@ -24,17 +24,21 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16location_service.proto\x12\x08Location\"D\n\x11SuggestionRequest\x12\t\n\x01k\x18\x01 \x01(\x05\x12\x10\n\x08messages\x18\x02 \x03(\t\x12\x12\n\nimage_urls\x18\x03 \x03(\t\"0\n\x0fSuggestionReply\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t2X\n\nSuggestion\x12J\n\x0eGetSuggestions\x12\x1b.Location.SuggestionRequest\x1a\x19.Location.SuggestionReply0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16location_service.proto\x12\x08Location\"2\n\x0b\x43oordinates\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\"K\n\x13OptionalCoordinates\x12,\n\x0b\x63oordinates\x18\x01 \x01(\x0b\x32\x15.Location.CoordinatesH\x00\x42\x06\n\x04kind\"x\n\x11SuggestionRequest\x12\t\n\x01k\x18\x01 \x01(\x05\x12\x10\n\x08messages\x18\x02 \x03(\t\x12\x12\n\nimage_urls\x18\x03 \x03(\t\x12\x32\n\x0b\x63oordinates\x18\x04 \x01(\x0b\x32\x1d.Location.OptionalCoordinates\"0\n\x0fSuggestionReply\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t2X\n\nSuggestion\x12J\n\x0eGetSuggestions\x12\x1b.Location.SuggestionRequest\x1a\x19.Location.SuggestionReply0\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'location_service_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_SUGGESTIONREQUEST']._serialized_start=36
-  _globals['_SUGGESTIONREQUEST']._serialized_end=104
-  _globals['_SUGGESTIONREPLY']._serialized_start=106
-  _globals['_SUGGESTIONREPLY']._serialized_end=154
-  _globals['_SUGGESTION']._serialized_start=156
-  _globals['_SUGGESTION']._serialized_end=244
+  _globals['_COORDINATES']._serialized_start=36
+  _globals['_COORDINATES']._serialized_end=86
+  _globals['_OPTIONALCOORDINATES']._serialized_start=88
+  _globals['_OPTIONALCOORDINATES']._serialized_end=163
+  _globals['_SUGGESTIONREQUEST']._serialized_start=165
+  _globals['_SUGGESTIONREQUEST']._serialized_end=285
+  _globals['_SUGGESTIONREPLY']._serialized_start=287
+  _globals['_SUGGESTIONREPLY']._serialized_end=335
+  _globals['_SUGGESTION']._serialized_start=337
+  _globals['_SUGGESTION']._serialized_end=425
 # @@protoc_insertion_point(module_scope)
