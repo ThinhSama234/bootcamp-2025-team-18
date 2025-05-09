@@ -13,7 +13,7 @@ class SuggestionService:
   def get_session_id(self) -> str:
     return str(uuid.uuid4())
 
-  def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: Any) -> list[str]: # done
+  def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: any) -> list[str]: # done
     initial_state = {"messages": messages}
     state = self.graph.summarize(initial_state)
     state = self.graph.search_vector_db(state, k)
