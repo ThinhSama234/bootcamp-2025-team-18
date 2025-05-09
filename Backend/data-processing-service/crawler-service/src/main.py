@@ -64,9 +64,9 @@ def main():
       # Wait a bit before retrying in case of error
       time.sleep(10)
 
-    if len(location_jsons) > 0:
-      send_batch(location_jsons)
-      location_jsons = []
+  if len(location_jsons) > 0:
+    send_batch(location_jsons)
+    location_jsons = []
 
 if __name__ == "__main__":
   main()

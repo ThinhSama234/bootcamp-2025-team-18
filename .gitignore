@@ -2,4 +2,4 @@
 
 .env
 
-deploy/*.sh
+deploy/*
