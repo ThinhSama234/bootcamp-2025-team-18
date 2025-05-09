@@ -30,6 +30,16 @@ def main():
   for province_url in PROVINCE_URLS:
     location_paper_urls = location_paper_urls + crawler.crawl_location_paper_urls(province_url)
   
+  logger.info(f"Found {len(location_paper_urls)} location paper URLs to crawl.")
+  logger.info(location_paper_urls)
+  
+  def send_batch(jsons):
+    result = api_client.batch_import_locations(
+      location_jsons,
+      metadata={"import_type": "crawled", "timestamp": time.time()}
+    )
+    logger.info(f"Successfully sent {len(location_jsons)} locations. Batch ID: {result.get('request_id')}")
+      
   location_jsons = []
   for paper_url in location_paper_urls:
     try:
@@ -38,12 +48,8 @@ def main():
         location_jsons.append(location)
       
       if len(location_jsons) >= BATCH_SIZE:
-        result = api_client.batch_import_locations(
-          location_jsons,
-          metadata={"import_type": "crawled", "timestamp": time.time()}
-        )
-        logger.info(f"Successfully sent {len(location_jsons)} locations. Batch ID: {result.get('request_id')}")
-      
+        send_batch(location_jsons)  
+        location_jsons = []
       # Wait for the next crawling cycle
       logger.info(f"Waiting {INTERVAL} seconds until next crawl...")
       time.sleep(INTERVAL)
@@ -55,6 +61,10 @@ def main():
       logger.error(f"Error in main loop: {str(e)}")
       # Wait a bit before retrying in case of error
       time.sleep(10)
+    finally:
+      if len(location_jsons) > 0:
+        send_batch(location_jsons)
+        location_jsons = []
 
 if __name__ == "__main__":
   main()

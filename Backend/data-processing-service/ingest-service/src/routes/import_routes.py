@@ -66,7 +66,7 @@ def batch_import():
     return jsonify({
       "status": "success",
       "message": f"Batch import initiated with {len(data['items'])} items",
-      "timestamp": datetime.utcnow().isoformat(),
+      "timestamp": datetime.now().isoformat(),
       "request_id": batch_id
     }), 200
     
