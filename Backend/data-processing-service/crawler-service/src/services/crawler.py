@@ -235,14 +235,14 @@ class Crawler:
     
     if not result or not isinstance(result, list) or len(result) == 0:
         raise ValueError("Invalid JSON response")
-      
-    return result
+    
+    return Location(**result[0])
 
   def crawl_location(self, paper_url: str, max_tries=3, delay=2) -> Dict[str, Any]:
     if paper_url in self.processed_urls:
       return None
 
-    location = {}
+    location_data = None
     for attempt in range(max_tries):
       try:
         logger.info(f"Attempt {attempt + 1} to process URL: {paper_url}")
@@ -253,8 +253,11 @@ class Crawler:
         main_content = soup.find("div", class_="post-content")
         query, image_urls = self._parse_html_to_text_and_images(main_content)
 
-        result = self._prompt_ai_for_model(query, image_urls)
-        location = Location(**result[0])
+        location = self._prompt_ai_for_model(query, image_urls)
+        location_data = {
+          'type': location.type,
+          'data': location.data.model_dump()
+        }
         break
       except (ValueError, Exception) as e:
         logger.error(f"Error processing '{paper_url}' ({attempt + 1}/{max_tries}) tries: {e}")
@@ -263,6 +266,6 @@ class Crawler:
           return
         time.sleep(delay)
     
-    if location:
+    if location_data:
       self.processed_urls.add(paper_url)
-    return location
+    return location_data
