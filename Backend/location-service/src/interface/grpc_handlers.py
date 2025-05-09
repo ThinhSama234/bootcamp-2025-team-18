@@ -9,7 +9,7 @@ class LocationServiceHandler(pb2_grpc.SuggestionServicer):
     id = self.suggestion_service.get_session_id()
     yield pb2.SuggestionReply(type="INIT", content=id)
 
-    location_ids = self.suggestion_service.get_location_ids(request.k, request.messages)
+    location_ids = self.suggestion_service.get_location_ids(request.k, request.messages, request.image_urls)
     for location_id in location_ids:
       description = self.suggestion_service.get_location_response(location_id)
       yield pb2.SuggestionReply(type="SUGGESTION", content=description)

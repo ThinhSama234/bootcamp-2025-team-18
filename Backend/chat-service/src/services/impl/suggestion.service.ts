@@ -12,8 +12,8 @@ class SuggestionService implements ISuggestionService {
     this.client = new LocationClient(URL);
   }
 
-  getSuggestions(k: number, messages: string[], initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function): void {
-    this.client.getSuggestions(k, messages, initCb, getSingleSuggestionCb, errorCb);
+  getSuggestions(k: number, messages: string[], image_urls: string[], initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function): void {
+    this.client.getSuggestions(k, messages, image_urls, initCb, getSingleSuggestionCb, errorCb);
   }
 
 }

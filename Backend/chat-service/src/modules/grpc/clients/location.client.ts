@@ -6,6 +6,7 @@ import path from 'path';
 interface SuggestionRequest {
   k: number;
   messages: string[];
+  image_urls: string[];
 }
 
 interface SuggestionReply {
@@ -26,8 +27,8 @@ export class LocationClient {
     this.calls = [];
   }
 
-  async getSuggestions(k: number, messages: string[], initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function) {
-    const request: SuggestionRequest = { k, messages };
+  async getSuggestions(k: number, messages: string[], image_urls: string[], initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function) {
+    const request: SuggestionRequest = { k, messages, image_urls };
     const call = this.client.GetSuggestions(request);
     this.calls.push(call);
     

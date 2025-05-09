@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16location_service.proto\x12\x08Location\"0\n\x11SuggestionRequest\x12\t\n\x01k\x18\x01 \x01(\x05\x12\x10\n\x08messages\x18\x02 \x03(\t\"0\n\x0fSuggestionReply\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t2X\n\nSuggestion\x12J\n\x0eGetSuggestions\x12\x1b.Location.SuggestionRequest\x1a\x19.Location.SuggestionReply0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16location_service.proto\x12\x08Location\"D\n\x11SuggestionRequest\x12\t\n\x01k\x18\x01 \x01(\x05\x12\x10\n\x08messages\x18\x02 \x03(\t\x12\x12\n\nimage_urls\x18\x03 \x03(\t\"0\n\x0fSuggestionReply\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t2X\n\nSuggestion\x12J\n\x0eGetSuggestions\x12\x1b.Location.SuggestionRequest\x1a\x19.Location.SuggestionReply0\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,9 +32,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'location_service_pb2', _glo
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_SUGGESTIONREQUEST']._serialized_start=36
-  _globals['_SUGGESTIONREQUEST']._serialized_end=84
-  _globals['_SUGGESTIONREPLY']._serialized_start=86
-  _globals['_SUGGESTIONREPLY']._serialized_end=134
-  _globals['_SUGGESTION']._serialized_start=136
-  _globals['_SUGGESTION']._serialized_end=224
+  _globals['_SUGGESTIONREQUEST']._serialized_end=104
+  _globals['_SUGGESTIONREPLY']._serialized_start=106
+  _globals['_SUGGESTIONREPLY']._serialized_end=154
+  _globals['_SUGGESTION']._serialized_start=156
+  _globals['_SUGGESTION']._serialized_end=244
 # @@protoc_insertion_point(module_scope)

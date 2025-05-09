@@ -9,6 +9,7 @@ service Suggestion {
 message SuggestionRequest {
   int32 k = 1;
   repeated string messages = 2;
+  repeated string image_urls = 3;
 }
 
 message SuggestionReply {
