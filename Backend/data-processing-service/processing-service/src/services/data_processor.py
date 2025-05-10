@@ -11,7 +11,7 @@ from confluent_kafka import TopicPartition
 from dotenv import load_dotenv
 load_dotenv()
 
-from data_interface import MongoDB
+from database.data_interface import MongoDB
 from models.location_data import MessageSchema, LocationSchema
 from .processor import ProcessorService
 
