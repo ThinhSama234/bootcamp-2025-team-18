@@ -2,17 +2,23 @@ import os
 import json
 import logging
 import signal
+from typing import Any
+from dotenv import load_dotenv
 from datetime import datetime
-from typing import Dict, Any
 from prometheus_client import start_http_server, Counter, Gauge
 from marshmallow import ValidationError
 from confluent_kafka import TopicPartition
 from dotenv import load_dotenv
 load_dotenv()
 
-from config.kafka_config import KAFKA_LOCATION_DATA_DLT_TOPIC, KAFKA_LOCATION_DATA_TOPIC, create_consumer, create_producer
-from models.location_data import LocationDataSchema
+from data_interface import MongoDB
+from models.location_data import MessageSchema, LocationSchema
 from .processor import ProcessorService
+
+from config.kafka_config import KAFKA_LOCATION_DATA_DLT_TOPIC, KAFKA_LOCATION_DATA_TOPIC, create_consumer, create_producer
+from config.db_config import TRAVELDB_URL
+
+load_dotenv()
 
 PORT = int(os.getenv('PORT', 8000))
 
@@ -22,12 +28,16 @@ MESSAGES_PROCESSED = Counter('messages_processed_total', 'Total messages process
 PROCESSING_TIME = Gauge('message_processing_seconds', 'Time spent processing messages')
 CONSUMER_LAG = Gauge('consumer_lag', 'Consumer lag in messages')
 
+location_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations")
+vector_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations_vector")
+
 class DataProcessor:
   def __init__(self):
+    self.location_schema = LocationSchema()
     self.consumer = create_consumer()
     self.dlt_producer = create_producer()
-    self.processor = ProcessorService()
-    self.data_schema = LocationDataSchema()
+
+    self.processor = ProcessorService(location_db, vector_db)
     self.running = True
     self.setup_signal_handlers()
 
@@ -49,7 +59,7 @@ class DataProcessor:
       start_time = datetime.now()
       
       value = json.loads(msg.value().decode('utf-8'))
-      validated_data = await self.data_schema.load(value.get('data', {}))
+      validated_data = await self.location_schema.load(value.get('data', {}))
       
       await self.processor.process_data(validated_data)
       

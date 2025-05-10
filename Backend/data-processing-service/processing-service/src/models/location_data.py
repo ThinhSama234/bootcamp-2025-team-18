@@ -1,11 +1,24 @@
 from marshmallow import Schema, fields
 
-
 class LocationDataSchema(Schema):
-  """Schema for validating location data"""
+  """ Location data model """
   name = fields.Str(required=True)
-  description = fields.Str(allow_none=True)
-  address = fields.Str(allow_none=True)
-  coordinates = fields.Dict(keys=fields.Str(), values=fields.Float(), allow_none=True)
-  source_url = fields.Str(allow_none=True)
-  crawled_at = fields.DateTime(allow_none=True)
+  address = fields.Str(required=True)
+  description = fields.Str(required=True)
+  category = fields.Str(allow_none=True)
+
+  latitude = fields.Float(allow_none=True)
+  longitude = fields.Float(allow_none=True)
+  image_url = fields.List(default=[])
+
+class LocationSchema(Schema):
+  """ Location model """
+  type = fields.Str(required=True)
+  data = fields.Nested(LocationDataSchema, required=True)
+  
+  
+class MessageSchema(Schema):
+  source = fields.Str(required=True)
+  data = fields.Nested(LocationSchema, required=True)
+  metadata = fields.Dict(allow_none=True)  
+
