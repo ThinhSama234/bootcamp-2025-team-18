@@ -7,8 +7,8 @@ class LocationDataSchema(Schema):
   description = fields.Str(required=True)
   category = fields.Str(allow_none=True)
 
-  latitude = fields.Float(allow_none=True)
-  longitude = fields.Float(allow_none=True)
+  latitude = fields.Str(allow_none=True)
+  longitude = fields.Str(allow_none=True)
   image_url = fields.List(fields.Str(), default=[])
 
   
