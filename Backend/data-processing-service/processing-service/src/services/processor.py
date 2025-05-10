@@ -46,7 +46,7 @@ class ProcessorService:
       }
       
       await self.embedding_queue.put(queue_item)
-      print(f"✅ Queued embedding for _id: {new_data["_id"]}")
+      print(f"✅ Queued embedding for _id: {new_data['_id']}")
       
       #In số document hiện tại trong locations và locations_vector
       loc_count = await self.db.collection.count_documents({})
