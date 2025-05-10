@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-from pymongo import MongoClient
 from pymongo.errors import PyMongoError
 from typing import List, Dict, Any, Tuple
 from bson.objectid import ObjectId
-from typing import Optional
-import os
+
 from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient
 load_dotenv()

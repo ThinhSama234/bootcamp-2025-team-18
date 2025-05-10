@@ -1,12 +1,10 @@
-import json 
 import numpy as np
-from typing import List, Dict, Optional, Union
+from typing import List, Optional
 from langchain.embeddings.base import Embeddings
-from config import VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
+from config import DEFAULT_EMBEDDING_MODEL
 
 class VectorDB:
-    def __init__(self, embedding_model: Optional[Embeddings] = None, vector_db_dir = VECTOR_DB_DIR):
-        self.vector_db_dir = vector_db_dir
+    def __init__(self, embedding_model: Optional[Embeddings] = None):
         self.embedding_model = embedding_model
         self._init_embedding_model()
     def _init_embedding_model(self):
