@@ -14,7 +14,7 @@ class VectorDB:
         if self.embedding_model == None:
             try:
                 from langchain_community.embeddings import GPT4AllEmbeddings
-                self.embedding_model = GPT4AllEmbeddings(model_file = DEFAULT_EMBEDDING_MODEL)
+                self.embedding_model = GPT4AllEmbeddings(model_file = DEFAULT_EMBEDDING_MODEL, device="cpu")
             except ImportError as e:
                 print(str(e))
                 raise ImportError("GPT4ALLEmbeddings should pip install langchain-community")
