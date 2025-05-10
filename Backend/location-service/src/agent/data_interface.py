@@ -64,7 +64,7 @@ class MongoDB(IDatabase):
         except PyMongoError as e:
             return [], Exception(f"failed to list collections: {e}")
         
-    def save_record(self, record: Dict[str, Any]) -> Tuple[str, Exception]:
+    def save_record(self, record: Dict[str, Any]):
         try:
             if not record.get('type'):
                 return "", Exception("Record type is required")
@@ -72,7 +72,7 @@ class MongoDB(IDatabase):
             record["created_at"] = now 
             record["updated_at"] = now
             result = self.collection.insert_one(record)
-            return str(result.inserted_id), None
+            return result
         except PyMongoError as e:
             return "", Exception(f"failed to save record: {e}")
         
