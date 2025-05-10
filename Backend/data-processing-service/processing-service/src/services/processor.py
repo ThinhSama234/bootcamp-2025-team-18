@@ -9,7 +9,7 @@ from database.vectorDB import VectorDB
 
 logger = logging.getLogger(__name__)
 
-PROCESSING_TIME = Summary('data_processing_duration_seconds', 'Time spent processing data')
+# PROCESSING_TIME = Summary('data_processing_duration_seconds', 'Time spent processing data')
 
 class ProcessorService:
   def __init__(self, db: MongoDB, db_vector: MongoDB):
@@ -20,7 +20,7 @@ class ProcessorService:
     self.running = True
     self._start_index_worker()  # Khởi động worker để index batch
   
-  @PROCESSING_TIME.time()
+  # @PROCESSING_TIME.time()
   async def process_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
     """Process location data and vector embedding, then save to mongodb"""
     try: 
@@ -83,9 +83,7 @@ class ProcessorService:
         except Exception as e:
             print(f"❌ Error indexing batch: {str(e)}")
         await asyncio.sleep(1)  # Chờ 1 giây trước khi kiểm tra lại
-    # Get the current event loop to create the task
-    loop = asyncio.get_event_loop()
-    loop.create_task(index_worker())
+    asyncio.create_task(index_worker())
   
   async def shutdown(self):
     """Dừng worker khi service shutdown."""
