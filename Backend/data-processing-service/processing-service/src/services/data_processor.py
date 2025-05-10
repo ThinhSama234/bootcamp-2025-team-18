@@ -41,6 +41,12 @@ class DataProcessor:
     self.running = True
     self.setup_signal_handlers()
 
+  async def close(self):
+    self.running = False
+    await self.processor.shutdown()
+    self.consumer.close()
+    self.dlt_producer.flush()
+
   def _send_to_dlt(self, error_type: str, original_message: Any, errors: str):
     dlt_message = {
       'error': error_type,

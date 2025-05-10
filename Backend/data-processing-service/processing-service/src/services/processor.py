@@ -83,7 +83,9 @@ class ProcessorService:
         except Exception as e:
             print(f"❌ Error indexing batch: {str(e)}")
         await asyncio.sleep(1)  # Chờ 1 giây trước khi kiểm tra lại
-    asyncio.create_task(index_worker())
+    # Get the current event loop to create the task
+    loop = asyncio.get_event_loop()
+    loop.create_task(index_worker())
   
   async def shutdown(self):
     """Dừng worker khi service shutdown."""
