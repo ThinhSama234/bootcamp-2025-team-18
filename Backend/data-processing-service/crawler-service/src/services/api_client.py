@@ -1,7 +1,10 @@
 import os
 import requests
 import logging
+from dotenv import load_dotenv
 from typing import Dict, Any, List
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 

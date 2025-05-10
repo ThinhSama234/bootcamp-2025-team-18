@@ -8,19 +8,19 @@ import logger from "../../../core/logger";
 
 
 export async function handleRequestSuggestions(io: Server, socket: Socket, payload: RequestSuggestionsPayload): Promise<void> {
-  const { groupName, k, messages } = payload;
+  const { groupName, k, messages, image_urls, coordinates } = payload;
   if (k <= 0) {
     socket.emit(SocketServerEvent.ERROR, { message: 'Invalid value for k' });
     return;
   }
 
   suggestionService.getSuggestions(
-    k, messages, 
+    k, messages, image_urls, coordinates,
     async (suggestionId: string) => {
       const suggestionIdPayload: ReceiveSuggestionIDPayload = {
         suggestionId: suggestionId,
       }
-      await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, messages, suggestionId, []));
+      await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, messages, image_urls, coordinates, suggestionId, []));
       
       socket.emit(SocketServerEvent.RECEIVE_SUGGESTION_ID, suggestionIdPayload);
     }, 

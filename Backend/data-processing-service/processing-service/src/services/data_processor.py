@@ -2,16 +2,20 @@ import os
 import json
 import logging
 import signal
+from typing import Any
 from dotenv import load_dotenv
 from datetime import datetime
 from prometheus_client import start_http_server, Counter, Gauge
 from marshmallow import ValidationError
-from confluent_kafka import Consumer, TopicPartition
+from confluent_kafka import TopicPartition
+from dotenv import load_dotenv
+load_dotenv()
 
-from config.kafka_config import KAFKA_LOCATION_DATA_TOPIC, create_consumer
 from data_interface import MongoDB
 from models.location_data import MessageSchema, LocationSchema
 from .processor import ProcessorService
+
+from config.kafka_config import KAFKA_LOCATION_DATA_DLT_TOPIC, KAFKA_LOCATION_DATA_TOPIC, create_consumer, create_producer
 from config.db_config import TRAVELDB_URL
 
 load_dotenv()
@@ -29,11 +33,26 @@ vector_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations_ve
 
 class DataProcessor:
   def __init__(self):
-    self.consumer: Consumer = create_consumer()
-    self.processor = ProcessorService(location_db, vector_db)
     self.location_schema = LocationSchema()
+    self.consumer = create_consumer()
+    self.dlt_producer = create_producer()
+
+    self.processor = ProcessorService(location_db, vector_db)
     self.running = True
     self.setup_signal_handlers()
+
+  def _send_to_dlt(self, error_type: str, original_message: Any, errors: str):
+    dlt_message = {
+      'error': error_type,
+      'original_message': original_message.value().decode('utf-8'),
+      'errors': errors,
+      'timestamp': datetime.now().isoformat()
+    }
+    self.dlt_producer.produce(
+      KAFKA_LOCATION_DATA_DLT_TOPIC,
+      json.dumps(dlt_message).encode('utf-8')
+    )
+    logger.error(f"Sent message to DLT: {dlt_message}")
 
   async def process_message(self, msg) -> bool:
     try:
@@ -50,17 +69,21 @@ class DataProcessor:
       MESSAGES_PROCESSED.labels(status='success').inc()
       
       return True
-      
     except json.JSONDecodeError as e:
       logger.error(f"Invalid JSON in message: {str(e)}")
       MESSAGES_PROCESSED.labels(status='json_error').inc()
+      self._send_to_dlt('json_error', msg, str(e))
+
     except ValidationError as e:
       logger.error(f"Data validation failed: {str(e)}")
       MESSAGES_PROCESSED.labels(status='validation_error').inc()
+      self._send_to_dlt('validation_error', msg, str(e))
+
     except Exception as e:
       logger.error(f"Error processing message: {str(e)}")
       MESSAGES_PROCESSED.labels(status='error').inc()
-    
+      self._send_to_dlt('exception', msg, str(e))    
+
     return False
 
   async def run(self):

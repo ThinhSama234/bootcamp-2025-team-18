@@ -2,6 +2,8 @@ import os
 from flask import Flask
 from flask_cors import CORS
 import logging
+from dotenv import load_dotenv
+load_dotenv()
 
 from routes import register_routes 
 
