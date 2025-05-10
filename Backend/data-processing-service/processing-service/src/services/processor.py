@@ -9,7 +9,7 @@ from database.vectorDB import VectorDB
 
 logger = logging.getLogger(__name__)
 
-# PROCESSING_TIME = Summary('data_processing_duration_seconds', 'Time spent processing data')
+PROCESSING_TIME = Summary('data_processing_duration_seconds', 'Time spent processing data')
 
 class ProcessorService:
   def __init__(self, db: MongoDB, db_vector: MongoDB):
@@ -20,7 +20,7 @@ class ProcessorService:
     self.running = True
     self._start_index_worker()  # Khởi động worker để index batch
   
-  # @PROCESSING_TIME.time()
+  @PROCESSING_TIME.time()
   async def process_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
     """Process location data and vector embedding, then save to mongodb"""
     try: 
