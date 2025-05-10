@@ -1,0 +1,28 @@
+import json 
+import numpy as np
+from typing import List, Dict, Optional, Union
+from langchain.embeddings.base import Embeddings
+from config import VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
+
+class VectorDB:
+    def __init__(self, embedding_model: Optional[Embeddings] = None, vector_db_dir = VECTOR_DB_DIR):
+        self.vector_db_dir = vector_db_dir
+        self.embedding_model = embedding_model
+        self._init_embedding_model()
+    def _init_embedding_model(self):
+        """Khởi tạo embedding model"""
+        if self.embedding_model == None:
+            try:
+                from langchain_community.embeddings import GPT4AllEmbeddings
+                self.embedding_model = GPT4AllEmbeddings(model_file = DEFAULT_EMBEDDING_MODEL)
+            except ImportError:
+                raise ImportError("GPT4ALLEmbeddings should pip install langchain-community")
+
+    def embed_texts(self, texts: List[str])->np.ndarray:
+         """Chuyển đổi văn bản thành vector embedding"""
+         vectors = self.embedding_model.embed_documents(texts)
+         return np.array(vectors).astype("float32")
+    def embed_query(self, query: str)->np.ndarray:
+        """Chuyển đổi truy vấn thành vector embedding"""
+        vector = self.embedding_model.embed_query(query)
+        return np.array(vector).astype("float32").reshape(1, -1)
