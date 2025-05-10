@@ -11,14 +11,9 @@ class LocationDataSchema(Schema):
   longitude = fields.Float(allow_none=True)
   image_url = fields.List(fields.Str(), default=[])
 
-class LocationSchema(Schema):
-  """ Location model """
-  type = fields.Str(required=True)
-  data = fields.Nested(LocationDataSchema, required=True)
-  
   
 class MessageSchema(Schema):
   source = fields.Str(required=True)
-  data = fields.Nested(LocationSchema, required=True)
+  data = fields.Nested(LocationDataSchema, required=True)
   metadata = fields.Dict(allow_none=True)  
 

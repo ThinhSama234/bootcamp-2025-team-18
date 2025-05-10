@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from database.data_interface import MongoDB
-from models.location_data import MessageSchema, LocationSchema
+from models.location_data import MessageSchema, LocationDataSchema
 from .processor import ProcessorService
 
 from config.kafka_config import KAFKA_LOCATION_DATA_DLT_TOPIC, KAFKA_LOCATION_DATA_TOPIC, create_consumer, create_producer
@@ -33,7 +33,7 @@ vector_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations_ve
 
 class DataProcessor:
   def __init__(self):
-    self.location_schema = LocationSchema()
+    self.location_schema = LocationDataSchema()
     self.consumer = create_consumer()
     self.dlt_producer = create_producer()
 
