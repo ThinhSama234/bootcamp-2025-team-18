@@ -4,7 +4,7 @@ from typing import Dict, Any
 from prometheus_client import Summary
 
 from config.db_config import TRAVELDB_URL
-from data_interface import MongoDB
+from database.data_interface import MongoDB
 from database.vectorDB import VectorDB
 
 logger = logging.getLogger(__name__)
