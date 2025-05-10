@@ -25,7 +25,7 @@ class ProcessorService:
     """Process location data and vector embedding, then save to mongodb"""
     try: 
       new_data = await self.db.save_record(data)
-      print(f"✅ Saved to MongoDB: {new_data["_id"]}")
+      print(f"✅ Saved to MongoDB: {new_data['_id']}")
 
       _id = new_data.get("_id")
       data = new_data.get('data', {})
