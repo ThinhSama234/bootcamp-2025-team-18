@@ -6,6 +6,7 @@ from typing import List, Dict, Any, Tuple
 from bson.objectid import ObjectId
 from typing import Optional
 import os
+from bson import json_util
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -129,7 +130,8 @@ class MongoDB(IDatabase):
         cursor = self.collection.find(query, projection)
         if limit:
             cursor = cursor.limit(limit)
-        return list(cursor)
+        result = list(cursor)
+        return [json_util.loads(json_util.dumps(doc)) for doc in result]
     def update_one(self, query, update):
         return self.collection.update_one(query, update)
     def count_documents(self, filter=None):
