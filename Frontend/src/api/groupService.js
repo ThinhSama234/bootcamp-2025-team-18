@@ -12,7 +12,7 @@ export const fetchGroupList = async (username) => {
     const formattedGroups = groupData.map(group => ({
       id: group.id,
       groupName: group.groupName,
-      lastMessage: group.lastMessageContent,
+      lastMessage: typeof group.lastMessageContent === 'string' ? group.lastMessageContent : '[Image]',
       timestamp: formatTimeAgo(group.lastMessageTime),
       members: group.members,
       groupPicSrc: '/group1.jpg'
@@ -28,6 +28,8 @@ export const fetchGroupList = async (username) => {
 export const fetchMessages = async (groupName) => {
     try {
         const response = await api.get('/api/v1/messages/' + groupName);
+
+        console.log("Response from fetchMessages:", response);
     
         // Expecting a structure with { domainCode, message, data: [...] }
         const messageData = response.data?.data || [];
@@ -36,8 +38,9 @@ export const fetchMessages = async (groupName) => {
         const formattedMessages = messageData.map(message => ({
         id: message.id,
         sender: message.senderUsername,
-        content: message.messageContent,
+        content: message.messageType === 'image' ? message.imageUrl : message.messageContent,
         timestamp: new Date(message.createdAt).toLocaleString(),
+        type: message.messageType,
         }));
     
         return formattedMessages;

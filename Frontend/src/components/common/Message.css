@@ -31,6 +31,13 @@
     margin-bottom: 10px;
 }
 
+.message-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
 .message-sent-subcontainer {
     display: flex;
     flex-direction: row;

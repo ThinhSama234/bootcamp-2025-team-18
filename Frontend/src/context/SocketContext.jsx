@@ -63,9 +63,17 @@ export const SocketProvider = ({ username, children }) => {
     socketRef.current.emit('send_text_message', { 'groupName' : groupName, 'content' : content });
   };
 
-  const requestSuggestions = (groupName, k, messages) => {
-    socketRef.current.emit('request_suggestions', { 'groupName' : groupName, 'k' : k, 'messages' : messages });
+  const requestSuggestions = (groupName, k, messages, image_urls) => {
+    socketRef.current.emit('request_suggestions', { 'groupName' : groupName, 'k' : k, 'messages' : messages, 'image_urls' : image_urls });
   };
+
+  const addFriend = (groupName, friendName) => {
+    socketRef.current.emit('add_friend_to_group', { 'groupName' : groupName,  'friendUsername' : friendName });
+  }
+
+  const sendImage = (groupName, filename, base64EncodedImage) => {
+    socketRef.current.emit('send_image_message', { 'groupName' : groupName, 'filename' : filename, 'base64EncodedImage' : base64EncodedImage });
+  }
 
   return (
     <SocketContext.Provider
@@ -75,6 +83,8 @@ export const SocketProvider = ({ username, children }) => {
         leaveGroup,
         sendMessage,
         requestSuggestions,
+        addFriend,
+        sendImage
       }}
     >
       {children}

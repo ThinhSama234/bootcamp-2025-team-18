@@ -130,6 +130,40 @@ export function GroupPicModal({ onClose }) {
 }
 
 export function AddUserModal({ onClose }) {
+  console.log(localStorage.getItem('groupName'));
+  const { addFriend, socket } = useSocket();
+  const [loading, setLoading] = useState(false);
+  const [friendName, setFriendName] = useState('');
+
+  const handleAddFriend = () => {
+    if (!friendName.trim()) {
+      alert('Please enter a valid username.');
+      return;
+    }
+    else if (friendName.trim() === localStorage.getItem('username')) {
+      alert('You are already in this group.');
+      return;
+    }
+
+    // console.log(`Adding friend: ${friendName}`);
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000); // Simulate loading
+
+    try {
+      const groupName = localStorage.getItem('groupName');
+      console.log(`Adding friend: ${friendName} to group: ${groupName}`);
+      addFriend(groupName, friendName);
+      onClose();
+    }
+    catch (err) {
+      console.error(`Failed to add friend:`, err);
+      alert(`Failed to add friend. Please try again.`);
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-box">
@@ -142,15 +176,39 @@ export function AddUserModal({ onClose }) {
           type="text"
           className="group-id-input"
           placeholder="user12345"
+          value={friendName}
+          onChange={e => setFriendName(e.target.value)}
         />
-        {/* TODO: SEND GROUP RENAME REQUEST TO SERVER */}
-        <button className="join-group-btn" onClick={ onClose }>Add This User</button>
+        <button className="join-group-btn" onClick={ handleAddFriend }>{loading ? "Adding..." : "Add This User"}</button>
       </div>
     </div>
   );
 }
 
 export function ShareMediaModal({ onClose }) {
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
+  const { sendImage } = useSocket();
+
+  const  handleFileChange = (event) => {
+    if (!file) return;
+
+    try {
+      const reader = new FileReader();
+      reader.onload = function() {
+        console.log(`Sending image: ${file.name}`);
+        console.log(localStorage.getItem('groupName'));
+        sendImage(localStorage.getItem('groupName'), file.name, reader.result);
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error(`Failed to send image:`, err);
+      alert(`Failed to send image. Please try again.`);
+    } finally {
+      onClose();
+    }
+  }
+
   return (
     <div className="modal-overlay">
       <div className="modal-box">
@@ -163,9 +221,9 @@ export function ShareMediaModal({ onClose }) {
           type="file"
           accept="image/*"
           className="group-id-input"
+          onChange={e => setFile(e.target.files[0])}
         />
-        {/* TODO: SEND GROUP RENAME REQUEST TO SERVER */}
-        <button className="join-group-btn" onClick={ onClose }>Send Picture</button>
+        <button className="join-group-btn" onClick={ handleFileChange }>Send Picture</button>
       </div>
     </div>
   );

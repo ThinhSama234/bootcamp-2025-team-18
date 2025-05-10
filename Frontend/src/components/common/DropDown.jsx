@@ -49,6 +49,10 @@ export function MemberList({ members }) {
                     <p>{member.name}</p>
                   </button>
                 ))}
+                <button className="dropdown-item" onClick={() => setShowAddUserModal(true)}>
+                  <img src="add-user-icon.png" alt="Add User" className="icon" />
+                  <p>Add User</p>
+                </button>
         </div>
       )}
       {showAddUserModal && <AddUserModal onClose={() => setShowAddUserModal(false)} />}
