@@ -20,19 +20,19 @@ export async function handleRequestSuggestions(io: Server, socket: Socket, paylo
       const suggestionIdPayload: ReceiveSuggestionIDPayload = {
         suggestionId: suggestionId,
       }
-      await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, messages, image_urls, coordinates, suggestionId, []));
-      
       socket.emit(SocketServerEvent.RECEIVE_SUGGESTION_ID, suggestionIdPayload);
+
+      await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, messages, image_urls, coordinates, suggestionId, []));
     }, 
     async (suggestionId: string, suggestion: string) => {
-      await messageService.addSuggestionToMessage(suggestionId, suggestion);
-  
       const singleSuggestion: ReceiveSuggestionPayload = {
         suggestionId,
         suggestion,
         timestamp: new Date(),
       }
       io.to(groupName).emit(SocketServerEvent.RECEIVE_SUGGESTION, singleSuggestion);
+      
+      await messageService.addSuggestionToMessage(suggestionId, suggestion);
     }, 
     (error: any) => {
       socket.emit(SocketServerEvent.ERROR, { message: error.message });

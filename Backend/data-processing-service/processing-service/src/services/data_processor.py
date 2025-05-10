@@ -59,7 +59,7 @@ class DataProcessor:
       start_time = datetime.now()
       
       value = json.loads(msg.value().decode('utf-8'))
-      validated_data = await self.location_schema.load(value.get('data', {}))
+      validated_data = self.location_schema.load(value.get('data', {}))
       
       await self.processor.process_data(validated_data)
       
