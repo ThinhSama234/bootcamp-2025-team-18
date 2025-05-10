@@ -6,7 +6,6 @@ from typing import List, Dict, Any, Tuple
 from bson.objectid import ObjectId
 from typing import Optional
 import os
-from bson import json_util
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -65,7 +64,7 @@ class MongoDB(IDatabase):
         except PyMongoError as e:
             return [], Exception(f"failed to list collections: {e}")
         
-    def save_record(self, record: Dict[str, Any]):
+    def save_record(self, record: Dict[str, Any]) -> Tuple[str, Exception]:
         try:
             if not record.get('type'):
                 return "", Exception("Record type is required")
@@ -73,7 +72,7 @@ class MongoDB(IDatabase):
             record["created_at"] = now 
             record["updated_at"] = now
             result = self.collection.insert_one(record)
-            return result
+            return str(result.inserted_id), None
         except PyMongoError as e:
             return "", Exception(f"failed to save record: {e}")
         
@@ -130,8 +129,7 @@ class MongoDB(IDatabase):
         cursor = self.collection.find(query, projection)
         if limit:
             cursor = cursor.limit(limit)
-        result = list(cursor)
-        return [json_util.loads(json_util.dumps(doc)) for doc in result]
+        return list(cursor)
     def update_one(self, query, update):
         return self.collection.update_one(query, update)
     def count_documents(self, filter=None):

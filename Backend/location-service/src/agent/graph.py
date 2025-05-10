@@ -14,8 +14,8 @@ import os
 from vector_database import ingest_data_to_vector_db
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service")))
 print(sys.path)
-from vector_store.vectordb import VectorDB
-from vector_store.version_manager import get_version_timestamp
+from vectordb import VectorDB
+from data_interface import MongoDB
 #nlp = spacy.load("vi_core_news_lg")
 class State(TypedDict):
     messages: Annotated[list, add_messages]
@@ -24,43 +24,11 @@ class State(TypedDict):
     location_details: list
     response: List[Dict]
 class Graph:
-    def __init__(self, faiss_name: str = None):
-        self.faiss_name = self._get_or_create_faiss_name(faiss_name)
-    def _get_or_create_faiss_name(self, faiss_name: str = None) -> str:
-        """Lấy faiss_name từ argument, file, hoặc tạo mới nếu không có."""
-        # Kiểm tra thư mục hiện tại
-        current_dir = os.getcwd()
-        print(f"Current working directory: {current_dir}")
-        faiss_file_path = os.path.join(current_dir, "faiss_name.txt")
-        print(f"Looking for faiss_name.txt at: {faiss_file_path}")
-
-        # Nếu faiss_name được truyền vào
-        if faiss_name:
-            print(f"Using provided faiss_name: {faiss_name}")
-            return faiss_name
-        
-        parser = argparse.ArgumentParser(description="Run graph.py with a specific faiss_name")
-        parser.add_argument("--faiss_name", type=str, help="FAISS name to use for the vector database", default=None)
-        args = parser.parse_args()
-
-        if args.faiss_name:
-            faiss_name = args.faiss_name
-            print(f"Using provided faiss_name: {faiss_name}")
-        # Kiểm tra file faiss_name.txt
-        try:
-            with open(faiss_file_path, "r") as f:
-                faiss_name = f.read().strip()
-            print(f"Using existing vector database with faiss_name: {faiss_name}")
-            return faiss_name
-        except FileNotFoundError:
-            print("No existing vector database found. Creating a new one...")
-            faiss_name = ingest_data_to_vector_db()
-            # Lưu faiss_name vào file
-            with open(faiss_file_path, "w") as f:
-                f.write(faiss_name)
-            print(f"Saved faiss_name to {faiss_file_path}: {faiss_name}")
-            return faiss_name
-
+    def __init__(self, db: MongoDB, db_vector: MongoDB):
+        self.db = db
+        self.db_vector = db_vector
+        return
+    
     def summarize(self, state: State) -> State:
         """ Tóm tắt các tin nhắn và trích xuất thực thể. """
         print("📝 Using Gemini to summarize messages...")
@@ -77,14 +45,15 @@ class Graph:
         print("Entities:", state["entities"])
         return state
 
-    def search_vector_db(self, state: State, k) -> State:
+    def search_vector_db(self, db_vector: MongoDB, state: State, k) -> State:
         """Tìm kiếm trong vector database dựa trên tóm tắt."""
         print("🔎 Searching with summary:", state["summary"])
         manager = VectorDB()
         try:
             results = manager.search(
-                faiss_name=self.faiss_name,
-                query=state['summary'],
+                db= self.db,
+                db_vector = self.db_vector,
+                query_text=state['summary'],
                 entities=state["entities"],
                 top_k=k,
                 threshold=0.2
@@ -136,11 +105,11 @@ class Graph:
             state["response"].insert(0, {"reason": reason_text})
             state["response"].append({"summary": f"Tóm tắt yêu cầu: {state['summary']}"})
         return state
-    def process_messages(self, messages: list[str], k) -> Tuple[list, str]:
+    def process_messages(self, db_vector: MongoDB, messages: list[str], k) -> Tuple[list, str]:
         """Xử lý messages và trả về location_details và response."""
         initial_state = {"messages": messages}
         state = self.summarize(initial_state)
-        state = self.search_vector_db(state, k)
+        state = self.search_vector_db(db_vector,state, k)
         state = self.format_output(state)
         return state["location_details"], state["response"]
     
@@ -165,7 +134,10 @@ if __name__ == "__main__":
     messages = [
         "Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
     ]
+    uri = "mongodb+srv://truongthinh2301:tpuNNUBTBxrgOm1a@cluster0.dlrf4cw.mongodb.net/"
+    db = MongoDB(uri, database="travel_db", collection="locations")
+    db_vector = MongoDB(uri, database="travel_db", collection="locations_vector")
     graph = Graph()
-    location_details, response = graph.process_messages(messages)
+    location_details, response = graph.process_messages(db_vector, messages)
     print("\nLocation Details:\n", location_details)
     print("\nFinal chatbot output:\n", response)

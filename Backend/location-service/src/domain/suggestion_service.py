@@ -1,40 +1,44 @@
 import uuid
+from torch import Tensor
 import sys
 import os
-
+from bson.objectid import ObjectId
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../agent")))
 from extract_metadata import fetch_from_mongodb
 from graph import Graph
-
+from data_interface import MongoDB
 class SuggestionService:
-  def __init__(self, faiss_name: str = None):
-    self.graph = Graph(faiss_name)
-    
+  def __init__(self, db: MongoDB, db_vector: MongoDB):
+    self.graph = Graph(db, db_vector)
+    self.db = db
+    self.db_vector = db_vector
   def get_session_id(self) -> str:
     return str(uuid.uuid4())
 
   def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: any) -> list[str]: # done
     initial_state = {"messages": messages}
     state = self.graph.summarize(initial_state)
-    state = self.graph.search_vector_db(state, k)
+    state = self.graph.search_vector_db(self.db_vector, state, k)
     location_details = state["location_details"]
     return location_details
+  # query k list id mongo
   
   def get_location_details_by_id(self, location_id: str) -> dict:
     """Truy xuất thông tin chi tiết từ MongoDB dựa trên location_id."""
-    try:
-      docs = fetch_from_mongodb([location_id], URL="vietnamtourism_URL", collection="vietnamtourism_db", document="vietnamtourism_db")
-      #if not docs or not docs[0]:
-      #  return {"error": f"No data found for location_id {location_id}"}
-            
-      doc = docs[0]
-      data = doc.get('data', {})
+    try:   
+      record = self.db.find_one({"_id":ObjectId(str(location_id))})
+      if not record:
+        return {"error": f"No document found for location_id {location_id}"}
+      print(f"Record for ID {location_id}: {record}")
+      data = record.get('data', {})
       return {
-        "_id": str(doc.get("_id")),
+        "_id": str(record.get("_id")),
+        "type": record.get('type'),
         "name": data.get('name', ''),
         "category": data.get('category', '').lower(),
         "address": data.get('address', ''),
-        "description": data.get('description', '')
+        "description": data.get('description', ''),
+        "image_url": data.get('image_url', '')
       }
     except Exception as e:
       return {"error": f"Error fetching data for location_id {location_id}: {str(e)}"}
@@ -50,7 +54,7 @@ class SuggestionService:
         return details["error"]
       
       # Trả về mô tả nếu có
-      description = details.get("description", "")
+      description = details["description"]
       return description if description else "Đây là địa điểm phù hợp với yêu cầu của bạn."
       
     except Exception as e:
@@ -70,15 +74,18 @@ if __name__ == "__main__":
   # messages = [
   #   "Tôi muốn đi leo núi"
   # ]
-  suggestion_service = SuggestionService(faiss_name="v20250506_153250")
-  location_ids = suggestion_service.get_location_ids(messages, k=20)
+  uri = "mongodb+srv://truongthinh2301:tpuNNUBTBxrgOm1a@cluster0.dlrf4cw.mongodb.net/"
+  db = MongoDB(uri, database="travel_db", collection="locations")
+  db_vector = MongoDB(uri, database="travel_db", collection="locations_vector")
+  suggestion_service = SuggestionService(db, db_vector)
+  location_ids = suggestion_service.get_location_ids(k=20, messages=messages)
   print("Location IDs:", location_ids)
 
   for sample_id in location_ids:
     details = suggestion_service.get_location_details_by_id(sample_id)
     print("\nInformation for ID", sample_id)
-    print("Location name", details["name"])
     print("Location address", details["address"])
+    print("Location name", details["name"])
 
 
   for sample_id in location_ids:
