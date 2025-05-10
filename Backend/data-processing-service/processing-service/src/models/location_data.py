@@ -9,7 +9,7 @@ class LocationDataSchema(Schema):
 
   latitude = fields.Float(allow_none=True)
   longitude = fields.Float(allow_none=True)
-  image_url = fields.List(default=[])
+  image_url = fields.List(fields.Str(), default=[])
 
 class LocationSchema(Schema):
   """ Location model """
