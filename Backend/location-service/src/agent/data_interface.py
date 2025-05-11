@@ -76,29 +76,47 @@ class MongoDB(IDatabase):
             return result
         except PyMongoError as e:
             return "", Exception(f"failed to save record: {e}")
-        
+
+
     def update_record(self, record: Dict[str, Any]) -> Tuple[str, Exception]:
         try:
             record_id = record.get("_id")
             if not record_id:
                 return "", Exception("Record ID is required for update")
+            
+            # Đảm bảo record_id là ObjectId
+            try:
+                record_id = ObjectId(record_id)
+            except (ValueError, TypeError):
+                return "", Exception("Invalid record ID format")
+
             record["updated_at"] = int(datetime.now().timestamp())
-            filter = {"_id": ObjectId(record_id)}
+            filter = {"_id": record_id}
+
+            # Lấy các trường từ record để cập nhật
             update = {
                 "$set": {
                     "data": record.get("data", {}),
                     "type": record.get("type"),
+                    "location": record.get("location"),  # Thêm trường location
                     "updated_at": record["updated_at"]
                 }
             }
+
+            # Thực hiện cập nhật
             result = self.collection.update_one(filter, update)
             if result.matched_count == 0:
                 return "", Exception("No record found with given ID")
-            return record_id, None
+            
+            return str(record_id), None  # Trả về record_id dưới dạng string
+
         except PyMongoError as e:
-            return "", Exception(f"Faield to update record: {e}")
+            return "", Exception(f"Failed to update record: {e}")
         except ValueError as e:
             return "", Exception(f"Invalid record ID: {e}")
+        except Exception as e:
+            return "", Exception(f"Unexpected error during update: {e}")
+      
         
     def find_records(self, record_type: str, filter: Dict[str, Any]) -> Tuple[List[Dict[str, Any]], Exception]:
         try:

@@ -129,7 +129,7 @@ def parse_html_to_text_and_images(html_content):
     
     return after_align, image_urls
 
-def save_to_mongodb(data_json, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="auto_crawl"):
+def save_to_mongodb(data_json, query, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="auto_crawl"):
     """Saves data to MongoDB."""
     load_dotenv()
     DB_URL = os.getenv(URL)
@@ -138,13 +138,13 @@ def save_to_mongodb(data_json, URL = "TRAVELDB_URL", db_name = "travel_db", coll
     """Saves data to MongoDB."""
     # Kết nối đến MongoDB
     db = MongoDB(DB_URL, db_name, collection_name)
-    db.save_record(data_json)
+    record_id, error = db.save_record(data_json)
+    save_to_mongodb_full_text(data_json['data']['name'], query, ref_id = record_id, URL=URL, db_name=db_name, collection_name=collection_name)
     print("Data saved to MongoDB successfully.")
     print("Số lượng doc hiện tại là:",db.count_documents())
-    db.close()
     return
 
-def save_to_mongodb_full_text(name, full_text, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="auto_crawl_text"):
+def save_to_mongodb_full_text(name, full_text, ref_id, URL = "TRAVELDB_URL", db_name = "travel_db", collection_name="auto_crawl_text"):
     """Saves data to MongoDB full text."""
     load_dotenv()
     DB_URL = os.getenv(URL)
@@ -157,12 +157,11 @@ def save_to_mongodb_full_text(name, full_text, URL = "TRAVELDB_URL", db_name = "
             'type': 'full_text',
             'name': name,
             'full_text': full_text,
-            "ref_id": "",
+            "ref_id": ref_id,
         }
     )
     print("Data saved to MongoDB successfully.")
     print("Số lượng doc hiện tại là:",db.count_documents())
-    db.close()
     return
 def process_url(url, max_retries=3, delay=2):
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -213,8 +212,7 @@ def process_url(url, max_retries=3, delay=2):
             Location(**result[0])
             print(result)
             # Lưu vào mongodb
-            save_to_mongodb(result[0])
-            save_to_mongodb_full_text(result[0]['data']['name'], query)
+            save_to_mongodb(result[0], query)
             return
         except (ValueError, Exception) as e:
             logging.error(f"Lỗi khi xử lý URL {url} (Thử lần {attempt + 1}/{max_retries}): {e}")
