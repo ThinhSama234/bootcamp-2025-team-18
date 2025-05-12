@@ -2,8 +2,9 @@ from google import genai
 import re
 import json
 from langchain_core.messages import HumanMessage
+from config.config import GEMINI_API_KEY
 
-client = genai.Client(api_key="AIzaSyDU3Hl2kTKLMOPJlK4tIU3s6vpHYq8d-58")
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 def summarization(messages):
     """
