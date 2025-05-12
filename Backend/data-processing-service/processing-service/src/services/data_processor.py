@@ -28,7 +28,7 @@ CONSUMER_LAG = Gauge('consumer_lag', 'Consumer lag in messages')
 
 class DataProcessor:
   def __init__(self, processor_service: ProcessorService):
-    self.location_schema = LocationDataSchema()
+    self.location_data_schema = LocationDataSchema()
     self.consumer = create_consumer()
     self.dlt_producer = create_producer()
 
@@ -60,7 +60,7 @@ class DataProcessor:
       start_time = datetime.now()
       
       value = json.loads(msg.value().decode('utf-8'))
-      validated_data = self.location_schema.load(value.get('data', {}))
+      validated_data = self.location_data_schema.load(value)
       
       await self.processor.process_data(validated_data)
       

@@ -21,10 +21,10 @@ class ProcessorService:
     self._start_index_worker()  # Khởi động worker để index batch
   
   @PROCESSING_TIME.time()
-  async def process_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+  async def process_data(self, message: Dict[str, Any]) -> Dict[str, Any]:
     """Process location data and vector embedding, then save to mongodb"""
     try: 
-      new_data = await self.db.save_record(data)
+      new_data = await self.db.save_record(message)
       logger.info(f"✅ Saved to MongoDB: {new_data['_id']}")
       logger.info(new_data)
 
