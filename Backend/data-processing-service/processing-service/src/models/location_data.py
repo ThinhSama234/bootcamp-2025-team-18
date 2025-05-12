@@ -12,6 +12,8 @@ class LocationSchema(Schema):
   image_url = fields.List(fields.Str(), default=[])
 
 class MessageSchema(Schema):
+  batch_id = fields.Str(allow_none=True)
+  request_id = fields.Str(allow_none=True)
   source = fields.Str(required=True)
   type = fields.Str(required=True)
   data = fields.Nested(LocationSchema, required=True)
