@@ -139,7 +139,7 @@ def save_to_mongodb(data_json, query, URL = "TRAVELDB_URL", db_name = "travel_db
     # Kết nối đến MongoDB
     db = MongoDB(DB_URL, db_name, collection_name)
     record_id, error = db.save_record(data_json)
-    save_to_mongodb_full_text(data_json['data']['name'], query, ref_id = record_id, URL=URL, db_name=db_name, collection_name=collection_name)
+    save_to_mongodb_full_text(data_json['data']['name'], query, ref_id = record_id, URL=URL, db_name=db_name, collection_name="auto_crawl_text")
     print("Data saved to MongoDB successfully.")
     print("Số lượng doc hiện tại là:",db.count_documents())
     return
@@ -175,37 +175,51 @@ def process_url(url, max_retries=3, delay=2):
             query, image_urls = parse_html_to_text_and_images(main_content)
             # Prompt
             prompt = ChatPromptTemplate.from_messages(
-                [
-                    (
+            [
+                (
                     "system",
-                        "Extract location information from the user query and output it as JSON that matches the given schema: ```json\n{schema}\n```. "
-                        "Create a description as a concise sumary (4-5 sentences) with objective information: focus on the location's standout features, ecosystem, notable experiences, and reasons to choose it (e.g., natural beauty, unique activities, accessibility)."
-                        "Avoid subjective phrases (e.g., 'wonderful', 'amazing') and promotional content (e.g., 'MIA.vn', 'will bring you great experiences'). "
-                        "language will be Vietnamese. "
-                        "Determine the category based on the context using the following format: '[sao] [giá thành] [loại sở hữu] [loại hình] [văn hóa]', where: "
-                        "- [sao]: Số sao (ví dụ: 4.5 sao) nếu có thông tin đánh giá, bỏ qua nếu không có. "
-                        "- [giá thành]: 'giá cao' hoặc 'giá thấp' nếu có thông tin về chi phí, bỏ qua nếu không có. "
-                        "- [loại sở hữu]: 'thiên nhiên' hoặc 'tư nhân' dựa trên bối cảnh, bỏ qua nếu không rõ. "
-                        "- [loại hình]: Một trong 'khu du lịch', 'bảo tàng', 'di tích', 'biển', 'hồ', 'lăng', v.v., dựa trên mô tả, bỏ qua nếu không rõ. "
-                        "- [văn hóa]: Thêm 'tâm linh', 'thủ công', hoặc 'di sản văn hóa' nếu có yếu tố văn hóa liên quan, bỏ qua nếu không có. "
-                        "Use the provided image_urls: {image_urls} for the 'image_url' field in the JSON output. "
-                        "If any information (like latitude, longitude) is missing, use "". "
-                        "Make sure to wrap the answer in ```json``` tags",
-                    ),
-                    ("human", "{query}"),
-                ]
-            ).partial(schema=Location.model_json_schema(), image_urls=image_urls)
+                    "Extract location information from the user query and output it as JSON that matches the given schema: ```json\n{schema}\n```. "
+                    "Create a description as a concise summary (4-5 sentences) with objective information: focus on the location's standout features, ecosystem, notable experiences, and reasons to choose it (e.g., natural beauty, unique activities, accessibility). "
+                    "Avoid subjective phrases (e.g., 'wonderful', 'amazing') and promotional content (e.g., 'MIA.vn', 'will bring you great experiences'). "
+                    "Language will be Vietnamese. "
+                    "Determine the category based on the context using the following format: '[sao] [giá thành] [loại sở hữu] [loại hình] [văn hóa]', where: "
+                    "- [sao]: Số sao (ví dụ: 4.5 sao) nếu có thông tin đánh giá, bỏ qua nếu không có. "
+                    "- [giá thành]: 'giá cao' hoặc 'giá thấp' nếu có thông tin về chi phí, bỏ qua nếu không có. "
+                    "- [loại sở hữu]: 'thiên nhiên' hoặc 'tư nhân' dựa trên bối cảnh, bỏ qua nếu không rõ. "
+                    "- [loại hình]: Một trong 'khu du lịch', 'bảo tàng', 'di tích', 'biển', 'hồ', 'lăng', v.v., dựa trên mô tả, bỏ qua nếu không rõ. "
+                    "- [văn hóa]: Thêm 'tâm linh', 'thủ công', hoặc 'di sản văn hóa' nếu có yếu tố văn hóa liên quan, bỏ qua nếu không có. "
+                    "Use the provided image_urls: {image_urls} for the 'image_url' field in the JSON output. "
+                    "If any information (like latitude, longitude) is missing, use "". "
+                    "Make sure to wrap the answer in ```json``` tags. "
+                    "\n\n**Address Formatting Rules:**\n"
+                    "Ensure the 'name.address' field in the JSON output follows this tail: ', tỉnh <province>' "
+                    "grab only 1 province, Remove any additional details such as distances (e.g., 'cách trung tâm thành phố Đà Lạt khoảng 7km') or relative positions (e.g., 'Nằm giữa Huế và Đà Nẵng') or 'Thuộc địa bàn 3 huyện Mang Yang, KBang và Đắk Đoa'. "
+                    "Examples of correct address format:\n"
+                    "- 'Phường 4, Đà Lạt, tỉnh Lâm Đồng'\n"
+                    "- 'Bán đảo Sơn Trà, tỉnh Đà Nẵng'\n"
+                    "- 'Quốc lộ 6, tỉnh Điện Biên'\n"
+                    "- 'huyện Mang Yang, tỉnh Gia Lai'\n"
+                ),
+                ("human", "{query}"),
+            ]
+        ).partial(schema=Location.model_json_schema(), image_urls=image_urls)
+
             print("====================================")
-            #print(prompt.format_prompt(query=query).to_string())
             # Chuẩn bị nội dung prompt để gửi đến Gemini
-            formatted_prompt = prompt.format_prompt(query=query).to_string()
+            #formatted_prompt = prompt.format_prompt(query=query).to_string()
+            try:
+                formatted_prompt = prompt.format_prompt(query=query).to_string()
+            except Exception as e:
+                raise ValueError(f"Lỗi khi tạo formatted_prompt: {e}\nQuery: {query}")
             # Gửi yêu cầu đến Gemini và nhận phản hồi
             response = client.models.generate_content(
                         model="gemini-2.0-flash",
                         contents=formatted_prompt
                     )
             # Trích xuất JSON từ phản hồi
+            print(1)
             result = extract_json(AIMessage(content=response.text)) 
+            print(1)
             # kiem tra json co hop le khong
             if not result or not isinstance(result, list) or len(result) == 0:
                 raise ValueError("Invalid JSON response")
