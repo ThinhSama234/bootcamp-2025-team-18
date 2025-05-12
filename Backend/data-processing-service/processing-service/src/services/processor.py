@@ -79,11 +79,12 @@ class ProcessorService:
             vec_count = await self.db_vector.collection.count_documents({})
             print(f"Updated document count in locations_vector: {vec_count}")
         except asyncio.TimeoutError:
-            continue  # Chờ thêm nếu queue trống
+          continue  # Chờ thêm nếu queue trống
         except Exception as e:
-            print(f"❌ Error indexing batch: {str(e)}")
+          print(f"❌ Error indexing batch: {str(e)}")
         await asyncio.sleep(1)  # Chờ 1 giây trước khi kiểm tra lại
-    asyncio.create_task(index_worker())
+    loop = asyncio.get_running_loop()
+    loop.create_task(index_worker())
   
   async def shutdown(self):
     """Dừng worker khi service shutdown."""

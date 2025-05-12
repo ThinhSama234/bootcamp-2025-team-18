@@ -12,10 +12,10 @@ logging.basicConfig(
   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 
-location_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations")
-vector_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations_vector")
-
 async def main():
+  # Initialize databases within the running event loop
+  location_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations")
+  vector_db = MongoDB(TRAVELDB_URL, database="travel_db", collection="locations_vector")
   processor_service = ProcessorService(location_db, vector_db)
   processor = DataProcessor(processor_service)
   await processor.run()
