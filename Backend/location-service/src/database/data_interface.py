@@ -131,6 +131,13 @@ class MongoDB(IDatabase):
         except ValueError as e:
             return [], Exception(f"Invalid filter value: {e}")
     
+    def fetch_from_mongodb(self, id_strs = []):
+        object_ids = [ObjectId(_id) for _id in id_strs]
+
+        # Truy vấn bằng $in
+        docs = list(self.find({"_id": {"$in": object_ids}}))
+        return docs
+    
     def find_one(self, query):
         return self.collection.find_one(query)
     def find(self, query: dict = {}, projection: Optional[dict] = None, limit: Optional[int] = None) -> List[dict]:

@@ -5,7 +5,6 @@ from langchain.embeddings.base import Embeddings
 from config.config import DEFAULT_EMBEDDING_MODEL_NAME
 
 from database.data_interface import MongoDB
-from database.extract_metadata import fetch_from_mongodb
 
 class VectorDB:
     def __init__(self, embedding_model: Optional[Embeddings] = None):
@@ -103,7 +102,7 @@ class VectorDB:
             query_embedding_list = query_embedding.tolist()  # Chuyển thành danh sách cho $vectorSearch
             initial_results = self.search_vectorID(db_vector, query_embedding_list, top_k)
             mongo_ids = [result["id_mongo"] for result in initial_results]
-            docs = fetch_from_mongodb(db, mongo_ids)
+            docs = db.fetch_from_mongodb(mongo_ids)
             doc_map = {str(doc.get("_id")): doc.get('data', {}) for doc in docs if doc.get("_id")}
             print("200 ok")
             # Re-ranking
