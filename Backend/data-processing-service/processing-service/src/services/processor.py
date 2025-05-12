@@ -21,11 +21,12 @@ class ProcessorService:
     self._start_index_worker()  # Khởi động worker để index batch
   
   @PROCESSING_TIME.time()
-  async def process_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+  async def process_data(self, message: Dict[str, Any]) -> Dict[str, Any]:
     """Process location data and vector embedding, then save to mongodb"""
     try: 
-      new_data = await self.db.save_record(data)
-      print(f"✅ Saved to MongoDB: {new_data['_id']}")
+      new_data = await self.db.save_record(message)
+      logger.info(f"✅ Saved to MongoDB: {new_data['_id']}")
+      logger.info(new_data)
 
       _id = new_data.get("_id")
       data = new_data.get('data', {})
@@ -36,7 +37,7 @@ class ProcessorService:
       category = data.get('category', '')
 
       merged_text = f"{name} {address} {category} {description}".strip()
-      print(f"Processing: {merged_text[:50]}...")
+      logger.info(f"Processing: {merged_text[:50]}...")
 
       embedding = self.manager.embed_texts([merged_text])[0].tolist()
       queue_item = {
@@ -46,15 +47,15 @@ class ProcessorService:
       }
       
       await self.embedding_queue.put(queue_item)
-      print(f"✅ Queued embedding for _id: {new_data['_id']}")
+      logger.info(f"✅ Queued embedding for _id: {new_data['_id']}")
       
       #In số document hiện tại trong locations và locations_vector
       loc_count = await self.db.collection.count_documents({})
       vec_count = await self.db_vector.collection.count_documents({})
-      print(f"Current document count - locations: {loc_count}, locations_vector: {vec_count}")
+      logger.info(f"Current document count - locations: {loc_count}, locations_vector: {vec_count}")
       return new_data
     except Exception as e:
-      print(f"❌ Error processing data: {str(e)}")
+      logger.info(f"❌ Error processing data: {str(e)}")
       return data
     
   def _start_index_worker(self):
@@ -74,17 +75,16 @@ class ProcessorService:
             await self.db_vector.insert_many([
                             {"_id": mongo_id, "embedding": embedding}
                             for mongo_id, embedding in zip(mongo_ids, embeddings)])
-            print(f"✅ Indexed batch of {len(batch)} items")
+            logger.info(f"✅ Indexed batch of {len(batch)} items")
             # In số document hiện tại sau khi index
             vec_count = await self.db_vector.collection.count_documents({})
-            print(f"Updated document count in locations_vector: {vec_count}")
+            logger.info(f"Updated document count in locations_vector: {vec_count}")
         except asyncio.TimeoutError:
-            continue  # Chờ thêm nếu queue trống
+          continue  # Chờ thêm nếu queue trống
         except Exception as e:
-            print(f"❌ Error indexing batch: {str(e)}")
+          logger.info(f"❌ Error indexing batch: {str(e)}")
         await asyncio.sleep(1)  # Chờ 1 giây trước khi kiểm tra lại
-    # Get the current event loop to create the task
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     loop.create_task(index_worker())
   
   async def shutdown(self):
@@ -94,7 +94,7 @@ class ProcessorService:
     # Đóng kết nối MongoDB
     self.db.client.close()
     self.db_vector.client.close()
-    print("✅ Closed MongoDB connections")
+    logger.info("✅ Closed MongoDB connections")
 
 # Hàm main để test
 async def main():
@@ -129,7 +129,7 @@ async def main():
     ]
     for record in records:
         result = await processor_service.process_data(record)
-        print(f"Processed result: {result}")
+        logger.info(f"Processed result: {result}")
         await asyncio.sleep(1)  # Giả lập delay giữa các tài liệu
 
     # Đợi một chút để worker xử lý

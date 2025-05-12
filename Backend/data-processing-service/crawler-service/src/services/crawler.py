@@ -255,8 +255,13 @@ class Crawler:
 
         location = self._prompt_ai_for_model(query, image_urls)
         location_data = {
+          'source': paper_url,
           'type': location.type,
-          'data': location.data.model_dump()
+          'data': location.data.model_dump(),
+          'metadata': {
+            'import_type': 'crawled',
+            'timestamp': int(time.time()),
+          }
         }
         break
       except (ValueError, Exception) as e:
