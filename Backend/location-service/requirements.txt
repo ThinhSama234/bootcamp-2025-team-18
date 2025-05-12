@@ -11,3 +11,4 @@ pymongo
 gpt4all
 google-genai
 langchain>=0.0.267
+langchain-community

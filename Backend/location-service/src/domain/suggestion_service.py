@@ -3,6 +3,8 @@ from bson.objectid import ObjectId
 from agent.graph import Graph
 from database.data_interface import MongoDB
 
+from config.config import TRAVELDB_URL
+
 class SuggestionService:
   def __init__(self, db: MongoDB, db_vector: MongoDB):
     self.graph = Graph(db, db_vector)
@@ -16,6 +18,7 @@ class SuggestionService:
     state = self.graph.summarize(initial_state)
     state = self.graph.search_vector_db(self.db_vector, state, k)
     location_details = state["location_details"]
+    print(location_details)
     return location_details
   # query k list id mongo
   
@@ -56,6 +59,9 @@ class SuggestionService:
     except Exception as e:
       return f"Error fetching description for location_id {location_id}: {str(e)}"
 
+
+
+
 if __name__ == "__main__":
   messages = [
     "Tôi nghĩ chúng ta nên đi đến Ninh Bình.",
@@ -70,7 +76,7 @@ if __name__ == "__main__":
   # messages = [
   #   "Tôi muốn đi leo núi"
   # ]
-  uri = "mongodb+srv://truongthinh2301:tpuNNUBTBxrgOm1a@cluster0.dlrf4cw.mongodb.net/"
+  uri = TRAVELDB_URL
   db = MongoDB(uri, database="travel_db", collection="locations")
   db_vector = MongoDB(uri, database="travel_db", collection="locations_vector")
   suggestion_service = SuggestionService(db, db_vector)
