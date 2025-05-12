@@ -26,6 +26,7 @@ def import_data():
     
     request_id = import_service.send_to_kafka(
       source=data['source'],
+      type=data['type'],
       data=data['data'],
       metadata=data.get('metadata')
     )
@@ -55,12 +56,10 @@ def import_data():
 def batch_import():
   try:
     data = batch_import_schema.load(request.json)
-    logger.info(f"Processing batch import request from source: {data['source']} with {len(data['items'])} items")
+    logger.info(f"Processing batch import request with {len(data['items'])} items")
     
     batch_id = import_service.batch_send_to_kafka(
-      source=data['source'],
       items=data['items'],
-      metadata=data.get('metadata')
     )
     
     return jsonify({

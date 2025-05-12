@@ -38,7 +38,6 @@ def main():
   def send_batch(jsons):
     result = api_client.batch_import_locations(
       jsons,
-      metadata={"import_type": "crawled", "timestamp": time.time()}
     )
     logger.info(f"Successfully sent {len(jsons)} locations. Batch ID: {result.get('request_id')}")
       

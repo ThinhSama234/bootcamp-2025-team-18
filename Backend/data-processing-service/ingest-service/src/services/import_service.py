@@ -23,6 +23,7 @@ class ImportService:
   def send_to_kafka(
     self,
     source: str,
+    type: str,
     data: Dict[str, Any],
     metadata: Optional[Dict[str, Any]] = None
   ) -> str:
@@ -30,6 +31,7 @@ class ImportService:
     message = {
       'request_id': request_id,
       'source': source,
+      'type': type,
       'data': data,
       'metadata': metadata or {}
     }
@@ -49,9 +51,7 @@ class ImportService:
 
   def batch_send_to_kafka(
     self,
-    source: str,
     items: List[Dict[str, Any]],
-    metadata: Optional[Dict[str, Any]] = None
   ) -> str:
     batch_id = str(uuid.uuid4())
     
@@ -60,9 +60,10 @@ class ImportService:
         message = {
           'batch_id': batch_id,
           'request_id': str(uuid.uuid4()),
-          'source': source,
-          'data': item,
-          'metadata': metadata or {}
+          'source': item.get('source', 'crawler'),
+          'data': item.get('data'),
+          'type': item.get('type', 'location'),
+          'metadata': item.get('metadata', {})
         }
         self.producer.produce(
           KAFKA_LOCATION_DATA_TOPIC, 

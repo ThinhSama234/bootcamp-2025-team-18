@@ -11,7 +11,7 @@ from confluent_kafka import TopicPartition
 from dotenv import load_dotenv
 load_dotenv()
 
-from models.location_data import MessageSchema, LocationDataSchema
+from models.location_data import MessageSchema
 from .processor import ProcessorService
 
 from config.kafka_config import KAFKA_LOCATION_DATA_DLT_TOPIC, KAFKA_LOCATION_DATA_TOPIC, create_consumer, create_producer
@@ -28,7 +28,7 @@ CONSUMER_LAG = Gauge('consumer_lag', 'Consumer lag in messages')
 
 class DataProcessor:
   def __init__(self, processor_service: ProcessorService):
-    self.location_data_schema = LocationDataSchema()
+    self.message_schema = MessageSchema()
     self.consumer = create_consumer()
     self.dlt_producer = create_producer()
 
@@ -60,7 +60,7 @@ class DataProcessor:
       start_time = datetime.now()
       
       value = json.loads(msg.value().decode('utf-8'))
-      validated_data = self.location_data_schema.load(value)
+      validated_data = self.message_schema.load(value)
       
       await self.processor.process_data(validated_data)
       
