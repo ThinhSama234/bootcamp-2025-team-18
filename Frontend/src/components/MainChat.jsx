@@ -6,6 +6,8 @@ import { ShareMediaModal } from './common/Modal';
 import { fetchMessages } from '../api/groupService';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
+import { Modal } from 'antd';
+import 'antd/dist/reset.css';  // or the appropriate antd css import based on your version
 
 function ChatWindow({group}) {
   const { username} = useAuth();
@@ -17,6 +19,7 @@ function ChatWindow({group}) {
   const [inputValue, setInputValue] = React.useState('');
   const [zoomedImg, setZoomedImg] = React.useState(null);
   const [selectedMessages, setSelectedMessages] = React.useState([]);
+  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
   const closeModal = () => {
     setZoomedImg(null);
@@ -110,6 +113,17 @@ function ChatWindow({group}) {
     setInputValue('');
   };
 
+  const handleRequestButtonClick = () => {
+    // if (selectedMessages.length === 0) {
+    //   Modal.warning({
+    //     title: 'No Messages Selected',
+    //     content: 'Please select at least one message to get suggestions',
+    //   });
+    //   return;
+    // }
+    setShowConfirmModal(true);
+  };
+
   const handleRequestSuggestions = () => {
     console.log("Requesting suggestions...");
     const k = 5;
@@ -173,7 +187,7 @@ function ChatWindow({group}) {
       </div>
       
       <div className="chat-input">
-        <button className='request-button' title='Request Recommend' onClick={ handleRequestSuggestions  }>
+        <button className='request-button' title='Request Recommend' onClick={handleRequestButtonClick}>
           <img src='/request-icon.png' alt='Request icon' className='request-icon' />
         </button>
         <button className='add-media-button' title='Add Media' onClick={() => setShareMediaModal(true)}>
@@ -190,6 +204,27 @@ function ChatWindow({group}) {
           <img src='/send-icon.png' alt='Send icon' className='send-icon' />
         </button>
       </div>
+
+      <Modal
+        title="Request Suggestions"
+        open={showConfirmModal}
+        onOk={() => {
+          handleRequestSuggestions();
+          setShowConfirmModal(false);
+        }}
+        onCancel={() => setShowConfirmModal(false)}
+        okText="Confirm"
+        cancelText="Cancel"
+        okButtonProps={{ 
+          style: { 
+            background: 'linear-gradient(90deg, #09ad4f, #78d59f)',
+            border: 'none' 
+          } 
+        }}
+      >
+        <p>Are you sure you want to request suggestions for the selected messages?</p>
+      </Modal>
+
       {showShareMediaModal && <ShareMediaModal onClose={() => setShareMediaModal(false)} />}
       {zoomedImg && (
         <div className="modal-overlay" onClick={closeModal}>
