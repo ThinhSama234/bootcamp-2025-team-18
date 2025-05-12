@@ -24,6 +24,7 @@ class ProcessorService:
   async def process_data(self, message: Dict[str, Any]) -> Dict[str, Any]:
     """Process location data and vector embedding, then save to mongodb"""
     try: 
+      
       new_data = await self.db.save_record(message)
       logger.info(f"✅ Saved to MongoDB: {new_data['_id']}")
       logger.info(new_data)
