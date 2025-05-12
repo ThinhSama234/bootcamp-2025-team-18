@@ -27,7 +27,7 @@ class ImportRequestSchema(Schema):
       raise ValidationError('Data field must be a JSON object')
 
 class BatchImportRequestSchema(Schema):
-  items = fields.List(ImportRequestSchema(), required=True)
+  items = fields.List(ImportRequestSchema, required=True)
 
   @validates_schema
   def validate_items(self, data: Dict[str, Any], **kwargs):
