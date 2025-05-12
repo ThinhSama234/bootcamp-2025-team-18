@@ -35,6 +35,13 @@ def adjusted_coordinates(URL = "TRAVELDB_URL", db_name= "travel_db", collection_
             address = line.get("data", {}).get("address")
             category = line.get("data", {}).get("category")
             description = line.get("data", {}).get("description")
+            image_url = line.get("data", {}).get("image_url")
+            if name is None:
+                name = line.get("name")
+                address = line.get("address")
+                category = line.get("category")
+                description = line.get("description")
+                image_url = line.get("image_url")
             if name is None:
                 print(f"[❌] Missing name for document ID: {idd}")
                 continue
@@ -84,6 +91,7 @@ def adjusted_coordinates(URL = "TRAVELDB_URL", db_name= "travel_db", collection_
                                     "longitude": info["longitude"],
                                     "category": category,
                                     "description": description,
+                                    "image_url": image_url
                                 }
                             }
                             # Lưu vào MongoDB
