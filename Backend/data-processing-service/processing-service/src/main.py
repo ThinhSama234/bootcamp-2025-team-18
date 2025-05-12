@@ -19,9 +19,9 @@ async def main():
   
   # Create 2dsphere index if it does not already exist
   index_name = "location_2dsphere"
-  existing_indexes = location_db.collection.index_information()
+  existing_indexes = await location_db.collection.index_information()
   if index_name not in existing_indexes:
-    location_db.collection.create_index(
+    await location_db.collection.create_index(
       [("location", "2dsphere")],
       name=index_name
     )
