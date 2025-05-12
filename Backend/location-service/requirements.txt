@@ -8,3 +8,6 @@ langgraph-prebuilt
 langchain-core
 faiss-cpu
 pymongo
+gpt4all
+google-genai
+langchain>=0.0.267

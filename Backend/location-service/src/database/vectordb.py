@@ -1,13 +1,14 @@
-import json 
 import numpy as np
 from typing import Any, List, Dict, Optional, Union
 from langchain.embeddings.base import Embeddings
-from config import VECTOR_DB_DIR, DEFAULT_EMBEDDING_MODEL
-from data_interface import MongoDB
-from extract_metadata import fetch_from_mongodb
+
+from config.config import DEFAULT_EMBEDDING_MODEL_NAME
+
+from database.data_interface import MongoDB
+from database.extract_metadata import fetch_from_mongodb
+
 class VectorDB:
-    def __init__(self, embedding_model: Optional[Embeddings] = None, vector_db_dir = VECTOR_DB_DIR):
-        self.vector_db_dir = vector_db_dir
+    def __init__(self, embedding_model: Optional[Embeddings] = None):
         self.embedding_model = embedding_model
         self._init_embedding_model()
     def _init_embedding_model(self):
@@ -15,7 +16,7 @@ class VectorDB:
         if self.embedding_model == None:
             try:
                 from langchain_community.embeddings import GPT4AllEmbeddings
-                self.embedding_model = GPT4AllEmbeddings(model_file = DEFAULT_EMBEDDING_MODEL)
+                self.embedding_model = GPT4AllEmbeddings(model_name=DEFAULT_EMBEDDING_MODEL_NAME, gpt4all_kwargs={"allow_download": True})
             except ImportError:
                 raise ImportError("GPT4ALLEmbeddings should pip install langchain-community")
 

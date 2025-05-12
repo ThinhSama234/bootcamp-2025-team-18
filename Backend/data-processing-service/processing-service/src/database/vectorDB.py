@@ -1,9 +1,7 @@
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import numpy as np
 from typing import List, Optional
 from langchain.embeddings.base import Embeddings
-from config.db_config import DEFAULT_EMBEDDING_MODEL
+from config.db_config import DEFAULT_EMBEDDING_MODEL_NAME
 
 class VectorDB:
     def __init__(self, embedding_model: Optional[Embeddings] = None):
@@ -14,7 +12,7 @@ class VectorDB:
         if self.embedding_model == None:
             try:
                 from langchain_community.embeddings import GPT4AllEmbeddings
-                self.embedding_model = GPT4AllEmbeddings(model_file = DEFAULT_EMBEDDING_MODEL, device="cpu")
+                self.embedding_model = GPT4AllEmbeddings(model_name=DEFAULT_EMBEDDING_MODEL_NAME, gpt4all_kwargs={"allow_download": True})
             except ImportError as e:
                 print(str(e))
                 raise ImportError("GPT4ALLEmbeddings should pip install langchain-community")

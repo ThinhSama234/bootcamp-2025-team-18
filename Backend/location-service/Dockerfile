@@ -4,13 +4,13 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY src/ ./src
 
 ENV FLASK_PORT=5000
 ENV GRPC_PORT=50051
-ENV LOCATIONDB_URL=
+ENV TRAVELDB_URL=
 
 EXPOSE 5000
 EXPOSE 50051

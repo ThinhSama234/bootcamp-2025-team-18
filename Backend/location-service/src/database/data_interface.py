@@ -54,7 +54,7 @@ class MongoDB(IDatabase):
             self.client.admin.command('ping')
             print("Successfully connected")
         except PyMongoError as e:
-            raise Exception(f"Failed to connect to MonoDB: {e}")
+            raise Exception(f"Failed to connect to MonoDB: {str(e)}")
         self.db = self.client[database]
         self.collection = self.db[collection]
 
@@ -63,7 +63,7 @@ class MongoDB(IDatabase):
         try:
             return self.db.list_collection_names()  # Call on the database object
         except PyMongoError as e:
-            return [], Exception(f"failed to list collections: {e}")
+            return [], Exception(f"failed to list collections: {str(e)}")
         
     def save_record(self, record: Dict[str, Any]):
         try:

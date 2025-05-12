@@ -1,21 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import Annotated, Dict, Any, Tuple, List
+from typing import Annotated, Dict, Tuple, List
 from typing_extensions import TypedDict
 
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langchain_core.runnables import RunnableLambda
-from summarization import summarization
+
 #import spacy
-from extract_metadata import fetch_from_mongodb
-import sys
-import argparse
-import os
-from vector_database import ingest_data_to_vector_db
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../data-service")))
-print(sys.path)
-from vectordb import VectorDB
-from data_interface import MongoDB
+from agent.summarization import summarization
+from database.vectordb import VectorDB
+from database.data_interface import MongoDB
+
+from config.config import TRAVELDB_URL
+
 #nlp = spacy.load("vi_core_news_lg")
 class State(TypedDict):
     messages: Annotated[list, add_messages]
@@ -130,11 +126,12 @@ class Graph:
         builder.set_entry_point("Summarize")
         graph = builder.compile()
         return graph.invoke(state)
+    
 if __name__ == "__main__":
     messages = [
         "Tôi nghĩ chúng ta nên đi đến một nơi có đồi núi.",
     ]
-    uri = "mongodb+srv://truongthinh2301:tpuNNUBTBxrgOm1a@cluster0.dlrf4cw.mongodb.net/"
+    uri = TRAVELDB_URL
     db = MongoDB(uri, database="travel_db", collection="locations")
     db_vector = MongoDB(uri, database="travel_db", collection="locations_vector")
     graph = Graph()

@@ -1,12 +1,8 @@
 import uuid
-from torch import Tensor
-import sys
-import os
 from bson.objectid import ObjectId
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../agent")))
-from extract_metadata import fetch_from_mongodb
-from graph import Graph
-from data_interface import MongoDB
+from agent.graph import Graph
+from database.data_interface import MongoDB
+
 class SuggestionService:
   def __init__(self, db: MongoDB, db_vector: MongoDB):
     self.graph = Graph(db, db_vector)
