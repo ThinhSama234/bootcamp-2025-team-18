@@ -12,7 +12,7 @@ export const fetchGroupList = async (username) => {
     const formattedGroups = groupData.map(group => ({
       id: group.id,
       groupName: group.groupName,
-      lastMessage: typeof group.lastMessageContent === 'string' ? group.lastMessageContent : '[Image]',
+      lastMessage: typeof group.lastMessageContent === 'string' ? group.lastMessageContent :  '[Image]',
       timestamp: formatTimeAgo(group.lastMessageTime),
       members: group.members,
       groupPicSrc: '/group1.jpg'

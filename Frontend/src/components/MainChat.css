@@ -49,6 +49,7 @@
 
   .chat-header-group-info h3 {
     font-size: 24px;
+    font-weight: bold;
     color: #09ad4f;
     margin-left: 16px;
   }
@@ -112,7 +113,7 @@
   }
 
   .request-icon, .add-media-icon, .send-icon {
-    height: 28px;
+    max-height: 28px;
     border-radius: 50%;
     object-fit: cover;      /* crop image to fill circle */
     overflow: hidden;       /* hide overflow if necessary */

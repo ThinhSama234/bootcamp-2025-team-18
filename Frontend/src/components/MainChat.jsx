@@ -79,7 +79,6 @@ function ChatWindow({group}) {
 
     const handleReceiveSuggestionId = (msg) => {
       console.log("Received suggestion ID:");
-      // Optional: Filter to ignore messages from other groups
       setMessages(prev => [
         {
           id: msg.id || `socket-${Date.now()}`,
@@ -99,7 +98,7 @@ function ChatWindow({group}) {
     return () => {
       socket.off('receive_message', handleReceiveMessage);
     };
-  }, [socket, group]);
+  }, [socket, messages]);
 
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
@@ -173,9 +172,6 @@ function ChatWindow({group}) {
       </div>
       
       <div className="chat-input">
-        <button className='request-button' title='Request Recommend' onClick={ handleRequestSuggestions  }>
-          <img src='/request-icon.png' alt='Request icon' className='request-icon' />
-        </button>
         <button className='add-media-button' title='Add Media' onClick={() => setShareMediaModal(true)}>
           <img src='/media-icon.png' alt='Add media icon' className='add-media-icon' />
         </button>
@@ -186,8 +182,8 @@ function ChatWindow({group}) {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
           />
-        <button className='send-button' title='Send' onClick={handleSendMessage}>
-          <img src='/send-icon.png' alt='Send icon' className='send-icon' />
+        <button className='request-button' title='Request Suggestions' onClick={handleRequestButtonClick}>
+          <img src='/Gravel.png' alt='Request icon' className='request-icon' />
         </button>
       </div>
       {showShareMediaModal && <ShareMediaModal onClose={() => setShareMediaModal(false)} />}
