@@ -1,0 +1,443 @@
+{
+  "bac giang": {
+    "coordinates": [21.333333, 106.333333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "bac kan": {
+    "coordinates": [22.166667, 105.833333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "cao bang": {
+    "coordinates": [22.666667, 106],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "ha giang": {
+    "coordinates": [22.75, 105],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "lang son": {
+    "coordinates": [21.75, 106.5],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "phu tho": {
+    "coordinates": [21.333333, 105.166667],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "quang ninh": {
+    "coordinates": [21.25, 107.333333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "thai nguyen": {
+    "coordinates": [21.666667, 105.833333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "tuyen quang": {
+    "coordinates": [21.666667, 105.833333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đông Bắc bộ"
+    }
+  },
+  "lao cai": {
+    "coordinates": [22.333333, 104],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Tây Bắc Bộ"
+    }
+  },
+  "yen bai": {
+    "coordinates": [21.5, 104.666667],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Tây Bắc Bộ"
+    }
+  },
+  "dien bien": {
+    "coordinates": [21.383333, 103.016667],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Tây Bắc Bộ"
+    }
+  },
+  "hoa binh": {
+    "coordinates": [20.333333, 105.25],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Tây Bắc Bộ"
+    }
+  },
+  "lai chau": {
+    "coordinates": [22, 103],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Tây Bắc Bộ"
+    }
+  },
+  "son la": {
+    "coordinates": [21.166667, 104],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Tây Bắc Bộ"
+    }
+  },
+  "bac ninh": {
+    "coordinates": [21.083333, 106.166667],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "ha nam": {
+    "coordinates": [20.583333, 106],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "hai duong": {
+    "coordinates": [20.916667, 106.333333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "hung yen": {
+    "coordinates": [20.833333, 106.083333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "nam dinh": {
+    "coordinates": [20.25, 106.25],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "ninh binh": {
+    "coordinates": [20.25, 105.833333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "thai binh": {
+    "coordinates": [20.5, 106.333333],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "vinh phuc": {
+    "coordinates": [21.3, 105.6],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "ha noi": {
+    "coordinates": [21.028472, 105.854167],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "hai phong": {
+    "coordinates": [20.865139, 106.683833],
+    "region": {
+      "traditional": "Miền Bắc",
+      "geographical": "Đồng bằng sông Hồng"
+    }
+  },
+  "ha tinh": {
+    "coordinates": [18.333333, 105.9],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Bắc Trung Bộ"
+    }
+  },
+  "nghe an": {
+    "coordinates": [19.333333, 104.833333],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Bắc Trung Bộ"
+    }
+  },
+  "quang binh": {
+    "coordinates": [17.5, 106.333333],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Bắc Trung Bộ"
+    }
+  },
+  "quang tri": {
+    "coordinates": [16.75, 107],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Bắc Trung Bộ"
+    }
+  },
+  "thanh hoa": {
+    "coordinates": [20, 105.5],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Bắc Trung Bộ"
+    }
+  },
+  "thua thien - hue": {
+    "coordinates": [16.333333, 107.583333],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Bắc Trung Bộ"
+    }
+  },
+  "dak lak": {
+    "coordinates": [12.666667, 108.05],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Tây Nguyên"
+    }
+  },
+  "dak nong": {
+    "coordinates": [11.983333, 107.7],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Tây Nguyên"
+    }
+  },
+  "gia lai": {
+    "coordinates": [13.75, 108.25],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Tây Nguyên"
+    }
+  },
+  "kon tum": {
+    "coordinates": [14.75, 107.916667],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Tây Nguyên"
+    }
+  },
+  "lam dong": {
+    "coordinates": [11.95, 108.433333],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Tây Nguyên"
+    }
+  },
+  "binh dinh": {
+    "coordinates": [14.166667, 109],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "binh thuan": {
+    "coordinates": [10.933333, 108.1],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "khanh hoa": {
+    "coordinates": [12.25, 109.2],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "ninh thuan": {
+    "coordinates": [11.75, 108.833333],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "phu yen": {
+    "coordinates": [13.166667, 109.166667],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "quang nam": {
+    "coordinates": [15.583333, 107.916667],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "quang ngai": {
+    "coordinates": [15, 108.666667],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "da nang": {
+    "coordinates": [16.066667, 108.233333],
+    "region": {
+      "traditional": "Miền Trung",
+      "geographical": "Duyên hải Nam Trung Bộ"
+    }
+  },
+  "ba ria - vung tau": {
+    "coordinates": [10.583333, 107.25],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Đông Nam Bộ"
+    }
+  },
+  "binh duong": {
+    "coordinates": [11.166667, 106.666667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Đông Nam Bộ"
+    }
+  },
+  "binh phuoc": {
+    "coordinates": [11.75, 106.916667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Đông Nam Bộ"
+    }
+  },
+  "dong nai": {
+    "coordinates": [11.116667, 107.183333],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Đông Nam Bộ"
+    }
+  },
+  "tay ninh": {
+    "coordinates": [11.333333, 106.166667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Đông Nam Bộ"
+    }
+  },
+  "ho chi minh": {
+    "coordinates": [10.776889, 106.700806],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Nam"
+    }
+  },
+  "an giang": {
+    "coordinates": [10.5, 105.166667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "bac lieu": {
+    "coordinates": [9.25, 105.75],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "ben tre": {
+    "coordinates": [10.166667, 106.5],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "ca mau": {
+    "coordinates": [9.083333, 105.083333],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "dong thap": {
+    "coordinates": [10.666667, 105.666667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "hau giang": {
+    "coordinates": [9.783333, 105.466667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "kien giang": {
+    "coordinates": [10, 105.166667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "long an": {
+    "coordinates": [10.666667, 106.166667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "soc trang": {
+    "coordinates": [9.666667, 105.833333],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "tien giang": {
+    "coordinates": [10.416667, 106.166667],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "tra vinh": {
+    "coordinates": [9.833333, 106.25],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "vinh long": {
+    "coordinates": [10.166667, 106],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  },
+  "can tho": {
+    "coordinates": [10.033333, 105.783333],
+    "region": {
+      "traditional": "Miền Nam",
+      "geographical": "Miền Tây Nam Bộ"
+    }
+  }
+}
