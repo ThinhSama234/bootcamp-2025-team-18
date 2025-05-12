@@ -10,3 +10,4 @@ A simple real-time group chat application built with React.
 npm install
 
 npm run dev
+```
