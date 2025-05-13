@@ -23,6 +23,7 @@ class SuggestionService:
     return str(uuid.uuid4())
 
   def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: any) -> list[str]: # done
+    self.messages = messages
     initial_state = {"messages": messages}
     state = self.graph.summarize(initial_state)
     state = self.graph.search_vector_db(self.db_vector, state, k)
@@ -51,7 +52,7 @@ class SuggestionService:
     except Exception as e:
       return {"error": f"Error fetching data for location_id {location_id}: {str(e)}"}
 
-  def get_location_response(self, location_id: str, messages: list[str]) -> str:
+  def get_location_response(self, location_id: str) -> str:
     """
     Tạm thời bây giờ, câu response sẽ là câu mô tả
     """
@@ -70,7 +71,7 @@ class SuggestionService:
             }
       }
 
-      response = self.text_processor.format_response(messages, record)
+      response = self.text_processor.format_response(self.messages, record)
       return response
       
     except Exception as e:
