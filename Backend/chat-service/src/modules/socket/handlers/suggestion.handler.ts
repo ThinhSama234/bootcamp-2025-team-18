@@ -24,9 +24,10 @@ export async function handleRequestSuggestions(io: Server, socket: Socket, paylo
 
       await messageService.createMessage(new SuggestionMessage("", "suggestion_service", groupName, messages, image_urls, coordinates, suggestionId, []));
     }, 
-    async (suggestionId: string, suggestion: string) => {
+    async (suggestionId: string, rank: number, suggestion: string) => {
       const singleSuggestion: ReceiveSuggestionPayload = {
         suggestionId,
+        rank,
         suggestion,
         timestamp: new Date(),
       }

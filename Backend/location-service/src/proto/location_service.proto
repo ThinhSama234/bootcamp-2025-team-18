@@ -26,6 +26,7 @@ message SuggestionRequest {
 
 message SuggestionReply {
   string type = 1; // "INIT" or "SUGGESTION"
-  string content = 2;
+  int32 rank = 2;
+  string content = 3;
 }
 

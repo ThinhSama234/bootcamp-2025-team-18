@@ -32,6 +32,7 @@ export type ReceiveSuggestionIDPayload = {
 
 export interface ReceiveSuggestionPayload {
   suggestionId: string;
+  rank: number;
   suggestion: string;
   timestamp: Date;
 }

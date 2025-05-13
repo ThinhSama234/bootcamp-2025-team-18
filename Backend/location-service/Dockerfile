@@ -8,11 +8,9 @@ RUN pip install -r requirements.txt
 
 COPY src/ ./src
 
-ENV FLASK_PORT=5000
 ENV GRPC_PORT=50051
 ENV TRAVELDB_URL=
 
-EXPOSE 5000
 EXPOSE 50051
 
 CMD ["python", "src/main.py"]

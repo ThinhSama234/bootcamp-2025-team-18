@@ -12,6 +12,7 @@ interface SuggestionRequest {
 
 interface SuggestionReply {
   type: string;
+  rank: number;
   content: string;
 }
 
@@ -43,7 +44,7 @@ export class LocationClient {
         while (suggestionId === null) {
           await new Promise(resolve => setTimeout(resolve, 10));
         }
-        await getSingleSuggestionCb(suggestionId, response.content);
+        await getSingleSuggestionCb(suggestionId, response.rank, response.content);
       }
     });
     

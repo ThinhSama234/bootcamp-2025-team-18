@@ -52,7 +52,7 @@ class MongoDB(IDatabase):
         try:
             self.client = MongoClient(uri)
             self.client.admin.command('ping')
-            print("Successfully connected")
+            print("Successfully connected to MongoDB")
         except PyMongoError as e:
             raise Exception(f"Failed to connect to MonoDB: {str(e)}")
         self.db = self.client[database]

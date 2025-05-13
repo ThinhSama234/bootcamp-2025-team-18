@@ -1,14 +1,14 @@
 from transformers import pipeline
 from openai import OpenAI
-
-XAI_API_KEY = "xai-Lwvyn1pZr6KIOX6DEguKthSUkIvhINLmjeUyD72SqJd6RHtk43JYxKyohxrNFdkLcuk3CngJjkMDAmhO"
-client = OpenAI(
-    api_key=XAI_API_KEY,
-    base_url="https://api.x.ai/v1",
-)
+from config.config import XAI_API_KEY
 
 class TextProcessor:
     def __init__(self):
+        self.client = OpenAI(
+            api_key=XAI_API_KEY,
+            base_url="https://api.x.ai/v1",
+        )
+
         self.summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 
     def summarize_text(self, text: str, max_length: int = 50) -> str:
@@ -26,7 +26,7 @@ class TextProcessor:
             str: Câu trả lời từ Grok
         """
         context = " ".join(user_messages)
-        summarized_context = self.summarize_text(context, max_length=100)
+        summarized_context = self.summarize_text(context, max_length=min(100, len(context.split())))
         #print("Summarized context:", summarized_context)
 
         name = record.get("data", {}).get("name", "Địa điểm")
@@ -40,7 +40,7 @@ class TextProcessor:
         )
 
         try:
-            completion = client.chat.completions.create(
+            completion = self.client.chat.completions.create(
                 model="grok-3-beta",
                 messages=[
                     {"role": "user", "content": prompt}

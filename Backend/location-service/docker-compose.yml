@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
       - "50051:50051"
     environment:
       - TRAVELDB_URL=${TRAVELDB_URL}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - XAI_API_KEY=${XAI_API_KEY}

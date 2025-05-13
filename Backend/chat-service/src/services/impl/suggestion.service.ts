@@ -1,15 +1,11 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+import { LOCATION_SERVICE_GRPC_URL } from '../../config/suggestionService';
 import { LocationClient } from '../../modules/grpc/clients';
 import { ISuggestionService } from '../suggestion.service'
 
 
 class SuggestionService implements ISuggestionService {
-  private client: LocationClient;
-  
-  constructor(URL: string) {
-    this.client = new LocationClient(URL);
+  constructor(private readonly client: LocationClient) {
+    this.client = client;
   }
 
   getSuggestions(k: number, messages: string[], image_urls: string[], coordinates: { latitude: number, longtitude: number } | undefined, initCb: Function, getSingleSuggestionCb: Function, errorCb?: Function): void {
@@ -18,7 +14,4 @@ class SuggestionService implements ISuggestionService {
 
 }
 
-const URL = process.env.LOCATION_SERVICE_GRPC_URL;
-if (!URL)
-  throw new Error('Location service URL is not defined in environment variables');
-export default new SuggestionService(URL);
+export default new SuggestionService(new LocationClient(LOCATION_SERVICE_GRPC_URL));

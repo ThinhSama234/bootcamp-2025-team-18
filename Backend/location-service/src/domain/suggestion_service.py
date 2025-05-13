@@ -1,17 +1,14 @@
+from typing import List
 import uuid
-from openai import OpenAI
+import logging
 from bson.objectid import ObjectId
 from agent.graph import Graph
 from agent.format import TextProcessor
 from database.data_interface import MongoDB
 
-from config.config import TRAVELDB_URL
+logger = logging.getLogger(__name__)
 
-XAI_API_KEY = "xai-Lwvyn1pZr6KIOX6DEguKthSUkIvhINLmjeUyD72SqJd6RHtk43JYxKyohxrNFdkLcuk3CngJjkMDAmhO"
-client = OpenAI(
-    api_key=XAI_API_KEY,
-    base_url="https://api.x.ai/v1",
-)
+from config.config import TRAVELDB_URL
 
 class SuggestionService:
   def __init__(self, db: MongoDB, db_vector: MongoDB):
@@ -19,26 +16,25 @@ class SuggestionService:
     self.db = db
     self.db_vector = db_vector
     self.text_processor = TextProcessor()
+    
   def get_session_id(self) -> str:
     return str(uuid.uuid4())
 
   def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: any) -> list[str]: # done
-    self.messages = messages
     initial_state = {"messages": messages}
     state = self.graph.summarize(initial_state)
     state = self.graph.search_vector_db(self.db_vector, state, k)
     location_details = state["location_details"]
-    print(location_details)
+    logger.info(location_details)
     return location_details
   # query k list id mongo
   
   def get_location_details_by_id(self, location_id: str) -> dict:
-    """Truy xuất thông tin chi tiết từ MongoDB dựa trên location_id."""
     try:   
       record = self.db.find_one({"_id":ObjectId(str(location_id))})
       if not record:
         return {"error": f"No document found for location_id {location_id}"}
-      print(f"Record for ID {location_id}: {record}")
+      logger.info(f"Record for ID {location_id}: {record}")
       data = record.get('data', {})
       return {
         "_id": str(record.get("_id")),
@@ -52,7 +48,7 @@ class SuggestionService:
     except Exception as e:
       return {"error": f"Error fetching data for location_id {location_id}: {str(e)}"}
 
-  def get_location_response(self, location_id: str) -> str:
+  def get_location_response(self, messages: List[str], location_id: str) -> str:
     """
     Tạm thời bây giờ, câu response sẽ là câu mô tả
     """
@@ -63,19 +59,22 @@ class SuggestionService:
         return details["error"]
       record = {
         "_id": details.get("_id"),
-          "data": {
-            "name": details.get("name", "Địa điểm"),
-            "address": details.get("address", "Địa chỉ không rõ"),
-            "description": details.get("description", "Mô tả không có"),
-            "category": details.get("category", "Không rõ danh mục")
-            }
+        "data": {
+          "name": details.get("name", "Địa điểm"),
+          "address": details.get("address", "Địa chỉ không rõ"),
+          "description": details.get("description", "Mô tả không có"),
+          "category": details.get("category", "Không rõ danh mục")
+        }
       }
 
-      response = self.text_processor.format_response(self.messages, record)
+      response = self.text_processor.format_response(messages, record)
       return response
       
     except Exception as e:
       return f"Error fetching description for location_id {location_id}: {str(e)}"
+
+
+
 
 
 if __name__ == "__main__":
@@ -97,15 +96,15 @@ if __name__ == "__main__":
   db_vector = MongoDB(uri, database="travel_db", collection="locations_vector")
   suggestion_service = SuggestionService(db, db_vector)
   location_ids = suggestion_service.get_location_ids(k=20, messages=messages)
-  print("Location IDs:", location_ids)
+  logger.info("Location IDs:", location_ids)
 
   for sample_id in location_ids:
     details = suggestion_service.get_location_details_by_id(sample_id)
-    print("\nInformation for ID", sample_id)
-    print("Location address", details["address"])
-    print("Location name", details["name"])
+    logger.info("\nInformation for ID", sample_id)
+    logger.info("Location address", details["address"])
+    logger.info("Location name", details["name"])
 
 
   for sample_id in location_ids:
     location_response = suggestion_service.get_location_response(sample_id)
-    print("\nLocation Response for ID", sample_id, ":", location_response)
+    logger.info("\nLocation Response for ID", sample_id, ":", location_response)
