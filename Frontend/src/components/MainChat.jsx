@@ -6,6 +6,8 @@ import { ShareMediaModal } from './common/Modal';
 import { fetchMessages } from '../api/groupService';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
+import { Modal } from 'antd';
+import 'antd/dist/reset.css';  // or the appropriate antd css import based on your version
 
 function ChatWindow({group}) {
   const { username} = useAuth();
@@ -17,6 +19,7 @@ function ChatWindow({group}) {
   const [inputValue, setInputValue] = React.useState('');
   const [zoomedImg, setZoomedImg] = React.useState(null);
   const [selectedMessages, setSelectedMessages] = React.useState([]);
+  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
   const closeModal = () => {
     setZoomedImg(null);
@@ -79,6 +82,7 @@ function ChatWindow({group}) {
 
     const handleReceiveSuggestionId = (msg) => {
       console.log("Received suggestion ID:");
+      // Optional: Filter to ignore messages from other groups
       setMessages(prev => [
         {
           id: msg.id || `socket-${Date.now()}`,
@@ -98,7 +102,7 @@ function ChatWindow({group}) {
     return () => {
       socket.off('receive_message', handleReceiveMessage);
     };
-  }, [socket, messages]);
+  }, [socket, group]);
 
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
@@ -107,6 +111,17 @@ function ChatWindow({group}) {
     sendMessage(group.groupName, inputValue);
 
     setInputValue('');
+  };
+
+  const handleRequestButtonClick = () => {
+    // if (selectedMessages.length === 0) {
+    //   Modal.warning({
+    //     title: 'No Messages Selected',
+    //     content: 'Please select at least one message to get suggestions',
+    //   });
+    //   return;
+    // }
+    setShowConfirmModal(true);
   };
 
   const handleRequestSuggestions = () => {
@@ -182,10 +197,31 @@ function ChatWindow({group}) {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
           />
-        <button className='request-button' title='Request Suggestions' onClick={handleRequestButtonClick}>
-          <img src='/Gravel.png' alt='Request icon' className='request-icon' />
+        <button className='send-button' title='Send' onClick={handleRequestButtonClick}>
+          <img src='/Gravel.png' alt='Send icon' className='send-icon' />
         </button>
       </div>
+
+      <Modal
+        title="Request Suggestions"
+        open={showConfirmModal}
+        onOk={() => {
+          handleRequestSuggestions();
+          setShowConfirmModal(false);
+        }}
+        onCancel={() => setShowConfirmModal(false)}
+        okText="Confirm"
+        cancelText="Cancel"
+        okButtonProps={{ 
+          style: { 
+            background: 'linear-gradient(90deg, #09ad4f, #78d59f)',
+            border: 'none' 
+          } 
+        }}
+      >
+        <p>Are you sure you want to request suggestions for the selected messages?</p>
+      </Modal>
+
       {showShareMediaModal && <ShareMediaModal onClose={() => setShareMediaModal(false)} />}
       {zoomedImg && (
         <div className="modal-overlay" onClick={closeModal}>
