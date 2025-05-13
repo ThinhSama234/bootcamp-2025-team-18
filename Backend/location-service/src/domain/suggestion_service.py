@@ -1,19 +1,29 @@
 import uuid
+from openai import OpenAI
 from bson.objectid import ObjectId
 from agent.graph import Graph
+from agent.format import TextProcessor
 from database.data_interface import MongoDB
 
 from config.config import TRAVELDB_URL
+
+XAI_API_KEY = "xai-Lwvyn1pZr6KIOX6DEguKthSUkIvhINLmjeUyD72SqJd6RHtk43JYxKyohxrNFdkLcuk3CngJjkMDAmhO"
+client = OpenAI(
+    api_key=XAI_API_KEY,
+    base_url="https://api.x.ai/v1",
+)
 
 class SuggestionService:
   def __init__(self, db: MongoDB, db_vector: MongoDB):
     self.graph = Graph(db, db_vector)
     self.db = db
     self.db_vector = db_vector
+    self.text_processor = TextProcessor()
   def get_session_id(self) -> str:
     return str(uuid.uuid4())
 
   def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: any) -> list[str]: # done
+    self.messages = messages
     initial_state = {"messages": messages}
     state = self.graph.summarize(initial_state)
     state = self.graph.search_vector_db(self.db_vector, state, k)
@@ -51,15 +61,21 @@ class SuggestionService:
       # Kiểm tra nếu có lỗi
       if "error" in details:
         return details["error"]
-      
-      # Trả về mô tả nếu có
-      description = details["description"]
-      return description if description else "Đây là địa điểm phù hợp với yêu cầu của bạn."
+      record = {
+        "_id": details.get("_id"),
+          "data": {
+            "name": details.get("name", "Địa điểm"),
+            "address": details.get("address", "Địa chỉ không rõ"),
+            "description": details.get("description", "Mô tả không có"),
+            "category": details.get("category", "Không rõ danh mục")
+            }
+      }
+
+      response = self.text_processor.format_response(self.messages, record)
+      return response
       
     except Exception as e:
       return f"Error fetching description for location_id {location_id}: {str(e)}"
-
-
 
 
 if __name__ == "__main__":
