@@ -34,13 +34,13 @@ function ChatWindow({group}) {
         console.log("Fetched messages:", fetchedMessages);
         const tranformedMessages = fetchedMessages.map(msg => {
           if (msg.type === 'suggestions') {
-            return {
-              id: msg.id,
-              sender: 'Gravel',
-              content: msg.content ? msg.content : "Hi! I am Gravel, your AI assistant. This suggestions message has some errors. Please ignore it.",
-              timestamp: msg.timestamp,
-              type: 'text',
-            };
+            return msg.suggestions.map((suggestionText, index) => ({
+            id: `${msg.suggestionId}-${index}`, // ensure unique IDs
+            sender: 'Gravel',
+            content: suggestionText,
+            timestamp: new Date(msg.createdAt).toLocaleString(),
+            type: 'text',
+          }));
           } else {
             return msg;
           }
@@ -67,16 +67,29 @@ function ChatWindow({group}) {
       console.log("Received message:");
       // Optional: Filter to ignore messages from other groups
       if (msg.groupName === group.groupName) {
-        setMessages(prev => [
-        {
-          id: msg.id || `socket-${Date.now()}`,
-          sender: msg.senderUsername,
-          content: msg.messageType === 'image' ? msg.imageUrl : msg.messageContent,
-          timestamp: new Date(msg.createdAt).toLocaleString(),
-          type: msg.messageType,
-        },
-        ...prev
-      ]);
+        if (msg.messageType === 'suggestions' && Array.isArray(msg.suggestions)) {
+          const newSuggestionMessages = msg.suggestions.map((suggestionText, index) => ({
+            id: `${msg.suggestionId}-${index}`, // ensure unique IDs
+            sender: 'Gravel',
+            content: suggestionText,
+            timestamp: new Date(msg.createdAt).toLocaleString(),
+            type: 'text',
+          }));
+
+          setMessages(prev => [...newSuggestionMessages, ...prev]);
+        }
+        else {
+          setMessages(prev => [
+          {
+            id: msg.id || `socket-${Date.now()}`,
+            sender: msg.senderUsername,
+            content: msg.messageType === 'image' ? msg.imageUrl : msg.messageContent,
+            timestamp: new Date(msg.createdAt).toLocaleString(),
+            type: msg.messageType,
+          },
+          ...prev
+          ]);
+        }
       }
     };
 
@@ -85,10 +98,23 @@ function ChatWindow({group}) {
       // Optional: Filter to ignore messages from other groups
       setMessages(prev => [
         {
-          id: msg.id || `socket-${Date.now()}`,
+          id: msg.suggestionId || `socket-${Date.now()}`,
           sender: "Gravel",
           content: "Hi! I am Gravel, your AI assistant. I have some suggestions for you.",
-          timestamp: new Date(msg.createdAt).toLocaleString(),
+          timestamp: Date.now().toLocaleString(),
+          type: 'text',
+        },
+        ...prev
+      ]);
+    }
+
+    const handleReceiveSuggestion = (msg) => {
+      setMessages(prev => [
+        {
+          id: `${msg.suggestionId}-${msg.rank}`,
+          sender: "Gravel",
+          content: msg.suggestion,
+          timestamp: new Date(msg.timestamp).toLocaleString(),
           type: 'text',
         },
         ...prev
@@ -98,6 +124,7 @@ function ChatWindow({group}) {
 
     socket.on('receive_message', handleReceiveMessage);
     socket.on('receive_suggestion_id', handleReceiveSuggestionId);
+    socket.on('receive_suggestion', handleReceiveSuggestion);
 
     return () => {
       socket.off('receive_message', handleReceiveMessage);
