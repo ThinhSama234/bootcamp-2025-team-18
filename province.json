@@ -1,6 +1,7 @@
 {
   "bac giang": {
     "coordinates": [21.333333, 106.333333],
+    "image_url": ["https://booking.muongthanh.com/images/news/2023/11/original/bac-giang-1_1699517235.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -8,6 +9,7 @@
   },
   "bac kan": {
     "coordinates": [22.166667, 105.833333],
+    "image_url": ["https://ik.imagekit.io/tvlk/blog/2021/09/kinh-nghiem-du-lich-bac-kan-2.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -15,6 +17,7 @@
   },
   "cao bang": {
     "coordinates": [22.666667, 106],
+    "image_url": ["https://bizweb.dktcdn.net/thumb/grande/100/101/075/products/tbg.jpg?v=1583633489573"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -22,6 +25,7 @@
   },
   "ha giang": {
     "coordinates": [22.75, 105],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/D%E1%BB%91c_Th%E1%BA%A9m_M%C3%A3_2022_-_NKS.jpg/1200px-D%E1%BB%91c_Th%E1%BA%A9m_M%C3%A3_2022_-_NKS.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -29,6 +33,7 @@
   },
   "lang son": {
     "coordinates": [21.75, 106.5],
+    "image_url": ["https://dulichlangson.com.vn/wp-content/uploads/2022/06/3.Cot-co-phai-ve-LUU-MINH-DAN.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -36,6 +41,7 @@
   },
   "phu tho": {
     "coordinates": [21.333333, 105.166667],
+    "image_url": ["https://images.baoangiang.com.vn/image/news/2022/20220506/thumbnail/750x450/5-dia-diem-du-lich-k_7924_1651838733.jpeg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -43,6 +49,7 @@
   },
   "quang ninh": {
     "coordinates": [21.25, 107.333333],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxtpiOhLE8CdPj-I0PehEov1K_P01GAP0_6g&s"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -50,6 +57,7 @@
   },
   "thai nguyen": {
     "coordinates": [21.666667, 105.833333],
+    "image_url": ["https://dulichkhatvongviet.com/wp-content/uploads/2022/03/review-kinh-nghiem-du-lich-thai-nguyen-moi-nhat-e1647919426730.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -57,6 +65,7 @@
   },
   "tuyen quang": {
     "coordinates": [21.666667, 105.833333],
+    "image_url": ["https://booking.muongthanh.com/images/news/2022/07/original/thumbnail_1657706068.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đông Bắc bộ"
@@ -64,6 +73,7 @@
   },
   "lao cai": {
     "coordinates": [22.333333, 104],
+    "image_url": ["https://vcdn1-dulich.vnecdn.net/2024/02/20/Caotoc-3017-1708419387.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=Zq6nV4CLl26lvB_2m0602g"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Tây Bắc Bộ"
@@ -71,6 +81,7 @@
   },
   "yen bai": {
     "coordinates": [21.5, 104.666667],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Rice_terrace.png/800px-Rice_terrace.png"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Tây Bắc Bộ"
@@ -78,6 +89,7 @@
   },
   "dien bien": {
     "coordinates": [21.383333, 103.016667],
+    "image_url": ["https://hanoitourist.vn/sites/default/files/2024/12/%C4%90i%E1%BB%87n%20Bi%C3%AAn_0.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Tây Bắc Bộ"
@@ -85,6 +97,7 @@
   },
   "hoa binh": {
     "coordinates": [20.333333, 105.25],
+    "image_url": ["https://vcdn1-dulich.vnecdn.net/2022/05/13/hohoabinh-1652415316-5109-1652415499.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=8KCD1P1Rg6b2V-MINSu3Bw"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Tây Bắc Bộ"
@@ -92,6 +105,7 @@
   },
   "lai chau": {
     "coordinates": [22, 103],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/d/d6/Than_Uyen%27s_moutains.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Tây Bắc Bộ"
@@ -99,6 +113,7 @@
   },
   "son la": {
     "coordinates": [21.166667, 104],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/d/d6/Than_Uyen%27s_moutains.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Tây Bắc Bộ"
@@ -106,6 +121,7 @@
   },
   "bac ninh": {
     "coordinates": [21.083333, 106.166667],
+    "image_url": ["https://kinhnghiemdulich.com.vn/wp-content/uploads/2022/05/dia-diem-du-lich-bac-ninh-4.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -113,6 +129,7 @@
   },
   "ha nam": {
     "coordinates": [20.583333, 106],
+    "image_url": ["https://cafefcdn.com/thumb_w/640//203337114487263232/2024/1/3/photo1704247889382-17042478895516275449-1704271252143833717266.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -120,6 +137,7 @@
   },
   "hai duong": {
     "coordinates": [20.916667, 106.333333],
+    "image_url": ["https://ictv.1cdn.vn/2024/06/27/anh-3.1.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -127,6 +145,7 @@
   },
   "hung yen": {
     "coordinates": [20.833333, 106.083333],
+    "image_url": ["https://bvhttdl.mediacdn.vn/291773308735864832/2024/7/10/71478quanthekhudothivinhomesoceanparkvangiangdiemdenmoicuadulichhungyen17081009-1720576595779-1720576597601122730186.jpeg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -134,6 +153,7 @@
   },
   "nam dinh": {
     "coordinates": [20.25, 106.25],
+    "image_url": ["https://s-aicmscdn.vietnamhoinhap.vn/vnhn-media/24/1/9/nd_659cc54c79d75.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -141,6 +161,7 @@
   },
   "ninh binh": {
     "coordinates": [20.25, 105.833333],
+    "image_url": ["https://sodulich.ninhbinh.gov.vn/uploads/images/trang_an1.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -148,6 +169,7 @@
   },
   "thai binh": {
     "coordinates": [20.5, 106.333333],
+    "image_url": ["https://cdn-i.vtcnews.vn/resize/th/upload/2025/02/07/thai-binh-12042850.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -155,6 +177,7 @@
   },
   "vinh phuc": {
     "coordinates": [21.3, 105.6],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2025/01/06/vinh-phuc-2-ngay-1-dem-1417.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -162,6 +185,7 @@
   },
   "ha noi": {
     "coordinates": [21.028472, 105.854167],
+    "image_url": ["https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/07/ho-hoan-kiem-3.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -169,6 +193,7 @@
   },
   "hai phong": {
     "coordinates": [20.865139, 106.683833],
+    "image_url": ["https://heza.gov.vn/wp-content/uploads/2023/10/hai_phong-scaled.jpg"],
     "region": {
       "traditional": "Miền Bắc",
       "geographical": "Đồng bằng sông Hồng"
@@ -176,6 +201,7 @@
   },
   "ha tinh": {
     "coordinates": [18.333333, 105.9],
+    "image_url": ["https://bcp.cdnchinhphu.vn/334894974524682240/2024/12/5/ht2-1732609086742600144126-17333903841851162585116.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Bắc Trung Bộ"
@@ -183,6 +209,7 @@
   },
   "nghe an": {
     "coordinates": [19.333333, 104.833333],
+    "image_url": ["https://bcp.cdnchinhphu.vn/334894974524682240/2024/12/5/ht2-1732609086742600144126-17333903841851162585116.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Bắc Trung Bộ"
@@ -190,6 +217,7 @@
   },
   "quang binh": {
     "coordinates": [17.5, 106.333333],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9pZbXXAGTf89-FEeupYj7ah0hoeAwjBzOjQ&s"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Bắc Trung Bộ"
@@ -197,6 +225,7 @@
   },
   "quang tri": {
     "coordinates": [16.75, 107],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9pZbXXAGTf89-FEeupYj7ah0hoeAwjBzOjQ&s"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Bắc Trung Bộ"
@@ -204,6 +233,7 @@
   },
   "thanh hoa": {
     "coordinates": [20, 105.5],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2024/05/22/du-lich-thanh-hoa-3-1657.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Bắc Trung Bộ"
@@ -211,6 +241,7 @@
   },
   "thua thien - hue": {
     "coordinates": [16.333333, 107.583333],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2024/05/22/du-lich-thanh-hoa-3-1657.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Bắc Trung Bộ"
@@ -218,6 +249,7 @@
   },
   "dak lak": {
     "coordinates": [12.666667, 108.05],
+    "image_url": ["https://img.lsvn.vn/resize/th/upload/2024/11/21/hinh-anh-trung-tam-nga-6-thanh-pho-buon-ma-thuot-tinh-dak-lak-ngay-hien-tai-10513402.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Tây Nguyên"
@@ -225,6 +257,7 @@
   },
   "dak nong": {
     "coordinates": [11.983333, 107.7],
+    "image_url": ["https://img.lsvn.vn/resize/th/upload/2024/11/21/hinh-anh-trung-tam-nga-6-thanh-pho-buon-ma-thuot-tinh-dak-lak-ngay-hien-tai-10513402.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Tây Nguyên"
@@ -232,6 +265,7 @@
   },
   "gia lai": {
     "coordinates": [13.75, 108.25],
+    "image_url": ["https://img.lsvn.vn/resize/th/upload/2024/11/21/hinh-anh-trung-tam-nga-6-thanh-pho-buon-ma-thuot-tinh-dak-lak-ngay-hien-tai-10513402.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Tây Nguyên"
@@ -239,6 +273,7 @@
   },
   "kon tum": {
     "coordinates": [14.75, 107.916667],
+    "image_url": ["https://img.lsvn.vn/resize/th/upload/2024/11/21/hinh-anh-trung-tam-nga-6-thanh-pho-buon-ma-thuot-tinh-dak-lak-ngay-hien-tai-10513402.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Tây Nguyên"
@@ -246,6 +281,7 @@
   },
   "lam dong": {
     "coordinates": [11.95, 108.433333],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT47g95w92zvzGikG9uvKvjolsV0hQv2AOZfQ&s"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Tây Nguyên"
@@ -253,6 +289,7 @@
   },
   "binh dinh": {
     "coordinates": [14.166667, 109],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT47g95w92zvzGikG9uvKvjolsV0hQv2AOZfQ&s"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -260,6 +297,7 @@
   },
   "binh thuan": {
     "coordinates": [10.933333, 108.1],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT47g95w92zvzGikG9uvKvjolsV0hQv2AOZfQ&s"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -267,6 +305,7 @@
   },
   "khanh hoa": {
     "coordinates": [12.25, 109.2],
+    "image_url": ["https://media.vneconomy.vn/w800/images/upload/2022/03/22/nhatrangkh.jpeg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -274,6 +313,7 @@
   },
   "ninh thuan": {
     "coordinates": [11.75, 108.833333],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Po_Klong_Garai.jpg/330px-Po_Klong_Garai.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -281,6 +321,7 @@
   },
   "phu yen": {
     "coordinates": [13.166667, 109.166667],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Po_Klong_Garai.jpg/330px-Po_Klong_Garai.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -288,6 +329,7 @@
   },
   "quang nam": {
     "coordinates": [15.583333, 107.916667],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Po_Klong_Garai.jpg/330px-Po_Klong_Garai.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -295,6 +337,7 @@
   },
   "quang ngai": {
     "coordinates": [15, 108.666667],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Po_Klong_Garai.jpg/330px-Po_Klong_Garai.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -302,6 +345,7 @@
   },
   "da nang": {
     "coordinates": [16.066667, 108.233333],
+    "image_url": ["https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Po_Klong_Garai.jpg/330px-Po_Klong_Garai.jpg"],
     "region": {
       "traditional": "Miền Trung",
       "geographical": "Duyên hải Nam Trung Bộ"
@@ -309,6 +353,7 @@
   },
   "ba ria - vung tau": {
     "coordinates": [10.583333, 107.25],
+    "image_url": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx5Cn3gVPx0UKGH_HLKwza3TebQBO87XtfAg&s"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Đông Nam Bộ"
@@ -316,6 +361,7 @@
   },
   "binh duong": {
     "coordinates": [11.166667, 106.666667],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2024/12/27/8-dia-diem-noi-tieng-binh-duong-1453.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Đông Nam Bộ"
@@ -323,6 +369,7 @@
   },
   "binh phuoc": {
     "coordinates": [11.75, 106.916667],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2024/12/27/8-dia-diem-noi-tieng-binh-duong-1453.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Đông Nam Bộ"
@@ -330,6 +377,7 @@
   },
   "dong nai": {
     "coordinates": [11.116667, 107.183333],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2024/12/27/8-dia-diem-noi-tieng-binh-duong-1453.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Đông Nam Bộ"
@@ -337,6 +385,7 @@
   },
   "tay ninh": {
     "coordinates": [11.333333, 106.166667],
+    "image_url": ["https://i2.ex-cdn.com/crystalbay.com/files/content/2024/12/27/8-dia-diem-noi-tieng-binh-duong-1453.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Đông Nam Bộ"
@@ -344,6 +393,7 @@
   },
   "ho chi minh": {
     "coordinates": [10.776889, 106.700806],
+    "image_url": ["https://image-en.nhandan.vn/w800/Uploaded/2025/aslxvtxwtys/2022_12_20/hcmc-5499.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Nam"
@@ -351,6 +401,7 @@
   },
   "an giang": {
     "coordinates": [10.5, 105.166667],
+    "image_url": ["https://ik.imagekit.io/tvlk/blog/2022/02/dia-diem-du-lich-an-giang-cover.jpeg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -358,6 +409,7 @@
   },
   "bac lieu": {
     "coordinates": [9.25, 105.75],
+    "image_url": ["https://ik.imagekit.io/tvlk/blog/2022/02/dia-diem-du-lich-an-giang-cover.jpeg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -365,6 +417,7 @@
   },
   "ben tre": {
     "coordinates": [10.166667, 106.5],
+    "image_url": ["https://ik.imagekit.io/tvlk/blog/2022/02/dia-diem-du-lich-an-giang-cover.jpeg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -372,6 +425,7 @@
   },
   "ca mau": {
     "coordinates": [9.083333, 105.083333],
+    "image_url": ["https://ik.imagekit.io/tvlk/blog/2022/02/dia-diem-du-lich-an-giang-cover.jpeg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -379,6 +433,7 @@
   },
   "dong thap": {
     "coordinates": [10.666667, 105.666667],
+    "image_url": ["https://vcdn1-dulich.vnecdn.net/2023/12/10/senT-jpeg-4319-1702147840.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=s7Ghwis70BJ0AqOBL4AipA"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -386,6 +441,7 @@
   },
   "hau giang": {
     "coordinates": [9.783333, 105.466667],
+    "image_url": ["https://vcdn1-dulich.vnecdn.net/2023/12/10/senT-jpeg-4319-1702147840.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=s7Ghwis70BJ0AqOBL4AipA"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -393,6 +449,7 @@
   },
   "kien giang": {
     "coordinates": [10, 105.166667],
+    "image_url": ["https://vcdn1-dulich.vnecdn.net/2023/12/10/senT-jpeg-4319-1702147840.jpg?w=0&h=0&q=100&dpr=1&fit=crop&s=s7Ghwis70BJ0AqOBL4AipA"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -400,6 +457,7 @@
   },
   "long an": {
     "coordinates": [10.666667, 106.166667],
+    "image_url": ["https://images2.thanhnien.vn/528068263637045248/2024/8/28/a1-17248348122701917282754.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -407,6 +465,7 @@
   },
   "soc trang": {
     "coordinates": [9.666667, 105.833333],
+    "image_url": ["https://images2.thanhnien.vn/528068263637045248/2024/8/28/a1-17248348122701917282754.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -414,6 +473,7 @@
   },
   "tien giang": {
     "coordinates": [10.416667, 106.166667],
+    "image_url": ["https://images2.thanhnien.vn/528068263637045248/2024/8/28/a1-17248348122701917282754.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -421,6 +481,7 @@
   },
   "tra vinh": {
     "coordinates": [9.833333, 106.25],
+    "image_url": ["https://images2.thanhnien.vn/528068263637045248/2024/8/28/a1-17248348122701917282754.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -428,6 +489,7 @@
   },
   "vinh long": {
     "coordinates": [10.166667, 106],
+    "image_url": ["https://images2.thanhnien.vn/528068263637045248/2024/8/28/a1-17248348122701917282754.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"
@@ -435,6 +497,7 @@
   },
   "can tho": {
     "coordinates": [10.033333, 105.783333],
+    "image_url": ["https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/12/2/1123288/Can-Tho-1.jpg"],
     "region": {
       "traditional": "Miền Nam",
       "geographical": "Miền Tây Nam Bộ"

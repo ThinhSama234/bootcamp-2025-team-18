@@ -1,0 +1,5 @@
+pip install langchain-core
+pip install python-dotenv
+pip install openai
+pip install google-genai
+pip install pymongo
