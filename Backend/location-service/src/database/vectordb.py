@@ -113,31 +113,20 @@ class VectorDB:
                     continue
                 data = doc_map[mongo_id]
                 content = f"{data.get('name', '')} {data.get('description', '')} {data.get('address', '')}"
-                #print(f"description: {data.get('description', '')}")
                 content_embedding = self.embed_texts([content])[0]
                 # Điểm ngữ nghĩa
                 similarity_score = np.dot(query_embedding, content_embedding) / (
                     np.linalg.norm(query_embedding) * np.linalg.norm(content_embedding)
                 )
-                #print(f"similarity_score: {similarity_score}")
 
                 entity_boost = 0.0
                 if entities:
-                    # Khớp với locations
-                    locations = entities.get("locations", [])
-                    for location in locations:
-                        if location.lower() in data.get("address", "").lower():
-                            entity_boost += 0.5
-                    # Khớp với features
-                    features = entities.get("features", [])
-                    for feature in features:
-                        if feature.lower() in data.get("description", "").lower() or feature.lower() in data.get("name", "").lower():
-                            entity_boost += 0.4
-                    # Khớp với activities
-                    activities = entities.get("activities", [])
-                    for activity in activities:
-                        if activity.lower() in data.get("description", "").lower():
-                            entity_boost += 0.1
+                    address_lower = data.get("address", "").lower()
+                    description_lower = data.get("description", "").lower()
+                    name_lower = data.get("name", "").lower()
+                    entity_boost += sum(0.5 for loc in entities.get("locations", []) if loc.lower() in address_lower)
+                    entity_boost += sum(0.4 for feat in entities.get("features", []) if feat.lower() in description_lower or feat.lower() in name_lower)
+                    entity_boost += sum(0.1 for act in entities.get("activities", []) if act.lower() in description_lower)
 
                 # Tổng hợp điểm
                 final_score = (similarity_score * 0.6 + entity_boost * 0.4)
