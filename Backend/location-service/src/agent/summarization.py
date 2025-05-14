@@ -23,13 +23,17 @@ def summarization(messages):
         return {"summary": "Invalid input!", "entities": {"locations": [], "features": [], "activities": []}}
 
     prompt = f"""
-        Tóm tắt các yêu cầu du lịch bằng tiếng Việt trong một câu ngắn gọn (tối đa 25 từ),
+        Tóm tắt các yêu cầu du lịch bằng tiếng Việt trong một câu ngắn gọn (tối đa 50 từ),
         ưu tiên địa điểm (vùng miền, tỉnh, thành phố), đặc điểm (biển, núi, rừng,...) và hoạt động (ngắm cảnh, leo núi,...),
         chỉ giữ các thông tin cốt lõi, bỏ các từ như "muốn", "đi du lịch", "tìm nơi có",...
+        Nếu không có địa điểm, đề xuất một địa điểm phù hợp.
         Input: {input_text}
         Output format: 
         Tóm tắt: <summary>
         Thực thể: {{'locations': [], 'features': [], 'activities': []}}
+        Trong đó 'locations' là danh sách các địa điểm (tên tỉnh/thành phố/huyện,...)
+        Lưu ý 'locations' không phải vùng miền
+        Trường hợp không trích xuất được địa điểm nào, hãy chỉ định bất kì địa điểm (tỉnh/thành phố) nào mà bạn nghĩ là phù hợp với yêu cầu.
         """
     
     try:
