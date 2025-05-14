@@ -33,7 +33,6 @@ class ImportService:
       topic = KAFKA_LOCATION_DATA_TOPIC
     message = {
       'request_id': request_id,
-      'topic': topic,
       'source': source,
       'type': type,
       'data': data,
@@ -41,6 +40,7 @@ class ImportService:
     }
     try:
       self.producer.produce(
+        topic,
         json.dumps(message).encode('utf-8'),
         callback=self._delivery_report
       )
@@ -63,13 +63,13 @@ class ImportService:
         message = {
           'batch_id': batch_id,
           'request_id': str(uuid.uuid4()),
-          'topic': topic,
           'source': item.get('source', 'crawler'),
           'data': item.get('data'),
           'type': item.get('type', 'location'),
           'metadata': item.get('metadata', {})
         }
         self.producer.produce(
+          topic,          
           json.dumps(message).encode('utf-8'),
           callback=self._delivery_report
         )
