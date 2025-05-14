@@ -29,7 +29,7 @@ class ProcessorService:
       if message.get("data").get("latitude") and message.get("data").get("longitude"):
         message['location'] = {
           "type": "Point",
-          "coordinates": [float(lon), float(lat)]
+          "coordinates": [float(lat), float(lon)]
         }
       new_data = await self.db.save_record(message)
       logger.info(f"✅ Saved to MongoDB: {new_data['_id']}")
@@ -52,7 +52,7 @@ class ProcessorService:
         "embedding": embedding,
         "mongo_id": str(_id),
       }
-      
+      logger.info(f"Embedding created: {queue_item}...")
       await self.embedding_queue.put(queue_item)
       logger.info(f"✅ Queued embedding for _id: {new_data['_id']}")
       
@@ -60,10 +60,8 @@ class ProcessorService:
       loc_count = await self.db.collection.count_documents({})
       vec_count = await self.db_vector.collection.count_documents({})
       logger.info(f"Current document count - locations: {loc_count}, locations_vector: {vec_count}")
-      return new_data
     except Exception as e:
       logger.info(f"❌ Error processing data: {str(e)}")
-      return data
     
   def _start_index_worker(self):
     """Worker để index batch từ queue định kỳ."""
@@ -80,7 +78,7 @@ class ProcessorService:
             embeddings = [item["embedding"] for item in batch]
             mongo_ids = [item["mongo_id"] for item in batch] 
             await self.db_vector.insert_many([
-                            {"_id": mongo_id, "embedding": embedding}
+                            {"mongo_id": mongo_id, "embedding": embedding}
                             for mongo_id, embedding in zip(mongo_ids, embeddings)])
             logger.info(f"✅ Indexed batch of {len(batch)} items")
             # In số document hiện tại sau khi index
@@ -102,6 +100,9 @@ class ProcessorService:
     self.db.client.close()
     self.db_vector.client.close()
     logger.info("✅ Closed MongoDB connections")
+
+
+
 
 # Hàm main để test
 async def main():
@@ -135,8 +136,7 @@ async def main():
         }
     ]
     for record in records:
-        result = await processor_service.process_data(record)
-        logger.info(f"Processed result: {result}")
+        await processor_service.process_data(record)
         await asyncio.sleep(1)  # Giả lập delay giữa các tài liệu
 
     # Đợi một chút để worker xử lý

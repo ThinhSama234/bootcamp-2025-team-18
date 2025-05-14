@@ -11,6 +11,7 @@ from typing import Dict, Any
 
 class ImportRequestSchema(Schema):
   source = fields.Str(required=True)
+  topic = fields.Str(required=False)
   type = fields.Str(required=True)
   data = fields.Dict(required=True)
   metadata = fields.Dict()

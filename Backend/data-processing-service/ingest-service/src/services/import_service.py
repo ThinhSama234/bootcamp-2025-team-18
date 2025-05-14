@@ -3,7 +3,7 @@ import uuid
 from typing import Any, Dict, List, Optional
 import logging
 
-from config.kafka_config import KAFKA_LOCATION_DATA_TOPIC, create_producer
+from config.kafka_config import create_producer, KAFKA_LOCATION_DATA_TOPIC
 
 logger = logging.getLogger(__name__)
 
@@ -22,12 +22,15 @@ class ImportService:
 
   def send_to_kafka(
     self,
+    topic: str,
     source: str,
     type: str,
     data: Dict[str, Any],
     metadata: Optional[Dict[str, Any]] = None
   ) -> str:
     request_id = str(uuid.uuid4())
+    if not topic:
+      topic = KAFKA_LOCATION_DATA_TOPIC
     message = {
       'request_id': request_id,
       'source': source,
@@ -35,10 +38,9 @@ class ImportService:
       'data': data,
       'metadata': metadata or {}
     }
-    
     try:
       self.producer.produce(
-        KAFKA_LOCATION_DATA_TOPIC, 
+        topic,
         json.dumps(message).encode('utf-8'),
         callback=self._delivery_report
       )
@@ -57,6 +59,7 @@ class ImportService:
     
     try:
       for item in items:
+        topic = item.get('topic', KAFKA_LOCATION_DATA_TOPIC)
         message = {
           'batch_id': batch_id,
           'request_id': str(uuid.uuid4()),
@@ -66,7 +69,7 @@ class ImportService:
           'metadata': item.get('metadata', {})
         }
         self.producer.produce(
-          KAFKA_LOCATION_DATA_TOPIC, 
+          topic,          
           json.dumps(message).encode('utf-8'),
           callback=self._delivery_report
         )

@@ -12,7 +12,7 @@ class TextProcessor:
         self.summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 
     def summarize_text(self, text: str, max_length: int = 50) -> str:
-        return self.summarizer(text, max_length=max_length, min_length=10, do_sample=False)[0]['summary_text']
+        return self.summarizer(text, max_length=max_length, min_length=min(10, max_length), do_sample=False)[0]['summary_text']
 
     def format_response(self, user_messages: list, record: dict) -> str:
         """
