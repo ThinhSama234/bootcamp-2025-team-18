@@ -1,4 +1,4 @@
-import React, { use, useEffect } from 'react';
+import  { useRef, use, useState, useEffect } from 'react';
 import './MainChat.css'; 
 import Avatar from './common/Avatar';
 import Message from './common/Message';
@@ -13,13 +13,28 @@ function ChatWindow({group}) {
   const { username} = useAuth();
   const { sendMessage, requestSuggestions, socket } = useSocket();
 
-  const [showShareMediaModal, setShareMediaModal] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const [messages, setMessages] = React.useState([]);
-  const [inputValue, setInputValue] = React.useState('');
-  const [zoomedImg, setZoomedImg] = React.useState(null);
-  const [selectedMessages, setSelectedMessages] = React.useState([]);
-  const [showConfirmModal, setShowConfirmModal] = React.useState(false);
+  const [showShareMediaModal, setShareMediaModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [zoomedImg, setZoomedImg] = useState(null);
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [suggestionList, setSuggestionList] = useState([]);
+
+
+  const suggestionListRef = useRef(suggestionList);
+
+  useEffect(() => {
+    suggestionListRef.current = suggestionList;
+  }, [suggestionList]);
+
+  const messagesRef = useRef(messages);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
 
   const closeModal = () => {
     setZoomedImg(null);
@@ -68,15 +83,15 @@ function ChatWindow({group}) {
       // Optional: Filter to ignore messages from other groups
       if (msg.groupName === group.groupName) {
         if (msg.messageType === 'suggestions' && Array.isArray(msg.suggestions)) {
-          const newSuggestionMessages = msg.suggestions.map((suggestionText, index) => ({
-            id: `${msg.suggestionId}-${index}`, // ensure unique IDs
-            sender: 'Gravel',
-            content: suggestionText,
-            timestamp: new Date(msg.createdAt).toLocaleString(),
-            type: 'text',
-          }));
+          // const newSuggestionMessages = msg.suggestions.map((suggestionText, index) => ({
+          //   id: `${msg.suggestionId}-${index}`, // ensure unique IDs
+          //   sender: 'Gravel',
+          //   content: suggestionText,
+          //   timestamp: new Date(msg.createdAt).toLocaleString(),
+          //   type: 'text',
+          // }));
 
-          setMessages(prev => [...newSuggestionMessages, ...prev]);
+          // setMessages(prev => [...newSuggestionMessages, ...prev]);
         }
         else {
           setMessages(prev => [
@@ -96,22 +111,34 @@ function ChatWindow({group}) {
     const handleReceiveSuggestionId = (msg) => {
       console.log("Received suggestion ID:");
       // Optional: Filter to ignore messages from other groups
-      setMessages(prev => [
-        {
-          id: msg.suggestionId || `socket-${Date.now()}`,
-          sender: "Gravel",
-          content: "Hi! I am Gravel, your AI assistant. I have some suggestions for you.",
-          timestamp: Date.now().toLocaleString(),
-          type: 'text',
-        },
-        ...prev
-      ]);
+      // setMessages(prev => [
+      //   {
+      //     id: msg.suggestionId || `socket-${Date.now()}`,
+      //     sender: "Gravel",
+      //     content: "Hi! I am Gravel, your AI assistant. I have some suggestions for you.",
+      //     timestamp: Date.now().toLocaleString(),
+      //     type: 'text',
+      //   },
+      //   ...prev
+      // ]);
     }
 
     const handleReceiveSuggestion = (msg) => {
+      const suggestionKey = `${msg.suggestionId}-${msg.rank}`;
+
+      if (suggestionListRef.current.includes(suggestionKey)) {
+        return; // Already processed
+      }
+
+      console.log('handleReceiveSuggest');
+      console.log(suggestionListRef.current);
+      console.log(suggestionKey);
+      console.log(messagesRef.current);
+      
+      // Add message
       setMessages(prev => [
         {
-          id: `${msg.suggestionId}-${msg.rank}`,
+          id: suggestionKey,
           sender: "Gravel",
           content: msg.suggestion,
           timestamp: new Date(msg.timestamp).toLocaleString(),
@@ -119,7 +146,11 @@ function ChatWindow({group}) {
         },
         ...prev
       ]);
-    }
+
+      // Add to suggestion list
+      setSuggestionList(prevList => [...prevList, suggestionKey]);
+    };
+
 
 
     socket.on('receive_message', handleReceiveMessage);
@@ -128,6 +159,8 @@ function ChatWindow({group}) {
 
     return () => {
       socket.off('receive_message', handleReceiveMessage);
+      socket.off('receive_suggestion_id', handleReceiveSuggestionId);
+      socket.off('receive_suggestion', handleReceiveSuggestion);
     };
   }, [socket, group]);
 
