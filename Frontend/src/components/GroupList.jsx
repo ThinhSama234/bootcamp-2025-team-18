@@ -29,6 +29,7 @@ function SidebarLeft({groupList, onGroupSelect, selectedGroupName, refreshGroupL
 
     socket.on('user_joined', handleUserJoined);
     socket.on('receive_message', handleReceiveMessage);
+    socket.on()
 
     return () => {
       socket.off('user_joined', handleUserJoined);

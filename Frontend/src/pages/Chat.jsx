@@ -8,14 +8,16 @@ import ChatWindow from '../components/MainChat';
 import SidebarRight from '../components/ChatInfo';
 
 function Chat() {
-    const nullGroup = {
-        groupName : 'Đi Vũng Tàuuu',
-        members : ['Tuki']
-    }
 
     const { username } = useAuth();
+
+    const nullGroup = {
+        groupName : 'Choose A Group',
+        groupPicSrc: '/group1.jpg',
+        members : [username]
+    }
     const [groupList, setGroupList] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [selectedGroup, setSelectedGroup] = useState(nullGroup);
     const [loading, setLoading] = useState(true);
 
     const loadGroups = useCallback(async () => {
