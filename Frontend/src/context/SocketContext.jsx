@@ -13,7 +13,7 @@ export const SocketProvider = ({ username, children }) => {
 
   useEffect(() => {
     if (username) {
-      socketRef.current = io('http://137.184.249.25:3000/', {
+      socketRef.current = io('https://gravel-chat-service.vuhuydiet.xyz/', {
         auth: { 'username': username },
       });
 
