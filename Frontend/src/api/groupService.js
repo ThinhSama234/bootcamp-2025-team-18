@@ -8,6 +8,8 @@ export const fetchGroupList = async (username) => {
     // Expecting a structure with { domainCode, message, data: [...] }
     const groupData = response.data?.data || [];
 
+    console.log(groupData);
+
     // Optional: map or sanitize data if needed
     const formattedGroups = groupData.map(group => ({
       id: group.id,

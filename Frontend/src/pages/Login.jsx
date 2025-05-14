@@ -7,8 +7,8 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [username, setUsername] = React.useState('ntvu');
-  const [password, setPassword] = React.useState('1');
+  const [username, setUsername] = React.useState('Tuki');
+  const [password, setPassword] = React.useState('123');
   const [error, setError] = React.useState('');
 
   const handleLogin = () => {

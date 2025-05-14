@@ -23,6 +23,7 @@ export function JoinGroupModal({ onClose }) {
 
     try {
       if (mode === 'create') {
+        console.log('Creating');
         await createGroup(groupName.trim(), username);
       } else {
         joinGroup(groupName.trim());

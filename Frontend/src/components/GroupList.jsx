@@ -8,10 +8,14 @@ function SidebarLeft({groupList, onGroupSelect, selectedGroupName, refreshGroupL
   const [showModal, setShowModal] = React.useState(false);
   const { socket } = useSocket();
 
+  console.log(groupList);
+  console.log(selectedGroupName);
+
   useEffect(() => {
     if (!socket) return;
 
     const currentUsername = localStorage.getItem('username');
+    console.log(currentUsername)
 
     const handleUserJoined = (data) => {
       if (data.username === currentUsername) {
@@ -54,7 +58,7 @@ function SidebarLeft({groupList, onGroupSelect, selectedGroupName, refreshGroupL
 
       {/* TODO: retrieve group list from server */}
       <div className="group-list">
-        {groupList.map((group, index) => (
+        { !groupList ? <h4>Create new groups and add your friends!</h4> : groupList.map((group, index) => (
           <Group
             key={index}
             groupName={group.groupName}
