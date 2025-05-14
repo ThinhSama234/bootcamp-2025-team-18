@@ -58,7 +58,7 @@ class SuggestionService:
 
 if __name__ == "__main__":
   messages = [
-    "Tôi nghĩ chúng ta nên đi đến Ninh Bình.",
+    "Tôi nghĩ chúng ta nên đi đến nơi nào đó gần Ninh Bình.",
     "Ồ, đó thực sự là danh lam thắng cảnh nổi tiếng.",
     "Tuyệt vời, tôi cũng đang muốn ăn món núi rừng"
   ]
@@ -71,7 +71,7 @@ if __name__ == "__main__":
   #   "Tôi muốn đi leo núi"
   # ]
   suggestion_service = SuggestionService(faiss_name="v20250506_153250")
-  location_ids = suggestion_service.get_location_ids(messages, k=20)
+  location_ids = suggestion_service.get_location_ids(k=20, messages=messages)
   print("Location IDs:", location_ids)
 
   for sample_id in location_ids:
