@@ -49,11 +49,11 @@ export class TextMessage extends IMessage {
 export class SuggestionMessage extends IMessage {
   requestedMessages: string[];
   requestedImageUrls: string[];
-  requestedCoordinates: { latitude: number; longtitude: number } | undefined;
+  requestedCoordinates: { latitude: number; longitude: number } | undefined;
   suggestionId: string;
   suggestions: string[];
 
-  constructor(id: string, senderUsername: string, groupName: string, requestedMessages: string[], requestedImageUrls: string[], requestedCoordinates: { latitude: number; longtitude: number } | undefined, suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
+  constructor(id: string, senderUsername: string, groupName: string, requestedMessages: string[], requestedImageUrls: string[], requestedCoordinates: { latitude: number; longitude: number } | undefined, suggestionId: string, suggestions: string[], createdAt?: Date, updatedAt?: Date) {
     super(id, MessageType.SUGGESTIONS, senderUsername, groupName, createdAt, updatedAt);
     this.requestedMessages = requestedMessages;
     this.requestedImageUrls = requestedImageUrls;
