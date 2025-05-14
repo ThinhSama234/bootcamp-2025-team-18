@@ -25,6 +25,7 @@ def import_data():
     logger.info(f"Processing import request from source: {data['source']}")
     
     request_id = import_service.send_to_kafka(
+      topic=data.get('topic', None),
       source=data['source'],
       type=data['type'],
       data=data['data'],
