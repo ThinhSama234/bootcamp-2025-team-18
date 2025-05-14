@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://137.184.249.25:3000',
+  baseURL: 'https://gravel-chat-service.vuhuydiet.xyz',
   headers: {
     'Content-Type': 'application/json',
   },
