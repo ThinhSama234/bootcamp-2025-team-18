@@ -35,7 +35,7 @@ services:
       kafka:
         condition: service_started
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
 
   processing-service:
     container_name: processing-service
@@ -48,7 +48,7 @@ services:
       kafka:
         condition: service_started
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       TRAVELDB_URL: ${TRAVELDB_URL}
     volumes:
       - ./processing-service:/app
