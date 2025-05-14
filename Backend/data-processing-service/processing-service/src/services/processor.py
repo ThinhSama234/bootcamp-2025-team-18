@@ -52,7 +52,7 @@ class ProcessorService:
         "embedding": embedding,
         "mongo_id": str(_id),
       }
-      
+      logger.info(f"Embedding created: {queue_item}...")
       await self.embedding_queue.put(queue_item)
       logger.info(f"✅ Queued embedding for _id: {new_data['_id']}")
       
@@ -80,7 +80,7 @@ class ProcessorService:
             embeddings = [item["embedding"] for item in batch]
             mongo_ids = [item["mongo_id"] for item in batch] 
             await self.db_vector.insert_many([
-                            {"_id": mongo_id, "embedding": embedding}
+                            {"mongo_id": mongo_id, "embedding": embedding}
                             for mongo_id, embedding in zip(mongo_ids, embeddings)])
             logger.info(f"✅ Indexed batch of {len(batch)} items")
             # In số document hiện tại sau khi index
