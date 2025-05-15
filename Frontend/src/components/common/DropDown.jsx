@@ -32,7 +32,7 @@ export function GroupSettings({header}) {
   );
 }
 
-export function MemberList({ members }) {
+export function MemberList({ members, onAddUser }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showAddUserModal, setShowAddUserModal] = useState(false);
 
@@ -55,7 +55,7 @@ export function MemberList({ members }) {
                 </button>
         </div>
       )}
-      {showAddUserModal && <AddUserModal onClose={() => setShowAddUserModal(false)} />}
+      {showAddUserModal && <AddUserModal onClose={() => setShowAddUserModal(false)} onAddUser={onAddUser}/>}
     </div>
   );
 }

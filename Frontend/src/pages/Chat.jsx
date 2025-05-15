@@ -27,7 +27,7 @@ function Chat() {
             const groups = await fetchGroupList(username);
             setGroupList(groups);
             console.log(groups);
-            if (groups.length > 0 && !selectedGroup) {
+            if (groups.length > 0 && selectedGroup.groupName === 'Choose A Group') {
                 setSelectedGroup(groups[0]);
             }
         } catch (err) {

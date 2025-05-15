@@ -47,7 +47,7 @@ function SidebarLeft({groupList, onGroupSelect, selectedGroupName, refreshGroupL
         </button>
       </div>
 
-      {showModal && <JoinGroupModal onClose={() => setShowModal(false)} />}
+      {showModal && <JoinGroupModal onClose={() => setShowModal(false)} onCreated={refreshGroupList} onSelect={onGroupSelect} />}
 
       <div className="group-search">
         <input type="text" placeholder="Search groups..." className="search-input" />

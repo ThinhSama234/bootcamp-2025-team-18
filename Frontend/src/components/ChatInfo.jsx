@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './ChatInfo.css'; // Assuming you have a CSS file for styling
 import {GroupSettings, MemberList, SharedMedia} from './common/DropDown';
-import { fetchMessages } from '../api/groupService';
+import { fetchGroupList, fetchMessages } from '../api/groupService';
 import { useSocket } from '../context/SocketContext';
 
 function SidebarRight({group}) {
@@ -9,6 +9,27 @@ function SidebarRight({group}) {
   const [groupMembers, setGroupMembers] = React.useState(null);
   const [picSrcList, setPicSrcList] = React.useState(null);
   const { receiveMessage, socket } = useSocket(); 
+
+  const reloadMembers = async () => {
+    const tempUsername = localStorage.getItem('username');
+    console.log(`[ChatInfo] TempUsername: ${tempUsername}`);
+    const updatedGroups = await fetchGroupList(tempUsername);
+
+    const targetGroup = updatedGroups.find(g => g.groupName === group.groupName);
+
+    if (!targetGroup) {
+      console.warn(`[ChatInfo] Group '${group.groupName}' not found in updated list.`);
+      return;
+    }
+
+    const updatedMemList = targetGroup.members;
+    console.log(`[ChatInfo] Updated Members list: ${updatedMemList}`);
+
+    setGroupMembers(updatedMemList.map((member) => ({
+      name: member,
+      pic: 'thisuser.jpg' // Fallback to default image if not available
+    })));
+  }
 
   useEffect(() => {
     if (!group) return; 
@@ -67,7 +88,7 @@ function SidebarRight({group}) {
 
       <GroupSettings header="Group Settings" />
       {
-        groupMembers && <MemberList members={groupMembers} />
+        groupMembers && <MemberList members={groupMembers} onAddUser={reloadMembers} />
       }
 
       <SharedMedia mediaData={{

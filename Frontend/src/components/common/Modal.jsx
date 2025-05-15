@@ -3,7 +3,7 @@ import './Modal.css';
 import { createGroup } from '../../api/groupService';
 import { useSocket } from '../../context/SocketContext';
 
-export function JoinGroupModal({ onClose }) {
+export function JoinGroupModal({ onClose, onCreated }) {
   const [mode, setMode] = useState('create'); // 'create' or 'join'
   const [groupName, setGroupName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,7 @@ export function JoinGroupModal({ onClose }) {
       } else {
         joinGroup(groupName.trim());
       }
+      onCreated();
       onClose();
     } catch (err) {
       console.error(`Failed to ${mode} group:`, err);
@@ -130,7 +131,7 @@ export function GroupPicModal({ onClose }) {
   );
 }
 
-export function AddUserModal({ onClose }) {
+export function AddUserModal({ onClose, onAddUser }) {
   console.log(localStorage.getItem('groupName'));
   const { addFriend, socket } = useSocket();
   const [loading, setLoading] = useState(false);
@@ -154,6 +155,7 @@ export function AddUserModal({ onClose }) {
       const groupName = localStorage.getItem('groupName');
       console.log(`Adding friend: ${friendName} to group: ${groupName}`);
       addFriend(groupName, friendName);
+      onAddUser();
       onClose();
     }
     catch (err) {
