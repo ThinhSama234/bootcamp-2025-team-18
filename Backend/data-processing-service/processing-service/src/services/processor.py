@@ -55,11 +55,6 @@ class ProcessorService:
       logger.info(f"Embedding created: {queue_item}...")
       await self.embedding_queue.put(queue_item)
       logger.info(f"✅ Queued embedding for _id: {new_data['_id']}")
-      
-      #In số document hiện tại trong locations và locations_vector
-      loc_count = await self.db.collection.count_documents({})
-      vec_count = await self.db_vector.collection.count_documents({})
-      logger.info(f"Current document count - locations: {loc_count}, locations_vector: {vec_count}")
     except Exception as e:
       logger.info(f"❌ Error processing data: {str(e)}")
     
