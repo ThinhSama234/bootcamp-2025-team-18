@@ -76,10 +76,10 @@ class ProcessorService:
             self.embedding_queue.task_done()
           if batch:
             embeddings = [item["embedding"] for item in batch]
-            mongo_ids = [item["mongo_id"] for item in batch] 
+            mongo_ids = [item["id_mongo"] for item in batch] 
             await self.db_vector.insert_many([
-                            {"mongo_id": mongo_id, "embedding": embedding}
-                            for mongo_id, embedding in zip(mongo_ids, embeddings)])
+                            {"id_mongo": id_mongo, "embedding": embedding}
+                            for id_mongo, embedding in zip(mongo_ids, embeddings)])
             logger.info(f"✅ Indexed batch of {len(batch)} items")
             # In số document hiện tại sau khi index
             vec_count = await self.db_vector.collection.count_documents({})
