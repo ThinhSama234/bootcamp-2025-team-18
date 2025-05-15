@@ -50,7 +50,7 @@ class ProcessorService:
       queue_item = {
         "type": new_data["type"],
         "embedding": embedding,
-        "mongo_id": str(_id),
+        "id_mongo": str(_id),
       }
       logger.info(f"Embedding created: {queue_item}...")
       await self.embedding_queue.put(queue_item)
