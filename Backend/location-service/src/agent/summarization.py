@@ -22,7 +22,7 @@ def summarization(messages):
                             for msg in messages if (msg.content.strip() if isinstance(msg, HumanMessage) else msg.strip())])
     if not input_text:
         return {"summary": "Invalid input!", "entities": {"locations": [], "features": [], "activities": []}}
-
+    print("Input text:", input_text)
     prompt = f"""
         Tóm tắt các yêu cầu du lịch bằng tiếng Việt trong một câu ngắn gọn (tối đa 25 từ),
         ưu tiên địa điểm (vùng miền, tỉnh, thành phố), đặc điểm (biển, núi, rừng,...) và hoạt động (ngắm cảnh, leo núi,...),
