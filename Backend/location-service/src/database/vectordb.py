@@ -100,7 +100,7 @@ class VectorDB:
         try:
             query_embedding = self.embed_query(query_text).reshape(-1)  # Chuyển thành 1D
             query_embedding_list = query_embedding.tolist()  # Chuyển thành danh sách cho $vectorSearch
-            initial_results = self.search_vectorID(db_vector, query_embedding_list, 5 * top_k)
+            initial_results = self.search_vectorID(db_vector, query_embedding_list, 2 * top_k)
             mongo_ids = [result["id_mongo"] for result in initial_results]
             docs = db.fetch_from_mongodb(mongo_ids)
             doc_map = {str(doc.get("_id")): doc.get('data', {}) for doc in docs if doc.get("_id")}
