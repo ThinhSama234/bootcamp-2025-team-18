@@ -1,11 +1,15 @@
 from typing import List
+import os
 import uuid
 import logging
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
 from bson.objectid import ObjectId
 from agent.graph import Graph
 from agent.format import TextProcessor
 from database.data_interface import MongoDB
-
 logger = logging.getLogger(__name__)
 
 from config.config import TRAVELDB_URL
@@ -20,12 +24,13 @@ class SuggestionService:
   def get_session_id(self) -> str:
     return str(uuid.uuid4())
 
-  def get_location_ids(self, k: int, messages: list[str], image_urls: list[str], coordinates: any) -> list[str]: # done
+  def get_location_ids(self, k: int, messages: list[str], image_urls: list[str] = None, coordinates: any = None) -> list[str]: # done
     initial_state = {"messages": messages}
     state = self.graph.summarize(initial_state)
     state = self.graph.search_vector_db(self.db_vector, state, k)
     location_details = state["location_details"]
     logger.info(location_details)
+    
     return location_details
   # query k list id mongo
   
@@ -92,8 +97,8 @@ if __name__ == "__main__":
   #   "Tôi muốn đi leo núi"
   # ]
   uri = TRAVELDB_URL
-  db = MongoDB(uri, database="travel_db", collection="locations")
-  db_vector = MongoDB(uri, database="travel_db", collection="locations_vector")
+  db = MongoDB(uri, database="travel_db", collection="location_plus")
+  db_vector = MongoDB(uri, database="travel_db", collection="locations_vector_plus")
   suggestion_service = SuggestionService(db, db_vector)
   location_ids = suggestion_service.get_location_ids(k=20, messages=messages)
   logger.info("Location IDs:", location_ids)
@@ -106,5 +111,5 @@ if __name__ == "__main__":
 
 
   for sample_id in location_ids:
-    location_response = suggestion_service.get_location_response(sample_id)
+    location_response = suggestion_service.get_location_response(messages, sample_id)
     logger.info("\nLocation Response for ID", sample_id, ":", location_response)

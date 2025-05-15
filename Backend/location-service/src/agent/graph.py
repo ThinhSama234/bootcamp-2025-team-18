@@ -11,7 +11,7 @@ from database.vectordb import VectorDB
 from database.data_interface import MongoDB
 
 from config.config import TRAVELDB_URL
-
+from agent.provinces_coordinates import get_coordinates_by_province
 #nlp = spacy.load("vi_core_news_lg")
 class State(TypedDict):
     messages: Annotated[list, add_messages]
@@ -45,12 +45,18 @@ class Graph:
         """Tìm kiếm trong vector database dựa trên tóm tắt."""
         print("🔎 Searching with summary:", state["summary"])
         manager = VectorDB()
+        if state["entities"] and len(state["entities"].get("locations", [])) == 1:
+            coordinates = get_coordinates_by_province(state["entities"]["locations"][0])
+        else:
+            coordinates = None
         try:
+            print("coordinates là:", coordinates[0])
             results = manager.search(
                 db= self.db,
                 db_vector = self.db_vector,
                 query_text=state['summary'],
                 entities=state["entities"],
+                coordinates= coordinates,
                 top_k=k,
                 threshold=0.2
             )
