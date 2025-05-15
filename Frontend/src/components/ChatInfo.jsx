@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import './ChatInfo.css'; // Assuming you have a CSS file for styling
 import {GroupSettings, MemberList, SharedMedia} from './common/DropDown';
 import { fetchGroupList, fetchMessages } from '../api/groupService';
@@ -9,6 +9,29 @@ function SidebarRight({group}) {
   const [groupMembers, setGroupMembers] = React.useState(null);
   const [picSrcList, setPicSrcList] = React.useState(null);
   const { receiveMessage, socket } = useSocket(); 
+
+  const updatePic = useCallback(async () => {
+    try {
+      const messages = await fetchMessages(group.groupName);
+      const lis = messages.filter(msg => msg.type === 'image').map(msg => msg.content);
+      setPicSrcList(lis);
+    } catch (err) {
+      console.error("Failed to fetch messages:", err);
+    }
+  }, [group.groupName]);
+
+  useEffect(() => {
+    if (!group || socket === null) return;
+
+    updatePic(); // initial fetch
+
+    socket.on('receive_message', updatePic);
+
+    return () => {
+      socket.off('receive_message', updatePic);
+    };
+  }, [group.groupName, socket, updatePic]);
+
 
   const reloadMembers = async () => {
     const tempUsername = localStorage.getItem('username');
