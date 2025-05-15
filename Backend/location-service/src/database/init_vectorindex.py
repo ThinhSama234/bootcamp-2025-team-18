@@ -38,4 +38,4 @@ try:
             db_vector.save_record(queue_item)
 except Exception as e:
     print("Bug:", e)
-    traceback.print_exc() 
+    #traceback.print_exc() 

@@ -107,15 +107,15 @@ class VectorDB:
                 if _id not in seen:
                     unique_results.append(res)
                     seen.add(_id)
-                if res.get("calcDistance") is not None:
-                    print(f"ID: {res.get('id_mongo')}, Score: {res.get('score')}, dist {res.get('calcDistance')} m")
-                else:
-                    print(f"ID: {res.get('id_mongo')}, Score: {res.get('score')}, m")
-            print(f"lọc trùng ra {len(unique_results)} matches:")
+                # if res.get("calcDistance") is not None:
+                #     print(f"ID: {res.get('id_mongo')}, Score: {res.get('score')}, dist {res.get('calcDistance')} m")
+                # else:
+                #     print(f"ID: {res.get('id_mongo')}, Score: {res.get('score')}, m")
+            #print(f"lọc trùng ra {len(unique_results)} matches:")
             return doc_map, unique_results
         except Exception as e:
             print(f"Vector + Geo search error: {e}")
-            traceback.print_exc()
+            #traceback.print_exc()
             return []
 
 
@@ -177,7 +177,7 @@ class VectorDB:
                     entity_boost += sum(0.5 for loc in entities.get("locations", []) if loc.lower() in address_lower)
                     entity_boost += sum(0.4 for feat in entities.get("features", []) if feat.lower() in description_lower or feat.lower() in name_lower)
                     entity_boost += sum(0.1 for act in entities.get("activities", []) if act.lower() in description_lower)
-                print(f"Tong hop diem:, {mongo_id}, {similarity_score}, {entity_boost}, {distance_score}")
+                #print(f"Tong hop diem:, {mongo_id}, {similarity_score}, {entity_boost}, {distance_score}")
                 # Tổng hợp điểm rerank
                 if distance_score:
                     final_score = similarity_score * 0.5 + entity_boost * 0.3 + distance_score * 0.2
